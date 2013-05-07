@@ -89,6 +89,9 @@ Vector2 & Vector2::operator/=( float value )
 
 Vector2 & Vector2::operator=( const Vector2 &rhs )
 {
+	if (rhs == *this)
+		return *this;
+
 	X = rhs.X;
 	Y = rhs.Y;
 	return *this;

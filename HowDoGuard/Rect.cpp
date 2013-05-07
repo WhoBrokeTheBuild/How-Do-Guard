@@ -1,6 +1,6 @@
 #include "Rect.h"
 
-Rect Rect::ONE = Rect(1, 1, 1, 1);
+Rect Rect::ONE  = Rect(1, 1, 1, 1);
 Rect Rect::ZERO = Rect(0, 0, 0, 0);
 
 Rect::Rect( float x, float y, float width, float height )

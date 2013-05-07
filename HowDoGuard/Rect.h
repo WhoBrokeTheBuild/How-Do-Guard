@@ -35,7 +35,7 @@ public:
 	float halfWidth ( void ) { return Width / 2; }
 	float halfHeight( void ) { return Height / 2; }
 
-	Vector2 center( void ) { return Vector2(X + halfWidth(), Y + halfHeight()); }
+	Vector2 center( void ) { return Vector2( X + halfWidth(), Y + halfHeight() ); }
 
 	Vector2 pos ( void ) { return Vector2( X, Y ); }
 	Vector2 size( void ) { return Vector2( Width, Height ); }

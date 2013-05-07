@@ -9,7 +9,19 @@ private:
 
 public:
 
+	float
+		X,
+		Y;
+
 	Vector2(void);
+
+	Vector2(float x, float y);
+
+	float distanceTo(Vector2 v2);
+
+	float directionToDeg(Vector2 v2);
+	float directionToRad(Vector2 v2);
+
 	virtual ~Vector2(void);
 
 };

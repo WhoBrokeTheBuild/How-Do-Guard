@@ -67,6 +67,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MemoryTracker.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -78,9 +79,16 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameTime.h" />
+    <ClInclude Include="MemoryTracker.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="Vector2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</DeploymentContent>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

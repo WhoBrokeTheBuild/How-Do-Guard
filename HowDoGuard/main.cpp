@@ -1,6 +1,6 @@
 
-#include "common.h"
-
+#include "Common.h"
+#include "MemoryTracker.h"
 #include "Game.h"
 
 void main( void )
@@ -8,15 +8,25 @@ void main( void )
 
 	INF("Main", "Starting Up");
 
-	Game game = Game();
-	game.init();
+	Game *game = New Game();
+	game->init();
 
 	INF("Main", "Starting Game Loop");
 
-	game.start();
+	game->start();
 
 	INF("Main", "Shutting Down");
 
-	system("PAUSE");
+	delete game;
+
+#ifdef DEBUG
+
+	if (gMemoryTracker.numAllocations() > 0)
+	{
+		gMemoryTracker.printAllocations();
+		system("PAUSE");
+	}
+
+#endif //DEBUG
 
 }

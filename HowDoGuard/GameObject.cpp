@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "MemoryTracker.h"
 
 GameObject::GameObject( void )
 {
@@ -16,53 +17,49 @@ ostream& operator<<( ostream& os, const GameObject& go )
 
 void *GameObject::operator new(size_t size)
 {
-	void* ptr = malloc(size);
-	//gMemoryTracker.addAllocation((GameObject*)ptr, size);
-	return ptr;
+	return malloc(size);
 }
 void *GameObject::operator new[](size_t size)
 {
-	void* ptr = malloc(size);
-	//gMemoryTracker.addAllocation((GameObject*)ptr, size);
+	return malloc(size);
+}
+
+void *GameObject::operator new(size_t size, int lineNumber, char *filename)
+{
+	void* ptr = ::operator new(size);
+	gMemoryTracker.addAllocation((GameObject*)ptr, size, lineNumber, filename);
 	return ptr;
 }
 
-void *GameObject::operator new(size_t pSize, int pLineNumber, char *pFilename)
+void *GameObject::operator new[](size_t size, int lineNumber, char *filename)
 {
-	void* ptr = ::operator new(pSize);
-	//gMemoryTracker.addAllocation((GameObject*)ptr, pSize, pLineNumber, pFilename);
+	void* ptr = ::operator new(size);
+	gMemoryTracker.addAllocation((GameObject*)ptr, size, lineNumber, filename);
 	return ptr;
 }
 
-void *GameObject::operator new[](size_t pSize, int pLineNumber, char *pFilename)
+void GameObject::operator delete(void *ptr, int lineNumber, char *filename)
 {
-	void* ptr = ::operator new(pSize);
-	//gMemoryTracker.addAllocation((GameObject*)ptr, pSize, pLineNumber, pFilename);
-	return ptr;
+	::operator delete(ptr);
+	gMemoryTracker.removeAllocation((GameObject*)ptr);
+	free(ptr);
 }
 
-void GameObject::operator delete(void *pPtr, int pLineNumber, char *pFilename)
+void GameObject::operator delete[](void *ptr, int lineNumber, char *filename)
 {
-	::operator delete(pPtr);
-	//gMemoryTracker.removeAllocation((GameObject*)pPtr);
-	free(pPtr);
+	::operator delete(ptr);
+	gMemoryTracker.removeAllocation((GameObject*)ptr);
+	free(ptr);
 }
 
-void GameObject::operator delete[](void *pPtr, int pLineNumber, char *pFilename)
+void GameObject::operator delete(void *ptr)
 {
-	::operator delete(pPtr);
-	//gMemoryTracker.removeAllocation((GameObject*)pPtr);
-	free(pPtr);
+	gMemoryTracker.removeAllocation((GameObject*)ptr);
+	free(ptr);
 }
 
-void GameObject::operator delete(void *pPtr)
+void GameObject::operator delete[](void *ptr)
 {
-	//gMemoryTracker.removeAllocation((GameObject*)pPtr);
-	free(pPtr);
-}
-
-void GameObject::operator delete[](void *pPtr)
-{
-	//gMemoryTracker.removeAllocation((GameObject*)pPtr);
-	free(pPtr);
+	gMemoryTracker.removeAllocation((GameObject*)ptr);
+	free(ptr);
 }

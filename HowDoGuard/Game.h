@@ -3,7 +3,7 @@
 #ifndef __GAME_H__
 #define __GAME_H__
 
-#include "common.h"
+#include "Common.h"
 #include "GameObject.h"
 
 #include "GameTime.h"

@@ -8,6 +8,7 @@
 
 #include <SDL_opengl.h>
 #include <SDL_image.h>
+#include <SDL.h>
 
 class RenderTarget;
 class CachedText;
@@ -31,7 +32,6 @@ private:
 		_size;
 
 	virtual void init( SDL_Surface* pSurface );
-	virtual void generateTexture( void );
 
 	virtual GLuint GLTexture( void ) { return _texture; }
 

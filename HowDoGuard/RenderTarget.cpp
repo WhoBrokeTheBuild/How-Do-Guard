@@ -92,6 +92,60 @@ void RenderTarget::fillShape( float x, float y, float radius, float shapeValue, 
 	glPopMatrix();
 }
 
+void RenderTarget::drawText( Vector2 pos, string text, Font* pFont, Color color /*= Color::WHITE*/, Align align /*= Align::INVALID_ALIGN*/, float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/ )
+{
+	drawText(pos.X, pos.Y, text, pFont, color, align, rotation, origin);
+}
+
+void RenderTarget::drawText( float x, float y, string text, Font* pFont, Color color /*= Color::WHITE*/, Align align /*= Align::INVALID_ALIGN*/, float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/ )
+{
+	CachedText cachedText;
+	cachedText.init(text, pFont);
+
+	drawText(x, y, &cachedText, color, align, rotation, origin);
+}
+
+void RenderTarget::drawText( Vector2 pos, CachedText* pCachedText, Color color /*= Color::WHITE*/, Align align /*= Align::INVALID_ALIGN*/, float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/ )
+{
+	drawText(pos.X, pos.Y, pCachedText, color, align, rotation, origin);
+}
+
+void RenderTarget::drawText( float x, float y, CachedText* pCachedText, Color color /*= Color::WHITE*/, Align align /*= Align::INVALID_ALIGN*/, float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/ )
+{
+	if (pCachedText->text().length() == 0)
+		return;
+
+	if (pCachedText->texture() == nullptr)
+	{
+		ERR(toString(), "Invalid Cached Text");
+		return;
+	}
+
+	switch (align)
+	{
+	case LEFT:
+
+		origin.X = 0;
+
+		break;
+	case CENTER:
+
+		origin.X = pCachedText->texture()->size().halfWidth();
+
+		break;
+	case RIGHT:
+
+		origin.X = pCachedText->texture()->size().Width;
+
+		break;
+	}
+
+	if (align != INVALID_ALIGN)
+		x -= origin.X;
+
+	draw(x, y, pCachedText->texture(), color, rotation, origin);
+}
+
 void RenderTarget::draw( Vector2 pos, Texture *pTexture, Color color /*= Color::WHITE*/, float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/ )
 {
 	draw(pos.X, pos.Y, pTexture, color, rotation, origin);
@@ -104,7 +158,7 @@ void RenderTarget::draw( float x, float y, Texture *pTexture, Color color /*= Co
 
 void RenderTarget::draw( Vector2 pos, Texture *pTexture, Rect sourceRect, Color color /*= Color::WHITE*/, float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/ )
 {
-	draw(pos.X, pos.Y, pTexture, pTexture->size(), color, rotation, origin);
+	draw(pos.X, pos.Y, pTexture, sourceRect, color, rotation, origin);
 }
 
 void RenderTarget::draw( float x, float y, Texture *pTexture, Rect sourceRect, Color color /*= Color::WHITE*/, float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/ )
@@ -133,38 +187,6 @@ void RenderTarget::draw( float x, float y, Texture *pTexture, Rect sourceRect, C
 	glEnd();
 
 	glPopMatrix();
-}
-
-void RenderTarget::drawText( Vector2 pos, string text, Font* pFont, Color color /*= Color::WHITE*/,  float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/ )
-{
-	drawText(pos.X, pos.Y, text, pFont, color, rotation, origin);
-}
-
-void RenderTarget::drawText( float x, float y, string text, Font* pFont, Color color /*= Color::WHITE*/,  float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/ )
-{
-	CachedText cachedText;
-	cachedText.init(text, pFont);
-
-	drawText(x, y, &cachedText, color, rotation, origin);
-}
-
-void RenderTarget::drawText( Vector2 pos, CachedText* pCachedText, Color color /*= Color::WHITE*/, float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/ )
-{
-	drawText(pos.X, pos.Y, pCachedText, color, rotation, origin);
-}
-
-void RenderTarget::drawText( float x, float y, CachedText* pCachedText, Color color /*= Color::WHITE*/, float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/ )
-{
-	if (pCachedText->text().length() == 0)
-		return;
-
-	if (pCachedText->texture() == nullptr)
-	{
-		ERR(toString(), "Invalid Cached Text");
-		return;
-	}
-
-	draw(x, y, pCachedText->texture(), color, rotation, origin);
 }
 
 void RenderTarget::drawRect( float x, float y, float width, float height, Color color /*= Color::WHITE*/, float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/ )

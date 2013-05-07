@@ -66,7 +66,7 @@ inline bool isType( const void* object ) { return ( const T* convert = dynamic_c
 
 inline time_t now( void ) { return time((time_t*)0); }
 
-vector<string> strSplit( string str, char sep );
+vector<string> strSplit( string str, char sep, int limit = -1 );
 string strReplace   ( string str, const string& sub, const string& newStr );
 string strReplaceAll( string str, const string& sub, const string& newStr );
 
@@ -126,7 +126,7 @@ int vectorIndexOf( const vector<Value>& list, const Value& element )
 template <typename Value>
 bool vectorRemove( vector<Value>& list, const Value& element )
 {
-	vector<value>::iterator it = list.begin();
+	vector<Value>::iterator it = list.begin();
 
 	while (it != list.end())
 	{
@@ -136,6 +136,18 @@ bool vectorRemove( vector<Value>& list, const Value& element )
 			return true;
 		}
 		++it;
+	}
+
+	return false;
+}
+
+template <typename Value>
+bool vectorRemoveAt( vector<Value>& list, const int index )
+{
+	if (inBounds(index, 0, (int)list.size()))
+	{
+		list.erase(list.begin() + index);
+		return true;
 	}
 
 	return false;

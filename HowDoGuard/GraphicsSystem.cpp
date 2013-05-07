@@ -39,6 +39,7 @@ void GraphicsSystem::init( void )
 	SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE,	8);
 	SDL_GL_SetAttribute(SDL_GL_ACCUM_BLUE_SIZE,		8);
 	SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE,	8);
+
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,	1);
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,	2);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,		1);
@@ -90,7 +91,7 @@ void GraphicsSystem::initGL( int width, int height )
 	glLoadIdentity();
 
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glClearColor(_clearColor.fracR(), _clearColor.fracG(), _clearColor.fracB(), _clearColor.fracA());
 	glClear(GL_COLOR_BUFFER_BIT);

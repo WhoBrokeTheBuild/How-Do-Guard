@@ -17,4 +17,6 @@
 
 using namespace std;
 
+typedef string ItemKey;
+
 #endif

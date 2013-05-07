@@ -9,6 +9,12 @@
 #include "GraphicsSystem.h"
 #include "RenderTarget.h"
 
+#include "Animation.h"
+#include "Sprite.h"
+#include "Texture.h"
+
+#include "BasicUnit.h"
+
 #include "InputSystem.h"
 
 #include "GameTime.h"
@@ -43,10 +49,10 @@ public:
 
 	//TODO: Remove
 	static bool endNow;
-	Font 
-		*font;
-	CachedText
-		*fpsText;
+	Animation *anim;
+	Sprite *frame1, *frame2, *frame3, *frame4, *frame5;
+	Texture *sheet;
+	BasicUnit *unit;
 
 	Game( void );
 	virtual ~Game( void );

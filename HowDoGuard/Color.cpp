@@ -63,7 +63,7 @@ void Color::setByte( int r, int g, int b )
 	R = clamp(r, 0, 255);
 	G = clamp(g, 0, 255);
 	B = clamp(b, 0, 255);
-	A = 1.0f;
+	A = 255;
 }
 
 void Color::setByte( int r, int g, int b, int a )

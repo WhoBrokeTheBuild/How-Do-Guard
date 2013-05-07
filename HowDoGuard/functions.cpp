@@ -10,7 +10,7 @@ void delay( int millis )
 	delayTimer.sleepUntilElapsed(millis);
 }
 
-vector<string> strSplit( string str, char sep )
+vector<string> strSplit( string str, char sep, int limit /*= -1*/ )
 {
 	std::vector<std::string> stringParts;
 
@@ -34,6 +34,12 @@ vector<string> strSplit( string str, char sep )
 			str = str.substr(i + 1);
 			stringLength = str.length();
 			i = -1;
+
+			if (limit != -1 && stringParts.size() == limit)
+			{
+				stringParts.push_back(str);
+				break;
+			}
 		}
 		else if (i == stringLength - 1)
 		{
@@ -47,6 +53,12 @@ vector<string> strSplit( string str, char sep )
 			str = "";
 			stringLength = str.length();
 			i = -1;
+
+			if (limit != -1 && stringParts.size() == limit)
+			{
+				stringParts.push_back(str);
+				break;
+			}
 		}
 	}
 

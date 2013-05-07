@@ -37,6 +37,12 @@
     <Filter Include="Project\Graphics\Text">
       <UniqueIdentifier>{fb22db12-aa32-46d3-bb5f-337ac4a06818}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Units">
+      <UniqueIdentifier>{95e397b9-0d18-418f-9d00-51bd199bf01a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Data">
+      <UniqueIdentifier>{bb0fc34f-f277-47e4-8b99-22a54a83af24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -99,6 +105,16 @@
     <ClCompile Include="CachedText.cpp">
       <Filter>Project\Graphics\Text</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Project\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Project\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicUnit.cpp">
+      <Filter>Project\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -172,6 +188,19 @@
     </ClInclude>
     <ClInclude Include="CachedText.h">
       <Filter>Project\Graphics\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Project\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Project\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicUnit.h">
+      <Filter>Project\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h" />
+    <ClInclude Include="Manager.h">
+      <Filter>Project\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

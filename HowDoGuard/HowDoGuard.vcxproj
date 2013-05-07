@@ -66,9 +66,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="BasicUnit.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -83,16 +86,20 @@
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="CachedText.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="BasicUnit.h" />
     <ClInclude Include="Callbacks.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="DataManager.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Delegate.h" />
     <ClInclude Include="Event.h" />
@@ -105,10 +112,12 @@
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="GraphicsSystem.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="Manager.h" />
     <ClInclude Include="MemoryTracker.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="CachedText.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Vector2.h" />

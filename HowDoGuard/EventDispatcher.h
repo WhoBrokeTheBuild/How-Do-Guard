@@ -69,6 +69,7 @@ public:
 
 };
 
+extern EventDispatcher* gpEventDispatcher;
 
 template <typename ObjectType, typename Method>
 void EventDispatcher::addEventListener( const EventType& eventType, ObjectType* object, Method method )
@@ -85,9 +86,29 @@ void EventDispatcher::removeEventListener( const EventType& eventType, ObjectTyp
 template <typename ObjectType>
 void EventDispatcher::removeAllMethods( ObjectType* object )
 {
+	bool needRepeat = true;
+	EventMap::iterator mapIter;
+	EventListenerList::iterator listIter;
 
+	while(needRepeat)
+	{
+		needRepeat = false;
+		for(mapIter = _eventMap.begin(); !needRepeat && mapIter != _eventMap.end(); ++mapIter)
+		{
+			for(listIter = mapIter->second.begin(); !needRepeat && listIter != mapIter->second.end(); ++listIter)
+			{
+				if ( *listIter == nullptr )
+					continue;
+
+				if ( (*listIter)->isMethodOf(object) )
+				{
+					(*listIter) = nullptr;
+					needRepeat = true;
+					break;
+				}
+			}
+		}
+	}
 }
-
-extern EventDispatcher* gpEventDispatcher;
 
 #endif

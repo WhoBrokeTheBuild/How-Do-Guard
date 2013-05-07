@@ -32,7 +32,7 @@ struct AllocationRecord
 };
 
 class MemoryTracker
-	: GameObject
+	: public GameObject
 {
 private:
 
@@ -62,6 +62,6 @@ public:
 
 };
 
-extern MemoryTracker gMemoryTracker;
+extern MemoryTracker* gpMemoryTracker;
 
 #endif

@@ -4,14 +4,14 @@
 #define __INPUT_SYSTEM_H__
 
 #include "Common.h"
-#include "GameObject.h"
+#include "EventDispatcher.h"
 
-#include "GameTime.h"
+#include "Event.h"
 
 #include <SDL.h>
 
 class InputSystem :
-	public GameObject
+	public EventDispatcher
 {
 private:
 
@@ -25,7 +25,7 @@ public:
 
 	virtual string toString( void ) const;
 
-	virtual void update( GameTime *pGameTime );
+	virtual void update( const Event& event );
 
 };
 

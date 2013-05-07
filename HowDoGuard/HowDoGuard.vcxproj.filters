@@ -57,9 +57,6 @@
     <ClCompile Include="RenderTarget.cpp">
       <Filter>Project\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="GameTime.cpp">
-      <Filter>Project\Timing</Filter>
-    </ClCompile>
     <ClCompile Include="MemoryTracker.cpp">
       <Filter>Project\Tracking</Filter>
     </ClCompile>
@@ -114,7 +111,9 @@
     <ClCompile Include="BasicUnit.cpp">
       <Filter>Project\Units</Filter>
     </ClCompile>
-    <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="DataManager.cpp">
+      <Filter>Project\Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -131,9 +130,6 @@
     </ClInclude>
     <ClInclude Include="RenderTarget.h">
       <Filter>Project\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="GameTime.h">
-      <Filter>Project\Timing</Filter>
     </ClInclude>
     <ClInclude Include="MemoryTracker.h">
       <Filter>Project\Tracking</Filter>
@@ -198,9 +194,11 @@
     <ClInclude Include="BasicUnit.h">
       <Filter>Project\Units</Filter>
     </ClInclude>
-    <ClInclude Include="DataManager.h" />
     <ClInclude Include="Manager.h">
       <Filter>Project\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>Project\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

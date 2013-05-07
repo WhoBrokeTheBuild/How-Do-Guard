@@ -40,9 +40,12 @@ void DataManager::term( void )
 void DataManager::loadAssets( string filename )
 {
 	stringstream fullFilename;
-	fullFilename << "config/" << filename;
+	fullFilename << "assets/config/" << filename;
 
-	ifstream mainFile(fullFilename.str().c_str());
+	ifstream mainFile(fullFilename.str());
+
+	if (!mainFile.is_open())
+		return;
 
 	string line;
 	while(!mainFile.eof())
@@ -66,14 +69,9 @@ void DataManager::loadAssets( string filename )
 void DataManager::loadAssetFile( string filename )
 {
 	stringstream fullFilename;
-	fullFilename << "config/" << filename;
+	fullFilename << "assets/config/" << filename;
 
 	ifstream assetFile(fullFilename.str().c_str());
-
-	bool 
-		addingTexture = false,
-		addingSprite = false,
-		addingAnimation = false;
 
 	stringstream ss;
 
@@ -82,34 +80,156 @@ void DataManager::loadAssetFile( string filename )
 	{
 		getline(assetFile, line);
 
-		if (addingTexture)
-		{
+		if (line[0] == '#')
+			continue;
 
-		}
-		else if (addingSprite)
-		{
+		vector<string> pieces = strSplit(line, ' ', 2);
 
-		}
-		else if (addingAnimation)
+		if (pieces.size() == 2)
 		{
-
-		}
-		else
-		{
-			vector<string> pieces = strSplit(line, ' ', 2);
-
-			if (pieces.size() == 2)
+			if (pieces[0] == "Texture")
 			{
+				ItemKey key = pieces[1];
+
+				while (!assetFile.eof())
+				{
+					getline(assetFile, line);
+
+					if (line.length() == 0)
+						continue;
+					else
+						break;
+				}
+
+				if (assetFile.eof())
+					continue;
+
+				pieces = strSplit(line, ' ', 2);
+
+				if (pieces[0] == "File")
+				{
+					ss.str("");
+					ss << "assets/sheets/" << pieces[1];
+					pTextures->addEmpty(key)->init(ss.str());
+				}
+				else
+					continue;
+			}
+			else if (pieces[0] == "Animation")
+			{
+				ItemKey key = pieces[1];
+				ItemKey texKey = "";
+				int numFrames;
+				vector<Sprite*> frames;
+
+				while (!assetFile.eof())
+				{
+					getline(assetFile, line);
+
+					if (line.length() == 0)
+						continue;
+					else
+						break;
+				}
+
+				if (assetFile.eof())
+					continue;
+
+				pieces = strSplit(line, ' ', 2);
+
 				if (pieces[0] == "Texture")
 				{
-					ss.str("assets/");
-					ss << pieces[1];
-					ItemKey key = pTextures->addEmpty();
-					pTextures->get(key)->init(ss.str());
+					texKey = pieces[1];
 				}
+				else
+					continue;
+
+				while (!assetFile.eof())
+				{
+					getline(assetFile, line);
+
+					if (line.length() == 0)
+						continue;
+					else
+						break;
+				}
+
+				if (assetFile.eof())
+					continue;
+
+				pieces = strSplit(line, ' ', 2);
+
+				if (pieces[0] == "Frames")
+				{
+					numFrames = toInt(pieces[1]);
+				}
+				else
+					continue;
+
+				if (numFrames == -1)
+					continue;
+
+				for (int i = 0; i < numFrames; ++i)
+				{
+					Rect rect;
+					double speed;
+
+					while (!assetFile.eof())
+					{
+						getline(assetFile, line);
+
+						if (line.length() == 0)
+							continue;
+						else
+							break;
+					}
+
+					if (assetFile.eof())
+						break;
+
+					pieces = strSplit(line, ' ', 2);
+
+					if (pieces[0] == "Rect")
+					{
+						pieces = strSplit(pieces[1], ' ', 4);
+						rect = Rect(toFloat(pieces[0]), toFloat(pieces[1]), toFloat(pieces[2]), toFloat(pieces[3]));
+					}
+					else
+						break;
+
+					while (!assetFile.eof())
+					{
+						getline(assetFile, line);
+
+						if (line.length() == 0)
+							continue;
+						else
+							break;
+					}
+
+					if (assetFile.eof())
+						break;
+
+					pieces = strSplit(line, ' ', 2);
+
+					if (pieces[0] == "Speed")
+					{
+						speed = toFloat(pieces[1]);
+					}
+					else
+						break;
+
+					Sprite *sprite = New Sprite();
+					sprite->init(pTextures->get(texKey), rect, speed);
+
+					pSprites->add(sprite);
+
+					frames.push_back(sprite);
+				}
+
+				pAnimations->addEmpty(key)->init(frames, true, true);
 			}
 		}
-
 	}
 
 	assetFile.close();

@@ -1,7 +1,7 @@
 #include "MemoryTracker.h"
 
 int MemoryTracker::_sAllocationIndex = 0;
-MemoryTracker gMemoryTracker;
+MemoryTracker* gpMemoryTracker;
 
 MemoryTracker::MemoryTracker( void )
 {
@@ -45,6 +45,9 @@ void MemoryTracker::addAllocation( GameObject *ptr, size_t size, int lineNumber,
 
 bool MemoryTracker::removeAllocation( GameObject *ptr )
 {
+	if (_allocations.size() == 0)
+		return false;
+
 	map<GameObject*, AllocationRecord>::iterator it = _allocations.find(ptr);
 
 	if (it == _allocations.end())

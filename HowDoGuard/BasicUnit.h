@@ -4,16 +4,14 @@
 #define __BASIC_UNIT_H__
 
 #include "Common.h"
-#include "GameObject.h"
+#include "EventDispatcher.h"
 
 #include "Animation.h"
 #include "Color.h"
-
-#include "GameTime.h"
 #include "RenderTarget.h"
 
 class BasicUnit :
-	public GameObject
+	public EventDispatcher
 {
 protected:
 
@@ -29,7 +27,7 @@ protected:
 	bool
 		_animationComplete;
 
-	virtual void updateAnimation( GameTime *pGameTime );
+	virtual void updateAnimation( const FrameData* pFrameData );
 
 public:
 
@@ -56,8 +54,8 @@ public:
 	virtual void init( Animation* pAnimation = nullptr, Vector2 pos = Vector2::ZERO, Vector2 origin = Vector2::ZERO, float rot = 0.0f, Color color = Color::WHITE, float depth = 1.0f);
 	virtual void term( void );
 
-	virtual void update( GameTime *pGameTime );
-	virtual void draw  ( RenderTarget *pRenderTarget, Vector2 offset = Vector2::ZERO );
+	virtual void update( const Event& event );
+	virtual void draw  ( const Event& event );
 
 	virtual Animation* animation( void ) { return _pAnimation; }
 	virtual void setAnimation( Animation *pAnimation, bool useDefaults = true);

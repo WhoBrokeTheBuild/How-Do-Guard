@@ -78,7 +78,6 @@
     <ClCompile Include="Functions.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="GraphicsSystem.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -109,7 +108,6 @@
     <ClInclude Include="Functions.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GameTime.h" />
     <ClInclude Include="GraphicsSystem.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="Manager.h" />

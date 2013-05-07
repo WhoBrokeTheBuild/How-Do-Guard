@@ -23,43 +23,21 @@ void Game::init( void )
 	_targetFPS = 60.0f;
 	_currentFPS = 0;
 
-	_pGameTime = New GameTime();
+	gpEventDispatcher = New EventDispatcher();
 
 	_pGraphicsSystem = New GraphicsSystem();
 	_pGraphicsSystem->init();
 
+	_pDataManager = New DataManager();
+	_pDataManager->init();
+
 	_pInputSystem = New InputSystem();
 	_pInputSystem->init();
 
-	sheet = New Texture();
-	sheet->init("assets/sheets/sprsht_toast_ghp.png");
-
-	frame1 = New Sprite();
-	frame2 = New Sprite();
-	frame3 = New Sprite();
-	frame4 = New Sprite();
-	frame5 = New Sprite();
-
-	vector<Sprite*> frames;
-	frames.push_back(frame1);
-	frames.push_back(frame2);
-	frames.push_back(frame3);
-	frames.push_back(frame4);
-	frames.push_back(frame5);
-
-	Rect source = Rect(0, 0, 255, 255);
-
-	for (int i = 0; i < 5; ++i)
-	{
-		frames[i]->init(sheet, source, 200);
-		source.X += source.Width;
-	}
-
-	anim = New Animation();
-	anim->init(frames, true, true);
-
 	unit = New BasicUnit();
-	unit->init(anim, Vector2(100));
+	unit->init(_pDataManager->pAnimations->get("toast-ghp"), Vector2(100));
+
+	gpEventDispatcher->addEventListener(Event::EVENT_GAME_END, this, &Game::stop);
 
 	INF(toString(), "Finished Init");
 }
@@ -68,20 +46,12 @@ void Game::term( void )
 {
 	delete unit;
 
-	delete anim;
-	
-	delete frame1;
-	delete frame2;
-	delete frame3;
-	delete frame4;
-	delete frame5;
-
-	delete sheet;
+	gpEventDispatcher->removeEventListener(Event::EVENT_GAME_END, this, &Game::stop);
 
 	delete _pInputSystem;
 	delete _pGraphicsSystem;
 
-	delete _pGameTime;
+	delete _pDataManager;
 }
 
 void Game::start( void )
@@ -92,17 +62,20 @@ void Game::start( void )
 		fpsDelay = 1000.0 / _targetFPS,
 		frameDelay = 0;
 
+	FrameData frameData = FrameData();
+	RenderData renderData = RenderData(_pGraphicsSystem->renderTarget());
+
 	Timer fpsTimer = Timer();
 	fpsTimer.start();
 
 	while (_running)
 	{
-		_pGameTime->update(frameDelay, _currentFPS, _targetFPS);
+		frameData.update(frameDelay, _currentFPS, _targetFPS);
+
+		update(frameData);
+		draw(renderData);
 
 		_currentFPS = (float)(1000.0 / frameDelay);
-
-		update();
-		draw();
 
 		fpsTimer.sleepUntilElapsed(fpsDelay);
 		frameDelay = fpsTimer.getElapsedMilli();
@@ -110,23 +83,23 @@ void Game::start( void )
 	}
 }
 
-void Game::update( void )
+void Game::stop ( const Event& event )
 {
-	_pInputSystem->update(_pGameTime);
-
-	unit->update(_pGameTime);
-
-	if (endNow)
-		_running = false;
+	_running = false;
 }
 
-void Game::draw( void )
+void Game::update( const FrameData& frameData )
 {
-	RenderTarget *pRenderTarget = _pGraphicsSystem->renderTarget();
+	gpEventDispatcher->dispatchEvent(Event(Event::EVENT_ENTER_FRAME, frameData));
+	gpEventDispatcher->dispatchEvent(Event(Event::EVENT_FRAME,		 frameData));
+	gpEventDispatcher->dispatchEvent(Event(Event::EVENT_EXIT_FRAME,  frameData));
+}
 
-	pRenderTarget->beginDraw();
+void Game::draw( const RenderData& renderData )
+{
+	renderData.renderTarget()->beginDraw();
 
-	unit->draw(pRenderTarget);
+	gpEventDispatcher->dispatchEvent(Event(Event::EVENT_RENDER, renderData));
 
-	pRenderTarget->endDraw();
+	renderData.renderTarget()->endDraw();
 }

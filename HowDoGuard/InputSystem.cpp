@@ -25,7 +25,7 @@ std::string InputSystem::toString( void ) const
 	return "Input System";
 }
 
-void InputSystem::update( GameTime *pGameTime )
+void InputSystem::update( const Event& event )
 {
 	SDL_Event inputEvent;
 
@@ -35,7 +35,7 @@ void InputSystem::update( GameTime *pGameTime )
 		{
 		case SDL_QUIT:
 
-			Game::endNow = true;
+			gpEventDispatcher->dispatchEvent(Event(Event::EVENT_GAME_END));
 
 			break;
 		}

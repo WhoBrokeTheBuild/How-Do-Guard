@@ -12,7 +12,7 @@ EventDispatcher::EventDispatcher( void )
 
 EventDispatcher::~EventDispatcher( void )
 {
-	//vectorRemove(_sDispatchers, this);
+	vectorRemove(_sDispatchers, this);
 	removeAllListeners();
 }
 
@@ -23,16 +23,16 @@ std::string EventDispatcher::toString( void ) const
 
 void EventDispatcher::addEventListener( const EventType& eventType, const EventDelegate& functionDelegate )
 {
-	if ( !mapContainsKey(_eventMap, eventType) )
+	if (!mapContainsKey(_eventMap, eventType))
 		_eventMap[eventType] = EventListenerList();
 
 	int length = _eventMap[eventType].size();
 
 	for(int i = 0; i < length; ++i)
 	{
-		if ( _eventMap[eventType][i] == nullptr )
+		if (_eventMap[eventType][i] == nullptr)
 			continue;
-		if ( *(_eventMap[eventType][i]) == functionDelegate )
+		if (*(_eventMap[eventType][i]) == functionDelegate)
 			return;
 	}
 
@@ -41,7 +41,23 @@ void EventDispatcher::addEventListener( const EventType& eventType, const EventD
 
 void EventDispatcher::removeEventListener( const EventType& eventType, const EventDelegate& functionDelegate )
 {
+	if (!mapContainsKey(_eventMap, eventType))
+		return;
 
+	int length = _eventMap[eventType].size();
+
+	for(int i = 0; i < length; ++i)
+	{
+		if (_eventMap[eventType][i] == nullptr)
+			continue;
+		if (*(_eventMap[eventType][i]) == functionDelegate)
+		{
+			delete _eventMap[eventType][i];
+			_eventMap[eventType][i] = nullptr;
+			_changed = true;
+			return;
+		}
+	}
 }
 
 void EventDispatcher::removeEventListener( const EventType& eventType, void (*function)(const Event&) )
@@ -78,12 +94,39 @@ void EventDispatcher::removeAllListeners( void )
 
 void EventDispatcher::removeAllListeners( const EventType& eventType )
 {
+	if (!mapContainsKey(_eventMap, eventType))
+		return;
 
+	int length = _eventMap[eventType].size();
+	for(int i = 0; i < length; ++i)
+	{
+		if ( _eventMap[eventType][i] != nullptr )
+		{
+			delete _eventMap[eventType][i];
+			_eventMap[eventType][i] = nullptr;
+		}
+	}
+
+	_eventMap.erase(eventType);
+
+	_changed = true;
 }
 
 void EventDispatcher::dispatchEvent( Event& event )
 {
+	EventType type = event.type();
 
+	if ( !mapContainsKey(_eventMap, type) )
+		return;
+
+	event.setTarget(this);
+
+	unsigned int length = _eventMap[type].size();
+	for(unsigned int i = 0; i < length; ++i)
+	{
+		if (_eventMap[type][i] != nullptr)
+			_eventMap[type][i]->invoke(event);
+	}
 }
 
 void EventDispatcher::cleanMap( void )

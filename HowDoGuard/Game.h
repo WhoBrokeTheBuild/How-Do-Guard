@@ -4,7 +4,10 @@
 #define __GAME_H__
 
 #include "Common.h"
-#include "GameObject.h"
+#include "EventDispatcher.h"
+#include "Event.h"
+
+#include "DataManager.h"
 
 #include "GraphicsSystem.h"
 #include "RenderTarget.h"
@@ -17,7 +20,6 @@
 
 #include "InputSystem.h"
 
-#include "GameTime.h"
 #include "Timer.h"
 
 #include <SDL.h>
@@ -25,18 +27,18 @@
 #include <SDL_opengl.h>
 
 class Game :
-	public GameObject
+	public EventDispatcher
 {
 private:
+
+	DataManager
+		*_pDataManager;
 
 	GraphicsSystem
 		*_pGraphicsSystem;
 
 	InputSystem 
 		*_pInputSystem;
-
-	GameTime
-		*_pGameTime;
 
 	bool
 		_running;
@@ -63,10 +65,10 @@ public:
 	void term( void );
 
 	void start( void );
+	void stop ( const Event& event );
 
-	void update( void );
-	void draw( void );
-
+	void update( const FrameData& frameData );
+	void draw  ( const RenderData& renderData );
 };
 
 #endif

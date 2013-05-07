@@ -1,5 +1,6 @@
 
 #include "Common.h"
+#include "GameObject.h"
 #include "MemoryTracker.h"
 #include "Game.h"
 #include "Console.h"
@@ -18,6 +19,8 @@ int main(int argc, char *argv[])
 
 	INF("Main", "Starting Up");
 
+	gpMemoryTracker = new MemoryTracker();
+
 	Game *game = New Game();
 	game->init();
 
@@ -31,11 +34,14 @@ int main(int argc, char *argv[])
 
 #ifdef DEBUG
 
-	if (gMemoryTracker.numAllocations() > 0)
+	if (gpMemoryTracker->numAllocations() > 0)
 	{
-		gMemoryTracker.printAllocations();
+		gpMemoryTracker->printAllocations();
 		pause();
 	}
+
+	delete gpMemoryTracker;
+	gpMemoryTracker = nullptr;
 
 #endif //DEBUG
 

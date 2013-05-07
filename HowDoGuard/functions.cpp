@@ -22,7 +22,7 @@ vector<string> strSplit( string str, char sep, int limit /*= -1*/ )
 	{
 		currentChar = str[i];
 
-		if ( currentChar == sep )
+		if (currentChar == sep)
 		{
 			tempString = str.substr(0, i);
 
@@ -35,7 +35,7 @@ vector<string> strSplit( string str, char sep, int limit /*= -1*/ )
 			stringLength = str.length();
 			i = -1;
 
-			if (limit != -1 && stringParts.size() == limit)
+			if (limit != -1 && stringParts.size() == limit - 1)
 			{
 				stringParts.push_back(str);
 				break;
@@ -54,7 +54,7 @@ vector<string> strSplit( string str, char sep, int limit /*= -1*/ )
 			stringLength = str.length();
 			i = -1;
 
-			if (limit != -1 && stringParts.size() == limit)
+			if (limit != -1 && stringParts.size() == limit - 1)
 			{
 				stringParts.push_back(str);
 				break;

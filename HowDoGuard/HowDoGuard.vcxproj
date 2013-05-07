@@ -71,6 +71,7 @@
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="Functions.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -81,6 +82,8 @@
     <ClCompile Include="MemoryTracker.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="CachedText.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
@@ -95,6 +98,7 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventData.h" />
     <ClInclude Include="EventDispatcher.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="Functions.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
@@ -104,6 +108,8 @@
     <ClInclude Include="MemoryTracker.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="CachedText.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Vector2.h" />
   </ItemGroup>

@@ -3,6 +3,7 @@
 
 GraphicsSystem::GraphicsSystem( void )
 {
+	_clearColor = Color::STORM;
 }
 
 
@@ -89,9 +90,9 @@ void GraphicsSystem::initGL( int width, int height )
 	glLoadIdentity();
 
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-	glClearColor(_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), _clearColor.getA());
+	glClearColor(_clearColor.fracR(), _clearColor.fracG(), _clearColor.fracB(), _clearColor.fracA());
 	glClear(GL_COLOR_BUFFER_BIT);
 	SDL_GL_SwapBuffers();
 

@@ -14,6 +14,10 @@
 #include "GameTime.h"
 #include "Timer.h"
 
+#include <SDL.h>
+#include <SDL_ttf.h>
+#include <SDL_opengl.h>
+
 class Game :
 	public GameObject
 {
@@ -39,6 +43,10 @@ public:
 
 	//TODO: Remove
 	static bool endNow;
+	Font 
+		*font;
+	CachedText
+		*fpsText;
 
 	Game( void );
 	virtual ~Game( void );

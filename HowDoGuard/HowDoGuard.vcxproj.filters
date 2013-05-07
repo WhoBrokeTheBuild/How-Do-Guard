@@ -34,6 +34,9 @@
     <Filter Include="Project\Events">
       <UniqueIdentifier>{ee59ddae-7677-4c1d-978d-e068536ff43f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Graphics\Text">
+      <UniqueIdentifier>{fb22db12-aa32-46d3-bb5f-337ac4a06818}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -86,6 +89,15 @@
     </ClCompile>
     <ClCompile Include="EventDispatcher.cpp">
       <Filter>Project\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Project\Graphics\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Project\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="CachedText.cpp">
+      <Filter>Project\Graphics\Text</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +163,15 @@
     </ClInclude>
     <ClInclude Include="EventDispatcher.h">
       <Filter>Project\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Project\Graphics\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Project\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="CachedText.h">
+      <Filter>Project\Graphics\Text</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

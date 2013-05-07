@@ -7,19 +7,26 @@
 #include "Common.h"
 #include "GameObject.h"
 
+#include <SDL.h>
+
 class Color
 	: public GameObject
 {
 
+	friend class RenderTarget;
+	friend class CachedText;
+
 private:
 
-	int 
-		mRed,
-		mGreen,
-		mBlue,
-		mAlpha;
+	virtual SDL_Color SDLColor( void );
 
 public:
+
+	int 
+		R,
+		G,
+		B,
+		A;
 
 	static Color
 		BLACK,
@@ -30,38 +37,33 @@ public:
 		CORNFLOWER_BLUE,
 		STORM;
 
-	Color( void );
+	Color( void ) { setByte(0, 0, 0, 0); }
 
-	Color( float pR, float pG, float pB );
-	Color( float pR, float pG, float pB, float pA );
+	Color( float r, float g, float b );
+	Color( float r, float g, float b, float a );
 
-	Color( int pR, int pG, int pB );
-	Color( int pR, int pG, int pB, int pA );
+	Color( int r, int g, int b );
+	Color( int r, int g, int b, int a );
 
 	virtual ~Color( void );
 
-	virtual void init( void );
-	virtual void init( int pR, int pG, int pB, int pA );
-	virtual void term( void );
-
 	virtual string toString( void ) const;
 
-	void setRGB ( float pR, float pG, float pB );
-	void setRGBA( float pR, float pG, float pB, float pA );
+	float fracR( void ) const { return (float)(R * 255.0f); }
+	float fracG( void ) const { return (float)(G * 255.0f); }
+	float fracB( void ) const { return (float)(B * 255.0f); }
+	float fracA( void ) const { return (float)(A * 255.0f); }
 
-	void setRGB ( int pR, int pG, int pB );
-	void setRGBA( int pR, int pG, int pB, int pA );
+	int byteR( void ) const { return R; }
+	int byteG( void ) const { return G; }
+	int byteB( void ) const { return B; }
+	int byteA( void ) const { return A; }
 
-	float getR( void ) const;
-	float getG( void ) const;
-	float getB( void ) const;
-	float getA( void ) const;
+	void setFrac( float r, float g, float b );
+	void setFrac( float r, float g, float b, float a );
 
-	void getRGB ( int &pR, int &pG, int &pB );
-	void getRGBA( int &pR, int &pG, int &pB, int &pA );
-				  
-	void getRGB ( float &pR, float &pG, float &pB );
-	void getRGBA( float &pR, float &pG, float &pB, float &pA );
+	void setByte( int r, int g, int b );
+	void setByte( int r, int g, int b, int a );
 
 };
 

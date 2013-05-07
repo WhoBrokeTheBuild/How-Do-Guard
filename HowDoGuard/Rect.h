@@ -48,9 +48,9 @@ public:
 	float left  ( void ) { return X; }
 	float right ( void ) { return X + Width; }
 
-	bool collides(Rect other);
-	bool collides(Circle other);
-	bool containsPoint(Vector2 point);
+	bool collides( Rect other );
+	bool collides( Circle other );
+	bool containsPoint( Vector2 point );
 
 };
 

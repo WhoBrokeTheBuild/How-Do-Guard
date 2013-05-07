@@ -26,9 +26,6 @@ class GraphicsSystem :
 {
 private:
 
-	//Texture
-	//	*_pBackBuffer;
-
 	Color
 		_clearColor;
 

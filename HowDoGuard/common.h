@@ -9,7 +9,7 @@
 #include <string>
 #include <sstream>
 
-#include "functions.h"
+#include "Functions.h"
 #include "GameObject.h"
 #include "Vector2.h"
 #include "Rect.h"

@@ -41,6 +41,14 @@ using namespace std;
 inline void initRandom( void ) { srand( unsigned(time(nullptr)) ); }
 inline int randInt( int min, int max ) { return min + (rand() % (max - min + 1)); }
 
+inline float floor  (float value, int accuracy) { int mult = 10 * accuracy; return floorf(value * mult)        / mult; }
+inline float nearest(float value, int accuracy) { int mult = 10 * accuracy; return floorf(value * mult + 0.5f) / mult; }
+inline float ceil   (float value, int accuracy) { int mult = 10 * accuracy; return ceilf (value * mult)        / mult; }
+
+inline double floor  (double value, int accuracy) { int mult = 10 * accuracy; return floor(value * mult)       / mult; }
+inline double nearest(double value, int accuracy) { int mult = 10 * accuracy; return floor(value * mult + 0.5) / mult; }
+inline double ceil   (double value, int accuracy) { int mult = 10 * accuracy; return ceil (value * mult)       / mult; }
+
 template <class Number>
 inline Number clamp(Number value, Number min, Number max) { return ( ( value > max ) ? max : ( ( value < min ) ? min : value ) ); }
 
@@ -70,6 +78,14 @@ inline float toDeg( float rad ) { return (float)( rad * TO_DEG ); };
 int    toInt   ( const string& value );
 float  toFloat ( const string& value );
 double toDouble( const string& value );
+
+template <class Number>
+string numToString( const Number& value )
+{
+	stringstream ss;
+	ss << value;
+	return ss.str();
+}
 
 void delay( int millis );
 void die  ( int errorLevel = 0 );

@@ -20,7 +20,7 @@ void Game::init( void )
 {
 	INF(toString(), "Starting Init");
 
-	_targetFPS = 60.0;
+	_targetFPS = 60.0f;
 	_currentFPS = 0;
 
 	_pGameTime = New GameTime();
@@ -31,11 +31,18 @@ void Game::init( void )
 	_pInputSystem = New InputSystem();
 	_pInputSystem->init();
 
+	font = New Font("ds-digital.ttf", 30);
+	fpsText = New CachedText();
+	fpsText->init("", font);
+
 	INF(toString(), "Finished Init");
 }
 
 void Game::term( void )
 {
+	delete fpsText;
+	delete font;
+
 	delete _pInputSystem;
 	delete _pGraphicsSystem;
 
@@ -72,6 +79,10 @@ void Game::update( void )
 {
 	_pInputSystem->update(_pGameTime);
 
+	stringstream ss;
+	ss << "FPS: " << nearest(_currentFPS, 2);
+	fpsText->setText(ss.str());
+
 	if (endNow)
 		_running = false;
 }
@@ -82,14 +93,7 @@ void Game::draw( void )
 
 	pRenderTarget->beginDraw();
 
-	pRenderTarget->fillHexagon(320, 240, 240, Color::GREEN);
-	pRenderTarget->fillHexagon(320, 240, 240, Color::GREEN, PI / 4);
-	pRenderTarget->fillHexagon(320, 240, 240, Color::GREEN, -PI / 4);
-
-	pRenderTarget->fillCircle(320, 240, 150, Color::BLUE);
-
-	pRenderTarget->fillTriangle(320, 240, 100, Color::RED);
-	pRenderTarget->fillTriangle(320, 240, 100, Color::RED, PI);
+	pRenderTarget->drawText(10, 10, fpsText, Color::BLACK);
 
 	pRenderTarget->endDraw();
 }

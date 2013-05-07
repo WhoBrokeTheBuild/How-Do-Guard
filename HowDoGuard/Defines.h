@@ -15,4 +15,6 @@
 
 #endif
 
+#define OPENGL_INVALID_TEXTURE 0
+
 #endif

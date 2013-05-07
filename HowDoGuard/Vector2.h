@@ -17,10 +17,10 @@ public:
 	Vector2(float x, float y);
 	virtual ~Vector2(void);
 
-	float distanceTo(Vector2 v2);
+	float distanceTo(Vector2 other);
 
-	float directionToDeg(Vector2 v2);
-	float directionToRad(Vector2 v2);
+	float directionToDeg(Vector2 other);
+	float directionToRad(Vector2 other);
 
 	const Vector2 operator+(const Vector2 &rhs) const;
 	const Vector2 operator-(const Vector2 &rhs) const;

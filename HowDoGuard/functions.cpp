@@ -55,10 +55,10 @@ string basename( string fullPath )
 
 float deg_to_rad( float deg )
 {
-	return (deg * PI) / 180.0;
+	return (float)((deg * PI) / 180.0);
 }
 
 float rad_to_deg( float rad )
 {
-	return (rad * 180.0) / PI;
+	return (float)((rad * 180.0) / PI);
 }

@@ -1,5 +1,9 @@
 #include "Vector2.h"
 
+Vector2 Vector2::ZERO		  = Vector2(0);
+Vector2 Vector2::ONE		  = Vector2(1);
+Vector2 Vector2::NEGATIVE_ONE = Vector2(-1);
+
 Vector2::Vector2( void )
 {
 }
@@ -18,6 +22,13 @@ Vector2::Vector2( float both )
 
 Vector2::~Vector2( void )
 {
+}
+
+std::string Vector2::toString( void ) const
+{
+	stringstream ss;
+	ss << "Vector2 [" << X << ", " << Y << "]";
+	return ss.str();
 }
 
 const Vector2 Vector2::operator+( const Vector2 &rhs ) const

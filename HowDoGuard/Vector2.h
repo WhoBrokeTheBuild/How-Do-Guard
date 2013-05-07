@@ -3,11 +3,19 @@
 #ifndef __VECTOR_2_H__
 #define __VECTOR_2_H__
 
+#include "GameObject.h"
+
 class Vector2
+	: GameObject
 {
 private:
 
 public:
+
+	static Vector2
+		ZERO,
+		ONE,
+		NEGATIVE_ONE;
 
 	float
 		X,
@@ -18,8 +26,9 @@ public:
 	Vector2( float both );
 	virtual ~Vector2( void );
 
-	float distanceTo( Vector2 other );
+	virtual string toString( void ) const;
 
+	float distanceTo( Vector2 other );
 	float directionToDeg( Vector2 other );
 	float directionToRad( Vector2 other );
 

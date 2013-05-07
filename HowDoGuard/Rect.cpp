@@ -22,3 +22,36 @@ Rect::Rect(void)
 Rect::~Rect(void)
 {
 }
+
+string Rect::toString( void ) const
+{
+	stringstream ss;
+	ss << "Rect [" << X << ", " << Y << ", " << Width << ", " << Height << "]";
+	return ss.str();
+}
+
+bool Rect::collides( Rect other )
+{
+	if ( left() > other.right()  ||
+		 top()  > other.bottom() ||
+		 other.left() > right()  ||
+		 other.top()  > bottom() )
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool Rect::containsPoint( Vector2 point )
+{
+	if( point.X < left()   ||
+		point.X > right()  ||
+		point.Y < top()    ||
+		point.Y > bottom() )
+	{
+		return false;
+	}
+
+	return true;
+}

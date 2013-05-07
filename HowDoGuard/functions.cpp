@@ -14,7 +14,7 @@ void init_utils( void )
 
 int rand( int min, int max )
 {
-	return min + (rand() % (max - min));
+	return min + (rand() % (max - min + 1));
 }
 
 void delay( int millis )

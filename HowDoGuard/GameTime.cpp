@@ -15,28 +15,34 @@ std::string GameTime::toString( void ) const
 	return "Game Time";
 }
 
-void GameTime::update( double elapsedMilliseconds )
+void GameTime::update( double elapsedMillis, double currFPS, double targetFPS )
 {
-	_elapsedMilliseconds = elapsedMilliseconds;
-	_totalMilliseconds += elapsedMilliseconds;
+	_elapsedMilliseconds = elapsedMillis;
+	_totalMilliseconds += elapsedMillis;
+	_deltaTime = targetFPS / currFPS;
 }
 
-double GameTime::getTotalSeconds( void )
+double GameTime::totalSeconds( void )
 {
 	return _totalMilliseconds / 1000.0;
 }
 
-double GameTime::getElapsedSeconds( void )
+double GameTime::elapsedSeconds( void )
 {
 	return _elapsedMilliseconds / 1000.0;
 }
 
-double GameTime::getTotalMilliseconds( void )
+double GameTime::totalMilliseconds( void )
 {
 	return _totalMilliseconds;
 }
 
-double GameTime::getElapsedMilliseconds( void )
+double GameTime::elapsedMilliseconds( void )
 {
 	return _elapsedMilliseconds;
+}
+
+double GameTime::deltaTime( void )
+{
+	return _deltaTime;
 }

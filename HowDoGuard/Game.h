@@ -9,6 +9,8 @@
 #include "GameTime.h"
 #include "RenderTarget.h"
 
+#include "Timer.h"
+
 class Game :
 	public GameObject
 {

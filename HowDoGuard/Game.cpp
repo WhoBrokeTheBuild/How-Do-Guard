@@ -35,21 +35,31 @@ void Game::start( void )
 {
 	_running = true;
 
-	double fpsDelay = 1000.0 / _targetFPS;
+	double 
+		fpsDelay = 1000.0 / _targetFPS,
+		frameDelay = 0;
+
+	Timer fpsTimer = Timer();
+	fpsTimer.start();
 
 	while (_running)
 	{
-		_pGameTime->update(fpsDelay);
+		_pGameTime->update(frameDelay, _currentFPS, _targetFPS);
+
+		_currentFPS = 1000.0 / frameDelay;
 
 		update();
 		draw();
+
+		fpsTimer.sleepUntilElapsed(fpsDelay);
+		frameDelay = fpsTimer.getElapsedMilli();
+		fpsTimer.start();
 	}
 }
 
 void Game::update( void )
 {
-	INF(toString(), "Shutting Down on first Game Update");
-	_running = false;
+	cout << "FPS: " << _currentFPS << endl;
 }
 
 void Game::draw( void )

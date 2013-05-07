@@ -12,7 +12,8 @@ private:
 
 	double
 		_totalMilliseconds,
-		_elapsedMilliseconds;
+		_elapsedMilliseconds,
+		_deltaTime;
 
 public:
 
@@ -21,13 +22,15 @@ public:
 
 	virtual string toString( void ) const;
 
-	void update(double elapsedMilliseconds);
+	void update(double elapsedMillis, double currFPS, double targetFPS);
 
-	double getTotalSeconds(void);
-	double getElapsedSeconds(void);
+	double totalSeconds  ( void );
+	double elapsedSeconds( void );
 
-	double getTotalMilliseconds(void);
-	double getElapsedMilliseconds(void);
+	double totalMilliseconds  ( void );
+	double elapsedMilliseconds( void );
+
+	double deltaTime( void );
 
 };
 

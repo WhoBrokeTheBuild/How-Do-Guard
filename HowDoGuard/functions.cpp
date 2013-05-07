@@ -9,12 +9,17 @@ void die( int errorLevel /* = 0 */ )
 
 void init_utils( void )
 {
-	srand((unsigned int)time((time_t*)0));
+	srand((unsigned int)now());
 }
 
 int rand( int min, int max )
 {
 	return min + (rand() % (max - min + 1));
+}
+
+time_t now( void )
+{
+	return time((time_t*)0);
 }
 
 void delay( int millis )

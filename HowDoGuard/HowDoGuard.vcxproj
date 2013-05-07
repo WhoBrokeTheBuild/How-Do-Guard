@@ -71,6 +71,7 @@
     <ClCompile Include="MemoryTracker.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +85,7 @@
     <ClInclude Include="MemoryTracker.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Vector2.h" />
   </ItemGroup>
   <ItemGroup>

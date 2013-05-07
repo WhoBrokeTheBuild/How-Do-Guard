@@ -58,9 +58,9 @@ void copy_array(T from[], T to[], int count)
 void die( int errorLevel = 0 );
 
 void init_utils( void );
-
 int rand( int min, int max );
 
+time_t now( void );
 void delay( int millis );
 
 string basename(string fullPath);

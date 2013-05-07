@@ -63,6 +63,7 @@
     <ClCompile Include="Circle.cpp">
       <Filter>Project\Util\Geom</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -98,6 +99,7 @@
     <ClInclude Include="Circle.h">
       <Filter>Project\Util\Geom</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">

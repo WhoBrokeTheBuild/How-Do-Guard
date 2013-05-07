@@ -1,7 +1,7 @@
 #include "Circle.h"
 #include "Rect.h"
 
-Circle::Circle(void)
+Circle::Circle( void )
 {
 }
 
@@ -19,7 +19,7 @@ Circle::Circle( Vector2 pos, float radius )
 	Radius = radius;
 }
 
-Circle::~Circle(void)
+Circle::~Circle( void )
 {
 }
 
@@ -67,7 +67,7 @@ bool Circle::collides( Circle other )
 	return (dist < Radius + other.Radius);
 }
 
-bool Circle::collides( Rect rect )
+bool Circle::collides( Rect rect ) //TODO: Test this later when primitives are implemented
 {
 
 	Vector2 rectCenter = rect.center();

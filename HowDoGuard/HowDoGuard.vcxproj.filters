@@ -31,6 +31,9 @@
     <Filter Include="Project\Util\Geom">
       <UniqueIdentifier>{50fab468-abfa-4db3-9ecb-e8712b867a82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Events">
+      <UniqueIdentifier>{ee59ddae-7677-4c1d-978d-e068536ff43f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -63,7 +66,21 @@
     <ClCompile Include="Circle.cpp">
       <Filter>Project\Util\Geom</Filter>
     </ClCompile>
-    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Timer.cpp">
+      <Filter>Project\Timing</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Project\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsSystem.cpp">
+      <Filter>Project\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>Project\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Project\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -99,7 +116,21 @@
     <ClInclude Include="Circle.h">
       <Filter>Project\Util\Geom</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Timer.h">
+      <Filter>Project\Timing</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Project\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSystem.h">
+      <Filter>Project\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>Project\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Project\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">

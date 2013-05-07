@@ -1,12 +1,12 @@
 #include "GameTime.h"
 
-GameTime::GameTime(void)
+GameTime::GameTime( void )
 {
 	_totalMilliseconds   = 0;
 	_elapsedMilliseconds = 0;
 }
 
-GameTime::~GameTime(void)
+GameTime::~GameTime( void )
 {
 }
 

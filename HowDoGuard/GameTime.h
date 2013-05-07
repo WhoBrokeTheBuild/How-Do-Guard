@@ -17,8 +17,8 @@ private:
 
 public:
 
-	GameTime(void);
-	virtual ~GameTime(void);
+	GameTime( void );
+	virtual ~GameTime( void );
 
 	virtual string toString( void ) const;
 

@@ -1,10 +1,12 @@
 #include "Game.h"
 
-Game::Game(void)
+bool Game::endNow = false;
+
+Game::Game( void )
 {
 }
 
-Game::~Game(void)
+Game::~Game( void )
 {
 	term();
 }
@@ -23,11 +25,20 @@ void Game::init( void )
 
 	_pGameTime = New GameTime();
 
+	_pGraphicsSystem = New GraphicsSystem();
+	_pGraphicsSystem->init();
+
+	_pInputSystem = New InputSystem();
+	_pInputSystem->init();
+
 	INF(toString(), "Finished Init");
 }
 
 void Game::term( void )
 {
+	delete _pInputSystem;
+	delete _pGraphicsSystem;
+
 	delete _pGameTime;
 }
 
@@ -46,7 +57,7 @@ void Game::start( void )
 	{
 		_pGameTime->update(frameDelay, _currentFPS, _targetFPS);
 
-		_currentFPS = 1000.0 / frameDelay;
+		_currentFPS = (float)(1000.0 / frameDelay);
 
 		update();
 		draw();
@@ -59,7 +70,10 @@ void Game::start( void )
 
 void Game::update( void )
 {
-	cout << "FPS: " << _currentFPS << endl;
+	_pInputSystem->update(_pGameTime);
+
+	if (endNow)
+		_running = false;
 }
 
 void Game::draw( void )

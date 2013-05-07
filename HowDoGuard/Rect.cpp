@@ -12,7 +12,7 @@ Rect::Rect( float x, float y, float width, float height )
 	Height = height;
 }
 
-Rect::Rect(void)
+Rect::Rect( void )
 {
 	X = 0;
 	Y = 0;
@@ -28,7 +28,7 @@ Rect::Rect( Vector2 pos, Vector2 size )
 	Height = size.Y;
 }
 
-Rect::~Rect(void)
+Rect::~Rect( void )
 {
 }
 

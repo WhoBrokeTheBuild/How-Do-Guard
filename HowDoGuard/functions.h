@@ -7,6 +7,7 @@
 #include "Defines.h"
 
 #include <iostream>
+#include <conio.h>
 #include <string>
 #include <cstdarg>
 #include <ctime>
@@ -67,5 +68,7 @@ string basename(string fullPath);
 
 float deg_to_rad( float deg );
 float rad_to_deg( float rad );
+
+void pause( void );
 
 #endif 

@@ -2,9 +2,22 @@
 #include "Common.h"
 #include "MemoryTracker.h"
 #include "Game.h"
+#include "Console.h"
 
-void main( void )
+#include <SDL.h>
+#include <SDL_opengl.h>
+
+int main(int argc, char *argv[])
 {
+
+#ifdef DEBUG
+
+	init_console();
+
+	pause();
+
+#endif
+
 	INF("Main", "Starting Up");
 
 	Game *game = New Game();
@@ -23,9 +36,11 @@ void main( void )
 	if (gMemoryTracker.numAllocations() > 0)
 	{
 		gMemoryTracker.printAllocations();
-		system("PAUSE");
+		pause();
 	}
 
 #endif //DEBUG
+
+	return 0;
 
 }

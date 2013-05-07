@@ -6,15 +6,24 @@
 #include "Common.h"
 #include "GameObject.h"
 
-#include "GameTime.h"
+#include "GraphicsSystem.h"
 #include "RenderTarget.h"
 
+#include "InputSystem.h"
+
+#include "GameTime.h"
 #include "Timer.h"
 
 class Game :
 	public GameObject
 {
 private:
+
+	GraphicsSystem
+		*_pGraphicsSystem;
+
+	InputSystem 
+		*_pInputSystem;
 
 	GameTime
 		*_pGameTime;
@@ -28,8 +37,11 @@ private:
 
 public:
 
-	Game(void);
-	virtual ~Game(void);
+	//TODO: Remove
+	static bool endNow;
+
+	Game( void );
+	virtual ~Game( void );
 
 	virtual string toString( void ) const;
 

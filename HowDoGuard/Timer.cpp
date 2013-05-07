@@ -2,7 +2,7 @@
 
 double Timer::MICRO = 1000000.0;
 
-Timer::Timer(void)
+Timer::Timer( void )
 {
 
 #ifdef WINDOWS
@@ -26,7 +26,7 @@ Timer::Timer(void)
 
 }
 
-Timer::~Timer(void)
+Timer::~Timer( void )
 {
 }
 

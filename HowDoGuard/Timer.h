@@ -54,8 +54,8 @@ private:
 
 public:
 
-	Timer(void);
-	virtual ~Timer(void);
+	Timer( void );
+	virtual ~Timer( void );
 
 	virtual string toString( void ) const;
 

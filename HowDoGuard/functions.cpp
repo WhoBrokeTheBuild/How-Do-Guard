@@ -1,9 +1,9 @@
 
 #include "functions.h"
 
-void die( int errorLevel /* = 0 */ )
+void die( int errorLevel /*= 0*/ )
 {
-	system("PAUSE");
+	pause();
 	exit(errorLevel);
 }
 
@@ -66,4 +66,11 @@ float deg_to_rad( float deg )
 float rad_to_deg( float rad )
 {
 	return (float)((rad * 180.0) / PI);
+}
+
+void pause( void )
+{
+	cout << "Press any key to continue";
+	_getch();
+	cout << endl;
 }

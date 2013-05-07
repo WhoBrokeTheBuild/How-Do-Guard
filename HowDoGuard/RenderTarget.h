@@ -14,8 +14,8 @@ private:
 
 public:
 
-	RenderTarget(void);
-	virtual ~RenderTarget(void);
+	RenderTarget( void );
+	virtual ~RenderTarget( void );
 
 	virtual string toString( void ) const;
 

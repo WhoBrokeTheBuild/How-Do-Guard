@@ -10,6 +10,12 @@ Vector2::Vector2( float x, float y )
 	Y = y;
 }
 
+Vector2::Vector2( float both )
+{
+	X = both;
+	Y = both;
+}
+
 Vector2::~Vector2( void )
 {
 }

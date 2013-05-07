@@ -15,6 +15,7 @@ public:
 
 	Vector2(void);
 	Vector2(float x, float y);
+	Vector2( float both );
 	virtual ~Vector2(void);
 
 	float distanceTo(Vector2 other);

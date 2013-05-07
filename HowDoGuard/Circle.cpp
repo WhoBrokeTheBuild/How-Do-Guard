@@ -69,35 +69,12 @@ bool Circle::collides( Circle other )
 
 bool Circle::collides( Rect rect ) //TODO: Test this later when primitives are implemented
 {
+	Rect bounds = Rect(left(), top(), diameter(), diameter());
 
-	Vector2 rectCenter = rect.center();
-
-	float
-		halfWidth  = rect.halfWidth(),
-		halfHeight = rect.halfHeight(),
-		dx = abs(X - rectCenter.X),
-		dy = abs(Y - rectCenter.Y);
-
-	if (dx > (Radius + halfWidth) || dy > (Radius + halfHeight))
-	{
+	if (!rect.collides(bounds))
 		return false;
-	}
 
-	Vector2 circleDist = Vector2(abs(X - rect.X - halfWidth), abs(Y - rect.Y - halfHeight));
-
-	if (circleDist.X <= halfWidth)
-	{
-		return true;
-	}
-
-	if (circleDist.Y <= halfHeight)
-	{
-		return true;
-	}
-
-	float cornerDistSquared = pow(circleDist.X - halfWidth, 2) + pow(circleDist.Y - halfHeight, 2);
-
-	return (cornerDistSquared <= (pow(Radius, 2)));
+	return true;
 }
 
 bool Circle::containsPoint( Vector2 point )

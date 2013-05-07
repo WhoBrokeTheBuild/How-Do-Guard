@@ -14,8 +14,6 @@ int main(int argc, char *argv[])
 
 	init_console();
 
-	pause();
-
 #endif
 
 	INF("Main", "Starting Up");

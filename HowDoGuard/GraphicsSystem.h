@@ -47,6 +47,9 @@ public:
 
 	virtual string toString( void ) const;
 
+	virtual RenderTarget *renderTarget( void );
+	virtual Color clearColor( void );
+
 };
 
 #endif

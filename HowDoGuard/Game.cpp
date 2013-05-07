@@ -78,5 +78,18 @@ void Game::update( void )
 
 void Game::draw( void )
 {
+	RenderTarget *pRenderTarget = _pGraphicsSystem->renderTarget();
 
+	pRenderTarget->beginDraw();
+
+	pRenderTarget->drawHexagon(320, 240, 240, Color::BLACK);
+	pRenderTarget->drawHexagon(320, 240, 240, Color::BLACK, PI / 4);
+	pRenderTarget->drawHexagon(320, 240, 240, Color::BLACK, -PI / 4);
+
+	pRenderTarget->fillCircle(320, 240, 150, Color::BLUE);
+
+	pRenderTarget->fillTriangle(320, 240, 100, Color::RED);
+	pRenderTarget->fillTriangle(320, 240, 100, Color::RED, PI);
+
+	pRenderTarget->endDraw();
 }

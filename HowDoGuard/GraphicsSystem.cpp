@@ -42,7 +42,7 @@ void GraphicsSystem::init( void )
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,	2);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,		1);
 
-	if (SDL_SetVideoMode(width, height, screenBPP, SDL_HWSURFACE | SDL_OPENGL) == nullptr)
+	if (SDL_SetVideoMode(width, height, screenBPP, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL) == nullptr)
 	{
 		ERR(toString(), "Failed to create SDL window");
 		die();
@@ -53,6 +53,7 @@ void GraphicsSystem::init( void )
 	initGL(width, height);
 
 	_pRenderTarget = New RenderTarget();
+	_pRenderTarget->init(this);
 
 	if (TTF_Init() < 0)
 	{
@@ -104,4 +105,14 @@ void GraphicsSystem::initGL( int width, int height )
 		ERR(toString(), ss.str());
 		die();
 	}
+}
+
+RenderTarget * GraphicsSystem::renderTarget( void )
+{
+	return _pRenderTarget;
+}
+
+Color GraphicsSystem::clearColor( void )
+{
+	return _clearColor;
 }

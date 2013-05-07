@@ -1,87 +1,107 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Project">
+      <UniqueIdentifier>{b9fbe001-b732-4d5f-9e79-f49b14800cfb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Project\Input">
+      <UniqueIdentifier>{094b31ed-0d38-44c1-86be-744ea679c102}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Project\Graphics">
+      <UniqueIdentifier>{c8060623-33ba-4ec5-ab06-d478cacb681a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Util">
-      <UniqueIdentifier>{024ea18a-9c0f-41a7-aea8-bcac6b53a0c3}</UniqueIdentifier>
+    <Filter Include="Project\Core">
+      <UniqueIdentifier>{a1c866d7-334d-4dee-9d1f-8fb42381ce0f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Util">
-      <UniqueIdentifier>{c1a6a491-3ff4-4d50-9df2-533559cbf325}</UniqueIdentifier>
+    <Filter Include="Project\Audio">
+      <UniqueIdentifier>{f61727e3-7814-49b6-b785-3344520bd5e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Documents">
+      <UniqueIdentifier>{e7b49474-94ba-4f32-8554-3577c14d59df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Util">
+      <UniqueIdentifier>{793006fd-b241-4aa9-abd3-28e7ba870cc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Timing">
+      <UniqueIdentifier>{b062224b-c4ae-4f0b-9aef-5eb9ad82a39e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Tracking">
+      <UniqueIdentifier>{2bacf41f-f524-4ab8-ad26-c4a219c20147}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Util\Geom">
+      <UniqueIdentifier>{50fab468-abfa-4db3-9ecb-e8712b867a82}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Rect.cpp">
-      <Filter>Source Files\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector2.cpp">
-      <Filter>Source Files\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="functions.cpp">
-      <Filter>Source Files\Util</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Project\Core</Filter>
     </ClCompile>
-    <ClCompile Include="GameTime.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Main.cpp">
+      <Filter>Project</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions.cpp">
+      <Filter>Project\Util</Filter>
     </ClCompile>
     <ClCompile Include="RenderTarget.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Project\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>Project\Timing</Filter>
     </ClCompile>
     <ClCompile Include="MemoryTracker.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Project\Tracking</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Project\Tracking</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>Project\Util\Geom</Filter>
+    </ClCompile>
+    <ClCompile Include="Rect.cpp">
+      <Filter>Project\Util\Geom</Filter>
+    </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>Project\Util\Geom</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="common.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Game.h">
+      <Filter>Project\Core</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="functions.h">
-      <Filter>Header Files\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Rect.h">
-      <Filter>Header Files\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector2.h">
-      <Filter>Header Files\Util</Filter>
+    <ClInclude Include="Common.h">
+      <Filter>Project</Filter>
     </ClInclude>
     <ClInclude Include="Defines.h">
-      <Filter>Header Files</Filter>
+      <Filter>Project</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameTime.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Functions.h">
+      <Filter>Project\Util</Filter>
     </ClInclude>
     <ClInclude Include="RenderTarget.h">
-      <Filter>Header Files</Filter>
+      <Filter>Project\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>Project\Timing</Filter>
     </ClInclude>
     <ClInclude Include="MemoryTracker.h">
-      <Filter>Header Files</Filter>
+      <Filter>Project\Tracking</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Project\Tracking</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Project\Util\Geom</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect.h">
+      <Filter>Project\Util\Geom</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>Project\Util\Geom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\README.md" />
+    <None Include="..\README.md">
+      <Filter>Project\Documents</Filter>
+    </None>
   </ItemGroup>
 </Project>

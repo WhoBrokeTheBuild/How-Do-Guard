@@ -13,6 +13,7 @@
 #include "GameObject.h"
 #include "Vector2.h"
 #include "Rect.h"
+#include "Circle.h"
 
 using namespace std;
 

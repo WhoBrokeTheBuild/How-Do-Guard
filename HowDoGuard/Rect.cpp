@@ -1,7 +1,8 @@
 #include "Rect.h"
+#include "Circle.h"
 
-Rect Rect::ONE  = Rect(1, 1, 1, 1);
 Rect Rect::ZERO = Rect(0, 0, 0, 0);
+Rect Rect::ONE  = Rect(0, 0, 1, 1);
 
 Rect::Rect( float x, float y, float width, float height )
 {
@@ -19,6 +20,14 @@ Rect::Rect(void)
 	Height = 0;
 }
 
+Rect::Rect( Vector2 pos, Vector2 size )
+{
+	X = pos.X;
+	Y = pos.Y;
+	Width = size.X;
+	Height = size.Y;
+}
+
 Rect::~Rect(void)
 {
 }
@@ -26,7 +35,7 @@ Rect::~Rect(void)
 string Rect::toString( void ) const
 {
 	stringstream ss;
-	ss << "Rect [" << X << ", " << Y << ", " << Width << ", " << Height << "]";
+	ss << "Rect [X: " << X << ", Y: " << Y << ", W: " << Width << ", H: " << Height << "]";
 	return ss.str();
 }
 
@@ -53,6 +62,11 @@ bool Rect::collides( Rect other )
 	}
 
 	return true;
+}
+
+bool Rect::collides( Circle other )
+{
+	return other.collides(*this);
 }
 
 bool Rect::containsPoint( Vector2 point )

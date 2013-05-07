@@ -1,7 +1,7 @@
 
 #include "functions.h"
 
-void die( int errorLevel )
+void die( int errorLevel /* = 0 */ )
 {
 	system("PAUSE");
 	exit(errorLevel);

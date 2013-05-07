@@ -27,7 +27,7 @@ Vector2::~Vector2( void )
 std::string Vector2::toString( void ) const
 {
 	stringstream ss;
-	ss << "Vector2 [" << X << ", " << Y << "]";
+	ss << "Vector2 [X: " << X << ", Y: " << Y << "]";
 	return ss.str();
 }
 

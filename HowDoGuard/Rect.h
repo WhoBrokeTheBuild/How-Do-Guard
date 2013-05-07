@@ -6,6 +6,8 @@
 #include "GameObject.h"
 #include "Vector2.h"
 
+class Circle;
+
 class Rect
 	: public GameObject
 {
@@ -25,6 +27,7 @@ public:
 
 	Rect( void );
 	Rect( float x, float y, float width, float height );
+	Rect( Vector2 pos, Vector2 size );
 	virtual ~Rect( void );
 
 	virtual string toString( void ) const;
@@ -46,6 +49,7 @@ public:
 	float right ( void ) { return X + Width; }
 
 	bool collides(Rect other);
+	bool collides(Circle other);
 	bool containsPoint(Vector2 point);
 
 };

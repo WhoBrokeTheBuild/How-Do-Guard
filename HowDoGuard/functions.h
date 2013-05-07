@@ -55,7 +55,7 @@ void copy_array(T from[], T to[], int count)
 		to[i] = from[i];
 }
 
-void die( int errorLevel );
+void die( int errorLevel = 0 );
 
 void init_utils( void );
 

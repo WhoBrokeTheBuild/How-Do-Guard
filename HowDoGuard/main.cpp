@@ -5,7 +5,6 @@
 
 void main( void )
 {
-
 	INF("Main", "Starting Up");
 
 	Game *game = New Game();

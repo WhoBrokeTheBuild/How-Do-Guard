@@ -30,6 +30,18 @@ string Rect::toString( void ) const
 	return ss.str();
 }
 
+void Rect::setPos( Vector2 pos )
+{ 
+	X = pos.X;
+	Y = pos.Y;
+}
+
+void Rect::setSize( Vector2 size )
+{
+	Width = size.X;
+	Height = size.Y;
+}
+
 bool Rect::collides( Rect other )
 {
 	if ( left() > other.right()  ||
@@ -55,3 +67,5 @@ bool Rect::containsPoint( Vector2 point )
 
 	return true;
 }
+
+

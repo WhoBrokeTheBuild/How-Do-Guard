@@ -9,6 +9,10 @@
 #include <string>
 #include <sstream>
 
+#include "functions.h"
+#include "Vector2.h"
+#include "Rect.h"
+
 using namespace std;
 
 #endif

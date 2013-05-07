@@ -11,7 +11,7 @@ private:
 
 public:
 
-	Rect
+	static Rect
 		ZERO,
 		ONE;
 
@@ -22,7 +22,7 @@ public:
 		Height;
 
 	Rect( void );
-	Rect(  );
+	Rect( float x, float y, float width, float height );
 	virtual ~Rect( void );
 
 	float halfWidth( void ) { return Width / 2; }

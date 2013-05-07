@@ -34,24 +34,26 @@ void Game::init( void )
 	_pInputSystem = New InputSystem();
 	_pInputSystem->init();
 
+	gpEventDispatcher->addEventListener(Event::EVENT_GAME_END, this, &Game::stop);
+
 	unit = New BasicUnit();
 	unit->init(_pDataManager->pAnimations->get("toast-ghp"), Vector2(100));
-
-	gpEventDispatcher->addEventListener(Event::EVENT_GAME_END, this, &Game::stop);
 
 	INF(toString(), "Finished Init");
 }
 
 void Game::term( void )
 {
-	delete unit;
-
 	gpEventDispatcher->removeEventListener(Event::EVENT_GAME_END, this, &Game::stop);
+
+	delete unit;
 
 	delete _pInputSystem;
 	delete _pGraphicsSystem;
 
 	delete _pDataManager;
+
+	delete gpEventDispatcher;
 }
 
 void Game::start( void )

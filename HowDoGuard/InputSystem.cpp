@@ -12,12 +12,12 @@ InputSystem::~InputSystem( void )
 
 void InputSystem::init( void )
 {
-
+	gpEventDispatcher->addEventListener(Event::EVENT_ENTER_FRAME, this, &InputSystem::update);
 }
 
 void InputSystem::term( void )
 {
-
+	gpEventDispatcher->removeEventListener(Event::EVENT_ENTER_FRAME, this, &InputSystem::update);
 }
 
 std::string InputSystem::toString( void ) const

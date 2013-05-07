@@ -7,7 +7,7 @@
 #include "Vector2.h"
 
 class Rect
-	: GameObject
+	: public GameObject
 {
 private:
 

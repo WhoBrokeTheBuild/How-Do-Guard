@@ -6,7 +6,7 @@
 #include "GameObject.h"
 
 class Vector2
-	: GameObject
+	: public GameObject
 {
 private:
 

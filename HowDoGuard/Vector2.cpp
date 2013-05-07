@@ -106,3 +106,24 @@ bool Vector2::operator!=( const Vector2 &rhs ) const
 {
 	return !(*this == rhs);
 }
+
+float Vector2::distanceTo( Vector2 other )
+{
+	float dx = other.X - X,
+		  dy = other.Y - Y;
+
+	return sqrt(dx * dx + dy * dy);
+}
+
+float Vector2::directionToDeg( Vector2 other )
+{
+	return rad_to_deg(directionToRad(other));
+}
+
+float Vector2::directionToRad( Vector2 other )
+{
+	float dx = other.X - X,
+		  dy = other.Y - Y;
+
+	return atan2(dy, dx);
+}

@@ -4,6 +4,7 @@
 #define __VECTOR_2_H__
 
 #include "GameObject.h"
+#include "functions.h"
 
 class Vector2
 	: public GameObject

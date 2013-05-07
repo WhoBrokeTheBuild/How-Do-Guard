@@ -82,9 +82,9 @@ void Game::draw( void )
 
 	pRenderTarget->beginDraw();
 
-	pRenderTarget->drawHexagon(320, 240, 240, Color::BLACK);
-	pRenderTarget->drawHexagon(320, 240, 240, Color::BLACK, PI / 4);
-	pRenderTarget->drawHexagon(320, 240, 240, Color::BLACK, -PI / 4);
+	pRenderTarget->fillHexagon(320, 240, 240, Color::GREEN);
+	pRenderTarget->fillHexagon(320, 240, 240, Color::GREEN, PI / 4);
+	pRenderTarget->fillHexagon(320, 240, 240, Color::GREEN, -PI / 4);
 
 	pRenderTarget->fillCircle(320, 240, 150, Color::BLUE);
 

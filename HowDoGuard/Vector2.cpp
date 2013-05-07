@@ -117,7 +117,7 @@ float Vector2::distanceTo( Vector2 other )
 
 float Vector2::directionToDeg( Vector2 other )
 {
-	return rad_to_deg(directionToRad(other));
+	return toDeg(directionToRad(other));
 }
 
 float Vector2::directionToRad( Vector2 other )

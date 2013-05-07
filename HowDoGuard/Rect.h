@@ -35,8 +35,8 @@ public:
 	void setPos( Vector2 pos );
 	void setSize( Vector2 size );
 
-	float halfWidth ( void ) { return Width / 2; }
-	float halfHeight( void ) { return Height / 2; }
+	float halfWidth ( void ) { return Width * 0.5f; }
+	float halfHeight( void ) { return Height * 0.5f; }
 
 	Vector2 center( void ) { return Vector2( X + halfWidth(), Y + halfHeight() ); }
 

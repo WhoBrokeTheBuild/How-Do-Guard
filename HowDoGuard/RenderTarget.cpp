@@ -51,13 +51,13 @@ void RenderTarget::drawShape( float x, float y, float radius, float shapeValue, 
 	glPushMatrix();
 	glTranslatef(x, y, 0.0f);
 
-	glRotatef(rad_to_deg(rotation) - 90.0f, 0.0f, 0, 1.0f);
+	glRotatef(toDeg(rotation) - 90.0f, 0.0f, 0, 1.0f);
 
 	glBegin(GL_LINE_LOOP);
 
 	glColor4f(color.getR(), color.getG(), color.getB(), color.getA());
 
-	for (float i = 0; i < PI2; i += PI / shapeValue)
+	for (float i = 0; i < PI2; i += (float)(PI / shapeValue))
 	{
 		glVertex3f(cosf(i) * radius, sinf(i) * radius, 0.0f);
 	}
@@ -72,13 +72,13 @@ void RenderTarget::fillShape( float x, float y, float radius, float shapeValue, 
 	glPushMatrix();
 	glTranslatef(x, y, 0.0f);
 
-	glRotatef((float)rad_to_deg(rotation) - 90.0f, 0.0f, 0, 1.0f);
+	glRotatef((float)toDeg(rotation) - 90.0f, 0.0f, 0, 1.0f);
 
 	glBegin(GL_POLYGON);
 
 	glColor4f(color.getR(), color.getG(), color.getB(), color.getA());
 
-	for (float i = 0; i < PI2; i += PI / shapeValue)
+	for (float i = 0; i < PI2; i += (float)(PI / shapeValue))
 	{
 		glVertex3f(cosf(i) * radius, sinf(i) * radius, 0.0f);
 	}
@@ -99,7 +99,7 @@ void RenderTarget::drawRect( Rect rect, Color color, float rotation /*= 0.0f*/ )
 	glPushMatrix();
 	glTranslatef(rect.X, rect.Y, 0);
 
-	glRotatef((float)rad_to_deg(rotation), 0.0f, 0, 1.0f);
+	glRotatef((float)toDeg(rotation), 0.0f, 0, 1.0f);
 
 	glBegin(GL_LINE_LOOP); 
 
@@ -126,7 +126,7 @@ void RenderTarget::fillRect( Rect rect, Color color, float rotation /*= 0.0f*/ )
 	glPushMatrix();
 	glTranslatef(rect.X, rect.Y, 0);
 
-	glRotatef((float)rad_to_deg(rotation), 0.0f, 0, 1.0f);
+	glRotatef((float)toDeg(rotation), 0.0f, 0, 1.0f);
 
 	glBegin(GL_QUADS);
 

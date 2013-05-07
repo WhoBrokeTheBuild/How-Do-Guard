@@ -81,6 +81,12 @@
     <ClCompile Include="Console.cpp">
       <Filter>Project\Util</Filter>
     </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Project\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="EventDispatcher.cpp">
+      <Filter>Project\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -130,6 +136,21 @@
     </ClInclude>
     <ClInclude Include="Console.h">
       <Filter>Project\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Project\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventData.h">
+      <Filter>Project\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Delegate.h">
+      <Filter>Project\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Callbacks.h">
+      <Filter>Project\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventDispatcher.h">
+      <Filter>Project\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

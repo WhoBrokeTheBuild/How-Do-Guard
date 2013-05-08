@@ -8,12 +8,20 @@
 
 #include "Event.h"
 
+#include "InputChange.h"
+#include "InputState.h"
+
 #include <SDL.h>
+
+#include <queue>
 
 class InputSystem :
 	public EventDispatcher
 {
 private:
+
+	queue<InputChange>
+		_inputChanges;
 
 public:
 

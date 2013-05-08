@@ -23,13 +23,13 @@ void BasicUnit::init( Animation* pAnimation /*= nullptr*/, Vector2 pos /*= Vecto
 	BlendColor = blendColor;
 	Depth = depth;
 
-	gpEventDispatcher->addEventListener(Event::EVENT_ENTER_FRAME, this, &BasicUnit::update);
+	gpEventDispatcher->addEventListener(Event::EVENT_FRAME, this, &BasicUnit::update);
 	gpEventDispatcher->addEventListener(Event::EVENT_RENDER, this, &BasicUnit::draw);
 }
 
 void BasicUnit::term( void )
 {
-	gpEventDispatcher->removeEventListener(Event::EVENT_ENTER_FRAME, this, &BasicUnit::update);
+	gpEventDispatcher->removeEventListener(Event::EVENT_FRAME, this, &BasicUnit::update);
 	gpEventDispatcher->removeEventListener(Event::EVENT_RENDER, this, &BasicUnit::draw);
 }
 
@@ -51,6 +51,7 @@ void BasicUnit::draw( const Event& event )
 
 	if (currentFrame == nullptr)
 		return;
+
 	renderData->renderTarget()->draw(Pos, currentFrame->texture(), currentFrame->SourceRect, BlendColor, Rot, Origin);
 }
 

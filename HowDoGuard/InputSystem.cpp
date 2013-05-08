@@ -28,11 +28,28 @@ std::string InputSystem::toString( void ) const
 void InputSystem::update( const Event& event )
 {
 	SDL_Event inputEvent;
+	SDLKey key;
+	InputChange change;
 
 	while (SDL_PollEvent(&inputEvent))
 	{
 		switch (inputEvent.type)
 		{
+		case SDL_KEYDOWN:
+		case SDL_KEYUP:
+
+			key = inputEvent.key.keysym.sym;
+
+			change = InputChange(key);
+
+			if (SDL_KEYDOWN)
+				change.Pressed = true;
+			else
+				change.Released = true;
+
+			_inputChanges.push(change);
+
+			break;
 		case SDL_QUIT:
 
 			gpEventDispatcher->dispatchEvent(Event(Event::EVENT_GAME_END));

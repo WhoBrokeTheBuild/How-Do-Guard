@@ -3,20 +3,22 @@
 #ifndef __INPUT_STATE_H__
 #define __INPUT_STATE_H__
 
-#include "MemoryTracker.h"
-#include "common.h"
+#include "Common.h"
+#include "GameObject.h"
 
-struct InputState : public MemoryTracker
+struct InputState 
+	: public GameObject
 {
 	bool 
-		_pressed,
-		_released,
-		_down;
+		Pressed,
+		Released,
+		Down;
 
 	double
-		_time;
+		PressedTimeout;
 
 	InputState( void );
+	InputState( bool pressed, bool released, bool down );
 
 	virtual string toString( void ) const;
 };

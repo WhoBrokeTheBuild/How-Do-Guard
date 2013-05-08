@@ -2,11 +2,20 @@
 
 InputState::InputState( void )
 {
-	_pressed = false;
-	_released = true;
-	_down = false;
+	Pressed = false;
+	Released = true;
+	Down = false;
 
-	_time = -1;
+	PressedTimeout = -1;
+}
+
+InputState::InputState( bool pressed, bool released, bool down )
+{
+	Pressed = pressed;
+	Released = released;
+	Down = down;
+
+	PressedTimeout = -1;
 }
 
 string InputState::toString( void ) const

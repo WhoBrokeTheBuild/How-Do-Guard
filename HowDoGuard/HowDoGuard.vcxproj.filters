@@ -114,6 +114,12 @@
     <ClCompile Include="DataManager.cpp">
       <Filter>Project\Data</Filter>
     </ClCompile>
+    <ClCompile Include="InputState.cpp">
+      <Filter>Project\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="InputChange.cpp">
+      <Filter>Project\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -199,6 +205,12 @@
     </ClInclude>
     <ClInclude Include="DataManager.h">
       <Filter>Project\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="InputState.h">
+      <Filter>Project\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="InputChange.h">
+      <Filter>Project\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

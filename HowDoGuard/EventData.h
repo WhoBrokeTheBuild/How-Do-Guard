@@ -132,4 +132,17 @@ public:
 
 };
 
+class InputData
+	: public EventData
+{
+private:
+
+
+
+public:
+
+
+
+};
+
 #endif

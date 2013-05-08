@@ -27,6 +27,8 @@ std::string InputSystem::toString( void ) const
 
 void InputSystem::update( const Event& event )
 {
+	const FrameData* frameData = event.dataAs<FrameData>();
+
 	SDL_Event inputEvent;
 	SDLKey key;
 	InputChange change;
@@ -57,16 +59,18 @@ void InputSystem::update( const Event& event )
 			break;
 		}
 	}
+
+	process(frameData);
 }
 
-void InputSystem::process( const FrameData& frameData )
+void InputSystem::process( const FrameData* frameData )
 {
 	InputChange change;
 	GameInput gameInput;
 	map<SDLKey, GameInput>::iterator aliasIter;
 	map<GameInput, InputState>::iterator statesIter;
 
-	if(_inputChanges.size > 0)
+	while (_inputChanges.size() > 0)
 	{
 		change = _inputChanges.back();
 
@@ -79,11 +83,31 @@ void InputSystem::process( const FrameData& frameData )
 
 		if(statesIter != _inputStates.end())
 		{
-			statesIter->second.Pressed = change.Pressed;
-			statesIter->second.Released = change.Released;
-			statesIter->second.PressedTimeout -= frameData.elapsedMilliseconds;
+			if (change.Pressed)
+			{
+				statesIter->second.Pressed = true;
+				statesIter->second.Released = false;
+				statesIter->second.Down = true;
+
+				//fire event here
+
+				//TODO: No magic numbers!
+				statesIter->second.PressedTimeout -= 48; // about 3 frames
+			}
+			else if (change.Released)
+			{
+				statesIter->second.Pressed = false;
+				statesIter->second.Released = true;
+				statesIter->second.Down = false;
+
+				//fire event here
+
+				statesIter->second.PressedTimeout = -1;
+			}
 		}
 
 		_inputChanges.pop();
 	}
+
+	//subtract from timeouts here
 }

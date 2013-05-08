@@ -68,7 +68,7 @@ void InputSystem::process( const FrameData& frameData )
 
 	if(_inputChanges.size > 0)
 	{
-		change = _inputChanges.pop();
+		change = _inputChanges.back();
 
 		aliasIter = _alias.find(change.Key);
 
@@ -83,5 +83,7 @@ void InputSystem::process( const FrameData& frameData )
 			statesIter->second.Released = change.Released;
 			statesIter->second.PressedTimeout -= frameData.elapsedMilliseconds;
 		}
+
+		_inputChanges.pop();
 	}
 }

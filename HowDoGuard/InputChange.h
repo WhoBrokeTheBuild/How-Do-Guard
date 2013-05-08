@@ -23,6 +23,11 @@ struct InputChange
 
 	virtual string toString( void ) const;
 
+	InputChange &operator= ( const InputChange &rhs );
+
+	bool operator==( const InputChange &rhs ) const;
+	bool operator!=( const InputChange &rhs ) const;
+
 };
 
 #endif

@@ -58,3 +58,30 @@ void InputSystem::update( const Event& event )
 		}
 	}
 }
+
+void InputSystem::update( const FrameData& frameData )
+{
+	InputChange change;
+	GameInput gameInput;
+	map<SDLKey, GameInput>::iterator aliasIter;
+	map<GameInput, InputState>::iterator statesIter;
+
+	if(_inputChanges.size > 0)
+	{
+		change = _inputChanges.pop();
+
+		aliasIter = _alias.find(change.Key);
+
+		if(aliasIter != _alias.end())
+			gameInput = aliasIter->second;
+
+		statesIter = _inputStates.find(gameInput);
+
+		if(statesIter != _inputStates.end())
+		{
+			statesIter->second.Pressed = change.Pressed;
+			statesIter->second.Released = change.Released;
+			statesIter->second.PressedTimeout -= frameData.elapsedMilliseconds;
+		}
+	}
+}

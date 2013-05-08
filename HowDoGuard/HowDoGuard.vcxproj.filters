@@ -212,6 +212,9 @@
     <ClInclude Include="InputChange.h">
       <Filter>Project\Input</Filter>
     </ClInclude>
+    <ClInclude Include="GameInput.h">
+      <Filter>Project\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">

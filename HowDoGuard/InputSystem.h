@@ -10,6 +10,7 @@
 
 #include "InputChange.h"
 #include "InputState.h"
+#include "GameInput.h"
 
 #include <SDL.h>
 
@@ -23,6 +24,12 @@ private:
 	queue<InputChange>
 		_inputChanges;
 
+	map<GameInput, InputState> 
+		_inputStates;
+
+	map<SDLKey, GameInput> 
+		_alias;
+
 public:
 
 	InputSystem( void );
@@ -34,6 +41,8 @@ public:
 	virtual string toString( void ) const;
 
 	virtual void update( const Event& event );
+
+	virtual void update( const FrameData& frameData );
 
 };
 

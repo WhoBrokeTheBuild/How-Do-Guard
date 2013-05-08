@@ -59,7 +59,7 @@ void InputSystem::update( const Event& event )
 	}
 }
 
-void InputSystem::update( const FrameData& frameData )
+void InputSystem::process( const FrameData& frameData )
 {
 	InputChange change;
 	GameInput gameInput;

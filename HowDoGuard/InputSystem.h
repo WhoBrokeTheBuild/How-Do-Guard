@@ -42,7 +42,7 @@ public:
 
 	virtual void update( const Event& event );
 
-	virtual void update( const FrameData& frameData );
+	virtual void process( const FrameData& frameData );
 
 };
 

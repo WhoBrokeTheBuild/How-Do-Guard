@@ -92,7 +92,7 @@ void InputSystem::process( const FrameData* frameData )
 				//fire event here
 
 				//TODO: No magic numbers!
-				statesIter->second.PressedTimeout -= 48; // about 3 frames
+				statesIter->second.PressedTimeout = 48; // about 3 frames
 			}
 			else if (change.Released)
 			{
@@ -110,4 +110,9 @@ void InputSystem::process( const FrameData* frameData )
 	}
 
 	//subtract from timeouts here
+	for(statesIter = _inputStates.begin(); statesIter!= _inputStates.end(); ++ statesIter)
+	{
+		if(statesIter->second.PressedTimeout > 0)
+			statesIter->second.PressedTimeout -= frameData->elapsedMilliseconds();
+	}
 }

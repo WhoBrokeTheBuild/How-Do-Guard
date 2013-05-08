@@ -120,6 +120,9 @@
     <ClCompile Include="InputChange.cpp">
       <Filter>Project\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Toast.cpp">
+      <Filter>Project\Units</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -214,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="GameInput.h">
       <Filter>Project\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Toast.h">
+      <Filter>Project\Units</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -28,16 +28,16 @@ void Game::init( void )
 	_pGraphicsSystem = New GraphicsSystem();
 	_pGraphicsSystem->init();
 
-	_pDataManager = New DataManager();
-	_pDataManager->init();
+	gpDataManager = New DataManager();
+	gpDataManager->init();
 
 	_pInputSystem = New InputSystem();
 	_pInputSystem->init();
 
 	gpEventDispatcher->addEventListener(Event::EVENT_GAME_END, this, &Game::stop);
 
-	unit = New BasicUnit();
-	unit->init(_pDataManager->pAnimations->get("toast-ghp"), Vector2(100));
+	toast = New Toast();
+	toast->init();
 
 	INF(toString(), "Finished Init");
 }
@@ -46,13 +46,12 @@ void Game::term( void )
 {
 	gpEventDispatcher->removeEventListener(Event::EVENT_GAME_END, this, &Game::stop);
 
-	delete unit;
+	delete toast;
 
 	delete _pInputSystem;
 	delete _pGraphicsSystem;
 
-	delete _pDataManager;
-
+	delete gpDataManager;
 	delete gpEventDispatcher;
 }
 

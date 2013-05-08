@@ -1,6 +1,10 @@
 #include "InputSystem.h"
 #include "Game.h"
 
+const EventType InputSystem::EVENT_INPUT_PRESSED  = "inputPressed";
+const EventType InputSystem::EVENT_INPUT_RELEASED = "inputReleased";
+const EventType InputSystem::EVENT_INPUT_HELD     = "inputHeld";
+
 InputSystem::InputSystem( void )
 {
 }
@@ -13,6 +17,16 @@ InputSystem::~InputSystem( void )
 void InputSystem::init( void )
 {
 	gpEventDispatcher->addEventListener(Event::EVENT_ENTER_FRAME, this, &InputSystem::update);
+
+	_alias.insert(pair<SDLKey, GameInput>(SDLK_w, GAME_INPUT_UP));
+	_alias.insert(pair<SDLKey, GameInput>(SDLK_a, GAME_INPUT_LEFT));
+	_alias.insert(pair<SDLKey, GameInput>(SDLK_s, GAME_INPUT_DOWN));
+	_alias.insert(pair<SDLKey, GameInput>(SDLK_d, GAME_INPUT_RIGHT));
+
+	_inputStates.insert(pair<GameInput, InputState>(GAME_INPUT_UP, InputState()));
+	_inputStates.insert(pair<GameInput, InputState>(GAME_INPUT_LEFT, InputState()));
+	_inputStates.insert(pair<GameInput, InputState>(GAME_INPUT_DOWN, InputState()));
+	_inputStates.insert(pair<GameInput, InputState>(GAME_INPUT_RIGHT, InputState()));
 }
 
 void InputSystem::term( void )
@@ -44,7 +58,7 @@ void InputSystem::update( const Event& event )
 
 			change = InputChange(key);
 
-			if (SDL_KEYDOWN)
+			if (inputEvent.type == SDL_KEYDOWN)
 				change.Pressed = true;
 			else
 				change.Released = true;
@@ -66,7 +80,7 @@ void InputSystem::update( const Event& event )
 void InputSystem::process( const FrameData* frameData )
 {
 	InputChange change;
-	GameInput gameInput;
+	GameInput gameInput = INVALID_GAME_INPUT;
 	map<SDLKey, GameInput>::iterator aliasIter;
 	map<GameInput, InputState>::iterator statesIter;
 
@@ -76,12 +90,12 @@ void InputSystem::process( const FrameData* frameData )
 
 		aliasIter = _alias.find(change.Key);
 
-		if(aliasIter != _alias.end())
+		if (aliasIter != _alias.end())
 			gameInput = aliasIter->second;
 
 		statesIter = _inputStates.find(gameInput);
 
-		if(statesIter != _inputStates.end())
+		if (statesIter != _inputStates.end())
 		{
 			if (change.Pressed)
 			{
@@ -89,7 +103,7 @@ void InputSystem::process( const FrameData* frameData )
 				statesIter->second.Released = false;
 				statesIter->second.Down = true;
 
-				//fire event here
+				gpEventDispatcher->dispatchEvent(Event(InputSystem::EVENT_INPUT_PRESSED, InputData(gameInput)));
 
 				//TODO: No magic numbers!
 				statesIter->second.PressedTimeout = 48; // about 3 frames
@@ -100,7 +114,7 @@ void InputSystem::process( const FrameData* frameData )
 				statesIter->second.Released = true;
 				statesIter->second.Down = false;
 
-				//fire event here
+				gpEventDispatcher->dispatchEvent(Event(InputSystem::EVENT_INPUT_RELEASED, InputData(gameInput)));
 
 				statesIter->second.PressedTimeout = -1;
 			}
@@ -109,10 +123,20 @@ void InputSystem::process( const FrameData* frameData )
 		_inputChanges.pop();
 	}
 
-	//subtract from timeouts here
-	for(statesIter = _inputStates.begin(); statesIter!= _inputStates.end(); ++ statesIter)
+	for (statesIter = _inputStates.begin(); statesIter!= _inputStates.end(); ++ statesIter)
 	{
-		if(statesIter->second.PressedTimeout > 0)
+		if (statesIter->second.Pressed)
+		{
 			statesIter->second.PressedTimeout -= frameData->elapsedMilliseconds();
+			if (statesIter->second.PressedTimeout < 0)
+			{
+				statesIter->second.Pressed = false;
+			}
+		}
+		if (statesIter->second.Down)
+		{
+			gpEventDispatcher->dispatchEvent(Event(InputSystem::EVENT_INPUT_HELD, InputData(statesIter->first)));
+		}
 	}
 }
+

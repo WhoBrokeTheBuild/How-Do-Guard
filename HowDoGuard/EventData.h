@@ -7,6 +7,7 @@
 #include "GameObject.h"
 
 #include "RenderTarget.h"
+#include "GameInput.h"
 
 class EventData
 	: public GameObject
@@ -137,12 +138,17 @@ class InputData
 {
 private:
 
-
-
 public:
 
+	GameInput 
+		Input;
 
+	InputData( GameInput input ) { Input = input; }
 
+	virtual string toString( void ) const { return "Input Data"; }
+
+	virtual EventData* clone( void ) const { return New InputData(Input); }
+	
 };
 
 #endif

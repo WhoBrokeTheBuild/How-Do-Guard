@@ -26,13 +26,12 @@
 #include <SDL_ttf.h>
 #include <SDL_opengl.h>
 
+#include "Toast.h"
+
 class Game :
 	public EventDispatcher
 {
 private:
-
-	DataManager
-		*_pDataManager;
 
 	GraphicsSystem
 		*_pGraphicsSystem;
@@ -51,10 +50,7 @@ public:
 
 	//TODO: Remove
 	static bool endNow;
-	Animation *anim;
-	Sprite *frame1, *frame2, *frame3, *frame4, *frame5;
-	Texture *sheet;
-	BasicUnit *unit;
+	Toast *toast;
 
 	Game( void );
 	virtual ~Game( void );

@@ -12,10 +12,11 @@ struct InputState
 	bool 
 		Pressed,
 		Released,
-		Down;
+		Down,
+		Hidden;
 
-	double
-		PressedTimeout;
+	int 
+		HeldCount;
 
 	InputState( void );
 	InputState( bool pressed, bool released, bool down );

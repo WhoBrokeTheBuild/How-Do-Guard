@@ -114,6 +114,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsSystem.h" />
     <ClInclude Include="InputChange.h" />
+    <ClInclude Include="InputPress.h" />
     <ClInclude Include="InputState.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="Manager.h" />
@@ -132,6 +133,15 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</DeploymentContent>
     </None>
+    <None Include="assets\config\bg.cfg" />
+    <None Include="assets\config\curl_idle.cfg" />
+    <None Include="assets\config\main.cfg" />
+    <None Include="assets\config\toast_ghp.cfg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\sheets\sprsht_curl_idle.png" />
+    <Image Include="assets\sheets\sprsht_tmp_bg.png" />
+    <Image Include="assets\sheets\sprsht_toast_ghp.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

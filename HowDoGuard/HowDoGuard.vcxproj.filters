@@ -43,6 +43,15 @@
     <Filter Include="Project\Data">
       <UniqueIdentifier>{bb0fc34f-f277-47e4-8b99-22a54a83af24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Assets">
+      <UniqueIdentifier>{3f846128-9235-4072-8e26-78285a3f16ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Assets\Config">
+      <UniqueIdentifier>{d7bac046-9b8e-49a6-bbe7-dea2ce6da369}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Assets\Sheets">
+      <UniqueIdentifier>{7c3a5b70-387b-4f77-be6a-16d581bab6a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -221,10 +230,36 @@
     <ClInclude Include="Toast.h">
       <Filter>Project\Units</Filter>
     </ClInclude>
+    <ClInclude Include="InputPress.h">
+      <Filter>Project\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
       <Filter>Project\Documents</Filter>
     </None>
+    <None Include="assets\config\bg.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\curl_idle.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\main.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_ghp.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\sheets\sprsht_curl_idle.png">
+      <Filter>Project\Assets\Sheets</Filter>
+    </Image>
+    <Image Include="assets\sheets\sprsht_tmp_bg.png">
+      <Filter>Project\Assets\Sheets</Filter>
+    </Image>
+    <Image Include="assets\sheets\sprsht_toast_ghp.png">
+      <Filter>Project\Assets\Sheets</Filter>
+    </Image>
   </ItemGroup>
 </Project>

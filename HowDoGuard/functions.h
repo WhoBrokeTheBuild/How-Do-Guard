@@ -92,6 +92,25 @@ void die  ( int errorLevel = 0 );
 void pause( void );
 
 template <typename Value>
+vector<Value> makeVector( int count, Value first, ...)
+{
+	va_list mark;
+	vector<Value> newVector;
+
+	newVector.push_back(first);
+
+	va_start(mark, first);
+	for (int i = 0; i < count - 1; ++i)
+	{
+		newVector.push_back(va_arg(mark, Value));
+	}
+
+	va_end(mark);
+
+	return newVector;
+}
+
+template <typename Value>
 bool vectorContains( const vector<Value>& list, const Value& element )
 {
 	vector<Value>::const_iterator it = list.cbegin();

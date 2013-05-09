@@ -17,7 +17,7 @@ void GraphicsSystem::init( void )
 	INF(toString(), "Initializing");
 
 	//TODO: Move these
-	int width = 640, height = 480;
+	int width = 1143, height = 480;
 	string title = "Testing";
 
 	_clearColor = Color::STORM;

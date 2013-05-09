@@ -51,6 +51,7 @@ public:
 	//TODO: Remove
 	static bool endNow;
 	Toast *toast;
+	BasicUnit *bg;
 
 	Game( void );
 	virtual ~Game( void );

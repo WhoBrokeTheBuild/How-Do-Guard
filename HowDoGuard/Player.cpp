@@ -24,7 +24,10 @@ void Player::init( Vector2 pos /*= Vector2::ZERO*/, Color color /*= Color::WHITE
 
 	_gravity = -0.8f;
 	_ground = 420.0f;
+	_speed = 20.0f;
 	_jumpVel = 15.0f;
+	_friction = 0.2f;
+	_terminalVel = 25.0f;
 
 	_stateData = &gpDataManager->PlayerStateData["toast"];
 }
@@ -63,6 +66,10 @@ void Player::update( const Event& event )
 			checkStateData(GAME_INPUT_LANDED);
 		}
 	}
+	else if (_vertState == VERT_STATE_GROUND)
+	{
+		Vel.X -= _friction * Vel.X;
+	}
 }
 
 void Player::inputPressed( const Event& event )
@@ -90,11 +97,28 @@ void Player::inputHeld( const Event& event )
 	const InputData* inputData = event.dataAs<InputData>();
 	
 	checkStateData(inputData->Input, GAME_INPUT_TYPE_HELD);
+
+	if (_state == PLAYER_STATE_WALK || _state == PLAYER_STATE_AIR)
+	{
+		if (inputData->Input == GAME_INPUT_WEST)
+		{
+			Vel.X = approach(Vel.X, -_speed, _speed / 20.0f);
+		}
+		else if (inputData->Input == GAME_INPUT_EAST)
+		{
+			Vel.X = approach(Vel.X, _speed, _speed / 20.0f);
+		}
+	}
 }
 
 void Player::animationComplete( const Event& event )
 {
 	ActiveUnit::animationComplete(event);
+
+	if (_state == PLAYER_STATE_JUMPING_START)
+	{
+		Vel.Y -= _jumpVel;
+	}
 
 	checkStateData(GAME_INPUT_ANIMATION_COMPLETE);
 }
@@ -154,11 +178,6 @@ void Player::switchState( PlayerState state /*= INVALID_PLAYER_STATE*/, Vertical
 {
 	if (_state == state && _vertState == vertState)
 		return;
-
-	if (_state == PLAYER_STATE_JUMPING_START && state == PLAYER_STATE_AIR)
-	{
-		Vel.Y -= _jumpVel;
-	}
 
 	if (_state != INVALID_PLAYER_STATE)
 		_state = state;

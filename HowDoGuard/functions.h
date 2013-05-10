@@ -50,6 +50,24 @@ inline double nearest(double value, int accuracy) { int mult = 10 * accuracy; re
 inline double ceil   (double value, int accuracy) { int mult = 10 * accuracy; return ceil (value * mult)       / mult; }
 
 template <class Number>
+inline Number approach( Number value, Number target, Number speed )
+{
+	return ( ( value > target )
+		? max( value - speed, target )
+		: min( value + speed, target )
+		);
+}
+
+template <class Number>
+inline Number reduce( Number value, Number speed )
+{
+	return ( ( value > 0 )
+		? max( value - speed, 0 )
+		: min( value + speed, 0 )
+		);
+}
+
+template <class Number>
 inline Number clamp(Number value, Number min, Number max) { return ( ( value > max ) ? max : ( ( value < min ) ? min : value ) ); }
 
 template <class Number>

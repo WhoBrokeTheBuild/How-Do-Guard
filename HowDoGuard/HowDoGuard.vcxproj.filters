@@ -265,37 +265,13 @@
     <None Include="..\README.md">
       <Filter>Project\Documents</Filter>
     </None>
-    <None Include="assets\config\bg.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\curl_idle.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\main.cfg">
+    <None Include="assets\config\toast_ghk.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
     <None Include="assets\config\toast_ghp.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
-    <None Include="assets\config\toast_idle.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_states.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_recovery.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_landing.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_ascending.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_descending.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_duck_start.cfg">
+    <None Include="assets\config\toast_glk.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
     <None Include="assets\config\toast_glp.cfg">
@@ -313,10 +289,46 @@
     <None Include="assets\config\toast_guard.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
+    <None Include="assets\config\toast_guard_stun.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_hit_stun.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_idle.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
     <None Include="assets\config\toast_juggle.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
+    <None Include="assets\config\toast_jump_start.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_knockdown.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_landing.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_recovery.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_states.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_walk.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\bg.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\curl_idle.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
     <None Include="assets\config\grabbed.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\main.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
     <None Include="assets\config\toast_ahk.cfg">
@@ -328,10 +340,19 @@
     <None Include="assets\config\toast_air_guard.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
+    <None Include="assets\config\toast_air_guard_stun.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
     <None Include="assets\config\toast_alk.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
     <None Include="assets\config\toast_alp.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_ascending.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_descending.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
     <None Include="assets\config\toast_dhk.cfg">
@@ -349,34 +370,16 @@
     <None Include="assets\config\toast_duck_guard.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
-    <None Include="assets\config\toast_ghk.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_glk.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_walk.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_ducking.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
     <None Include="assets\config\toast_duck_guard_stun.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
     <None Include="assets\config\toast_duck_hit_stun.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
-    <None Include="assets\config\toast_air_guard_stun.cfg">
+    <None Include="assets\config\toast_duck_start.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
-    <None Include="assets\config\toast_guard_stun.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_hit_stun.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_knockdown.cfg">
+    <None Include="assets\config\toast_ducking.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
   </ItemGroup>

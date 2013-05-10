@@ -32,7 +32,10 @@ protected:
 	float
 		_gravity,
 		_ground,
-		_jumpVel;
+		_speed,
+		_jumpVel,
+		_friction,
+		_terminalVel;
 
 	virtual void setAnimationKeys( void );
 	virtual void addAnimationKey( PlayerState state, ItemKey key, VerticalState vertState = VERT_STATE_ANY );

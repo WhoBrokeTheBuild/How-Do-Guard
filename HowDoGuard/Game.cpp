@@ -39,8 +39,11 @@ void Game::init( void )
 	bg = New BasicUnit();
 	bg->init(gpDataManager->pAnimations->get("bg"));
 
-	toast = New Toast();
-	toast->init();
+	//toast = New Toast();
+	//toast->init();
+
+	test = New Player();
+	test->init();
 
 	INF(toString(), "Finished Init");
 }
@@ -49,7 +52,8 @@ void Game::term( void )
 {
 	gpEventDispatcher->removeEventListener(Event::EVENT_GAME_END, this, &Game::stop);
 
-	delete toast;
+	delete test;
+	//delete toast;
 	delete bg;
 
 	delete _pInputSystem;

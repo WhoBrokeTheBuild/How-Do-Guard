@@ -25,7 +25,7 @@ Event::Event( const Event &rhs )
 	_pData = (rhs._pData != nullptr ? rhs._pData->clone() : nullptr);
 }
 
-Event::~Event(void)
+Event::~Event( void )
 {
 	if (_pData != nullptr)
 		delete _pData;

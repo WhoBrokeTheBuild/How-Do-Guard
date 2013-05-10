@@ -4,14 +4,14 @@
 #define __ANIMATION_H__
 
 #include "Common.h"
-#include "GameObject.h"
+#include "EventDispatcher.h"
 
 #include <vector>
 
 #include "Sprite.h"
 
 class Animation :
-	public GameObject
+	public EventDispatcher
 {
 private:
 

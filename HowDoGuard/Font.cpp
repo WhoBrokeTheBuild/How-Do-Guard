@@ -19,7 +19,7 @@ Font::Font( string filename, int size )
 	}
 }
 
-Font::~Font(void)
+Font::~Font( void )
 {
 	if (_pFont != nullptr)
 		TTF_CloseFont(_pFont);

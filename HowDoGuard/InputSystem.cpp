@@ -23,6 +23,14 @@ void InputSystem::init( void )
 	_alias.insert(pair<SDLKey, GameInput>(SDLK_s, GAME_INPUT_DOWN));
 	_alias.insert(pair<SDLKey, GameInput>(SDLK_d, GAME_INPUT_RIGHT));
 
+	_alias.insert(pair<SDLKey, GameInput>(SDLK_o, GAME_INPUT_LIGHT_PUNCH));
+	_alias.insert(pair<SDLKey, GameInput>(SDLK_k, GAME_INPUT_HEAVY_PUNCH));
+	_alias.insert(pair<SDLKey, GameInput>(SDLK_l, GAME_INPUT_LIGHT_KICK));
+	_alias.insert(pair<SDLKey, GameInput>(SDLK_p, GAME_INPUT_HEAVY_KICK));
+
+	_alias.insert(pair<SDLKey, GameInput>(SDLK_q, GAME_INPUT_GUARD));
+	_alias.insert(pair<SDLKey, GameInput>(SDLK_e, GAME_INPUT_GUARD));
+
 /*
 
 	// North <=> North-East, North <=> North-West

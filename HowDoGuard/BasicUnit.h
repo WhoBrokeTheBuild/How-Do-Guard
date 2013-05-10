@@ -31,6 +31,9 @@ protected:
 
 public:
 
+	static const EventType
+		EVENT_ANIMATION_COMPLETE;
+
 	Vector2
 		Pos,
 		Origin;
@@ -46,8 +49,8 @@ public:
 		Animating,
 		Looping;
 
-	BasicUnit(void);
-	virtual ~BasicUnit(void);
+	BasicUnit( void );
+	virtual ~BasicUnit( void );
 
 	virtual string toString( void ) const;
 
@@ -58,7 +61,10 @@ public:
 	virtual void draw  ( const Event& event );
 
 	virtual Animation* animation( void ) { return _pAnimation; }
+
 	virtual void setAnimation( Animation *pAnimation, bool useDefaults = true);
+
+	virtual void animationComplete( const Event& event );
 
 };
 

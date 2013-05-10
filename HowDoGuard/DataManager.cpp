@@ -18,6 +18,8 @@ std::string DataManager::toString( void ) const
 
 void DataManager::init( void )
 {
+	INF(toString(), "Starting Init");
+
 	pAnimations = New Manager<Animation>();
 	pAnimations->init();
 
@@ -28,6 +30,8 @@ void DataManager::init( void )
 	pTextures->init();
 
 	loadAssets("main.cfg");
+
+	INF(toString(), "Finished Init");
 }
 
 void DataManager::term( void )
@@ -50,7 +54,7 @@ void DataManager::loadAssets( string filename )
 	string line;
 	while(!mainFile.eof())
 	{
-		getline(mainFile, line);
+		line = getNextLine(mainFile);
 
 		vector<string> pieces = strSplit(line, ' ', 2);
 
@@ -62,6 +66,8 @@ void DataManager::loadAssets( string filename )
 			}
 		}
 	}
+
+	loadPlayerStates("toast_states.cfg");
 
 	mainFile.close();
 }
@@ -91,18 +97,7 @@ void DataManager::loadAssetFile( string filename )
 			{
 				ItemKey key = pieces[1];
 
-				while (!assetFile.eof())
-				{
-					getline(assetFile, line);
-
-					if (line.length() == 0)
-						continue;
-					else
-						break;
-				}
-
-				if (assetFile.eof())
-					continue;
+				line = getNextLine(assetFile);
 
 				pieces = strSplit(line, ' ', 2);
 
@@ -119,21 +114,11 @@ void DataManager::loadAssetFile( string filename )
 			{
 				ItemKey key = pieces[1];
 				ItemKey texKey = "";
+				bool loop = false;
 				int numFrames;
 				vector<Sprite*> frames;
 
-				while (!assetFile.eof())
-				{
-					getline(assetFile, line);
-
-					if (line.length() == 0)
-						continue;
-					else
-						break;
-				}
-
-				if (assetFile.eof())
-					continue;
+				line = getNextLine(assetFile);
 
 				pieces = strSplit(line, ' ', 2);
 
@@ -144,18 +129,18 @@ void DataManager::loadAssetFile( string filename )
 				else
 					continue;
 
-				while (!assetFile.eof())
+				line = getNextLine(assetFile);
+
+				pieces = strSplit(line, ' ', 2);
+
+				if (pieces[0] == "Loop")
 				{
-					getline(assetFile, line);
-
-					if (line.length() == 0)
-						continue;
-					else
-						break;
+					loop = (pieces[1][0] == 'T');
 				}
-
-				if (assetFile.eof())
+				else
 					continue;
+
+				line = getNextLine(assetFile);
 
 				pieces = strSplit(line, ' ', 2);
 
@@ -174,18 +159,7 @@ void DataManager::loadAssetFile( string filename )
 					Rect rect;
 					double speed;
 
-					while (!assetFile.eof())
-					{
-						getline(assetFile, line);
-
-						if (line.length() == 0)
-							continue;
-						else
-							break;
-					}
-
-					if (assetFile.eof())
-						break;
+					line = getNextLine(assetFile);
 
 					pieces = strSplit(line, ' ', 2);
 
@@ -197,18 +171,7 @@ void DataManager::loadAssetFile( string filename )
 					else
 						break;
 
-					while (!assetFile.eof())
-					{
-						getline(assetFile, line);
-
-						if (line.length() == 0)
-							continue;
-						else
-							break;
-					}
-
-					if (assetFile.eof())
-						break;
+					line = getNextLine(assetFile);
 
 					pieces = strSplit(line, ' ', 2);
 
@@ -227,10 +190,110 @@ void DataManager::loadAssetFile( string filename )
 					frames.push_back(sprite);
 				}
 
-				pAnimations->addEmpty(key)->init(frames, true, true);
+				pAnimations->addEmpty(key)->init(frames, true, loop);
 			}
 		}
 	}
 
 	assetFile.close();
+}
+
+void DataManager::loadPlayerStates( string filename )
+{
+	stringstream fullFilename;
+	fullFilename << "assets/config/" << filename;
+
+	ifstream stateFile(fullFilename.str().c_str());
+
+	PlayerStateMap data;
+
+	GameInput input;
+	VerticalState vertState, newVertState;
+	PlayerState before, after;
+	string line;
+	vector<string> pieces;
+	int index;
+
+	do 
+	{
+		line = getNextLine(stateFile);
+
+		pieces = strSplit(line, ' ', 2);
+
+		if (pieces.size() < 2)
+			continue;
+
+		if (pieces[0] == "Input")
+		{
+			int index = arrayIndexOf(NUM_GAME_INPUTS, GAME_INPUT_NAMES, pieces[1]);
+			if (index != -1)
+			{
+				input = (GameInput)index;
+				data.insert(pair<GameInput, VerticalPlayerStateMap>(input, VerticalPlayerStateMap()));
+			}
+		}
+		else if (pieces[0] == "VertState")
+		{
+			index = arrayIndexOf(NUM_VERTICAL_STATES, VERTICAL_STATE_NAMES, pieces[1]);
+			if (index != -1)
+			{
+				vertState = (VerticalState)index;
+				data[input].insert(pair<VerticalState, PlayerStateChangeList>(vertState, PlayerStateChangeList()));
+			}
+		}
+		else if (pieces[0] == "AddState")
+		{
+			pieces = strSplit(pieces[1], ' ');
+
+			if (pieces.size() < 2)
+				continue;
+			else if (pieces.size() == 2)
+			{
+				newVertState = vertState;
+			}
+			else
+			{
+				int index = arrayIndexOf(NUM_VERTICAL_STATES, VERTICAL_STATE_NAMES, pieces[2]);
+				if (index != -1)
+				{
+					newVertState = (VerticalState)index;
+				}
+			}
+
+			index = arrayIndexOf(NUM_PLAYER_STATES, PLAYER_STATE_NAMES, pieces[0]);
+			if (index != -1)
+			{
+				before = (PlayerState)index;
+			}
+
+			index = arrayIndexOf(NUM_PLAYER_STATES, PLAYER_STATE_NAMES, pieces[1]);
+			if (index != -1)
+			{
+				after = (PlayerState)index;
+			}
+
+			data[input][vertState].push_back(PlayerStateChange(before, after, newVertState));
+		}
+
+	} 
+	while (line.size() != 0);
+
+	PlayerStateData.insert(pair<ItemKey, PlayerStateMap>("toast", data));
+}
+
+string DataManager::getNextLine( ifstream& in )
+{
+	string line = "";
+
+	while (!in.eof())
+	{
+		getline(in, line);
+
+		if (line.length() == 0)
+			continue;
+		else
+			break;
+	}
+
+	return line;
 }

@@ -1,11 +1,11 @@
 #include "Sprite.h"
 
-Sprite::Sprite(void)
+Sprite::Sprite( void )
 {
 	_pTexture = nullptr;
 }
 
-Sprite::~Sprite(void)
+Sprite::~Sprite( void )
 {
 	term();
 }

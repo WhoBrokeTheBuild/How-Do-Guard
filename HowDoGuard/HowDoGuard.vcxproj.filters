@@ -52,6 +52,9 @@
     <Filter Include="Project\Assets\Sheets">
       <UniqueIdentifier>{7c3a5b70-387b-4f77-be6a-16d581bab6a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Player">
+      <UniqueIdentifier>{92b59f47-f8ee-4507-9fa6-c1b91419d146}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -130,7 +133,13 @@
       <Filter>Project\Input</Filter>
     </ClCompile>
     <ClCompile Include="Toast.cpp">
+      <Filter>Project\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ActiveUnit.cpp">
       <Filter>Project\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Project\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -227,11 +236,26 @@
     <ClInclude Include="GameInput.h">
       <Filter>Project\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Toast.h">
-      <Filter>Project\Units</Filter>
-    </ClInclude>
     <ClInclude Include="InputPress.h">
       <Filter>Project\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Toast.h">
+      <Filter>Project\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>Project\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="VerticalState.h">
+      <Filter>Project\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ActiveUnit.h">
+      <Filter>Project\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Project\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStateChange.h">
+      <Filter>Project\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -248,6 +272,30 @@
       <Filter>Project\Assets\Config</Filter>
     </None>
     <None Include="assets\config\toast_ghp.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_walking.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_idle.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_states.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_recovery.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_landing.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_ascending.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_descending.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
+    <None Include="assets\config\toast_duck_start.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
   </ItemGroup>

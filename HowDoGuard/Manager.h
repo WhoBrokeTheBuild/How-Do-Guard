@@ -21,31 +21,31 @@ protected:
 	static int
 		mNextIndex;
 
-	ItemKey getNextKey(void);
+	ItemKey getNextKey( void );
 
 public:
 
-	Manager(void);
-	virtual ~Manager(void);
+	Manager( void );
+	virtual ~Manager( void );
 
-	virtual void init(void);
-	virtual void term(void);
+	virtual void init( void );
+	virtual void term( void );
 
-	virtual string toString(void) const;
+	virtual string toString( void ) const;
 
 	bool	contains(ItemKey pItemKey);
 	T		*add(ItemKey pItemKey, T *pObject);
 	T		*addEmpty(ItemKey pItemKey);
 	ItemKey add(T *pObject);
-	ItemKey addEmpty(void);
+	ItemKey addEmpty( void );
 	void	remove(ItemKey pItemKey);
 	void	remove(T *pObject);
 	T		*get(ItemKey pItemKey);
-	int		size(void);
+	int		size( void );
 
-	vector<T*> getAll(void);
+	vector<T*> getAll( void );
 
-	void clear(void); 
+	void clear( void ); 
 
 };
 
@@ -53,12 +53,12 @@ template <class T>
 int Manager<T>::mNextIndex = 0;
 
 template <class T>
-Manager<T>::Manager(void)
+Manager<T>::Manager( void )
 {
 }
 
 template <class T>
-Manager<T>::~Manager(void)
+Manager<T>::~Manager( void )
 {
 	term();
 }
@@ -83,19 +83,19 @@ ItemKey Manager<T>::getNextKey( void )
 }
 
 template <class T>
-void Manager<T>::init(void)
+void Manager<T>::init( void )
 {
 	mObjects = new map<ItemKey, T*>();
 }
 
 template <class T>
-void Manager<T>::term(void)
+void Manager<T>::term( void )
 {
 	clear();
 }
 
 template <class T>
-string Manager<T>::toString(void) const
+string Manager<T>::toString( void ) const
 {
 	return "Template Manager";
 }
@@ -189,7 +189,7 @@ vector<T*> Manager<T>::getAll( void )
 }
 
 template <class T>
-void Manager<T>::clear(void)
+void Manager<T>::clear( void )
 {
 	for (map<ItemKey, T*>::iterator it = mObjects->begin(); it != mObjects->end(); ++it)
 	{

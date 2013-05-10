@@ -26,8 +26,8 @@ enum GameInput
 	GAME_INPUT_HEAVY_KICK,
 	GAME_INPUT_HEAVY_PUNCH,
 
-	GAME_INPUT_STANCE,
 	GAME_INPUT_GUARD,
+	GAME_INPUT_GRAB,
 
 	GAME_INPUT_QCF,
 	GAME_INPUT_QCB,
@@ -36,39 +36,47 @@ enum GameInput
 	GAME_INPUT_DRAGON_FIST_FORWARD,
 	GAME_INPUT_DRAGON_FIST_BACKWARD,
 
+	GAME_INPUT_ANIMATION_COMPLETE,
+	GAME_INPUT_LANDED,
+	GAME_INPUT_HIT,
+
 	NUM_GAME_INPUTS
 };
 
 const string GAME_INPUT_NAMES[NUM_GAME_INPUTS] =	
 {
-	"Game Input: Up",
-	"Game Input: Down",
-	"Game Input: Left",
-	"Game Input: Right",
+	"Up",
+	"Down",
+	"Left",
+	"Right",
 	
-	"Game Input: North",
-	"Game Input: North-West",
-	"Game Input: West",
-	"Game Input: South-West",
-	"Game Input: South",
-	"Game Input: South-East",
-	"Game Input: East",
-	"Game Input: North-East",
+	"North",
+	"North-West",
+	"West",
+	"South-West",
+	"South",
+	"South-East",
+	"East",
+	"North-East",
 	
-	"Game Input: Light Kick",
-	"Game Input: Light Punch",
-	"Game Input: Heavy Kick",
-	"Game Input: Heavy Punch",
+	"Light-Kick",
+	"Light-Punch",
+	"Heavy-Kick",
+	"Heavy-Punch",
 
-	"Game Input: Stance",
-	"Game Input: Guard",
+	"Guard",
+	"Grab",
 	
-	"Game Input: Quarter Circle Forward",
-	"Game Input: Quarter Circle Backward",
-	"Game Input: Half Circle Forward",
-	"Game Input: Half Circle Backward",
-	"Game Input: Dragon Fist Forward",
-	"Game Input: Dragon Fist Backward"
+	"Quarter-Circle-Forward",
+	"Quarter-Circle-Backward",
+	"Half-Circle-Forward",
+	"Half-Circle-Backward",
+	"Dragon-Fist-Forward",
+	"Dragon-Fist-Backward",
+
+	"Animation-Complete",
+	"Landed",
+	"Hit"
 };
 
 #endif

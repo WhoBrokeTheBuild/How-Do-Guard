@@ -24,8 +24,8 @@ public:
 	double
 		FrameTime;
 
-	Sprite(void);
-	virtual ~Sprite(void);
+	Sprite( void );
+	virtual ~Sprite( void );
 
 	virtual string toString( void ) const;
 

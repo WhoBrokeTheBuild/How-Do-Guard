@@ -92,6 +92,30 @@ void die  ( int errorLevel = 0 );
 void pause( void );
 
 template <typename Value>
+bool arrayContains(unsigned int size, const Value list[], const Value& element)
+{
+	for (unsigned int i = 0; i < size; ++i)
+	{
+		if (list[i] == element)
+			return true;
+	}
+
+	return false;
+}
+
+template <typename Value>
+int arrayIndexOf(unsigned int size, const Value list[], const Value& element)
+{
+	for (unsigned int i = 0; i < size; ++i)
+	{
+		if (list[i] == element)
+			return i;
+	}
+
+	return -1;
+}
+
+template <typename Value>
 vector<Value> makeVector( int count, Value first, ...)
 {
 	va_list mark;

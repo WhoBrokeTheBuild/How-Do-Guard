@@ -12,15 +12,26 @@
 #include "Sprite.h"
 #include "Texture.h"
 
+#include "VerticalState.h"
+#include "PlayerState.h"
+#include "PlayerStateChange.h"
+
 #include <fstream>
+
+typedef vector<PlayerStateChange>					PlayerStateChangeList;
+typedef map<VerticalState, PlayerStateChangeList>	VerticalPlayerStateMap; //TODO: Fix Names
+typedef map<GameInput, VerticalPlayerStateMap>		PlayerStateMap;
 
 class DataManager :
 	public GameObject
 {
 private:
 
-	virtual void loadAssets( string filename );
-	virtual void loadAssetFile( string filename );
+	void loadAssets( string filename );
+	void loadAssetFile( string filename );
+	void loadPlayerStates( string filename );
+
+	string getNextLine( ifstream& in );
 
 public:
 
@@ -32,6 +43,9 @@ public:
 
 	Manager<Texture>
 		*pTextures;
+
+	map<ItemKey, PlayerStateMap>
+		PlayerStateData;
 
 	DataManager( void );
 	virtual ~DataManager( void );

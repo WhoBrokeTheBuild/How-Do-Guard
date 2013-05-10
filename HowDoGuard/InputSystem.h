@@ -59,9 +59,10 @@ private:
 
 public:
 
-	static const EventType EVENT_INPUT_PRESSED;
-	static const EventType EVENT_INPUT_RELEASED;
-	static const EventType EVENT_INPUT_HELD;
+	static const EventType 
+		EVENT_INPUT_PRESSED,
+		EVENT_INPUT_RELEASED,
+		EVENT_INPUT_HELD;
 
 	InputSystem( void );
 	virtual ~InputSystem( void );

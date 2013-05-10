@@ -27,6 +27,7 @@
 #include <SDL_opengl.h>
 
 #include "Toast.h"
+#include "Player.h"
 
 class Game :
 	public EventDispatcher
@@ -51,6 +52,7 @@ public:
 	//TODO: Remove
 	static bool endNow;
 	Toast *toast;
+	Player *test;
 	BasicUnit *bg;
 
 	Game( void );

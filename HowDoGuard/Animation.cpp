@@ -49,4 +49,3 @@ bool Animation::removeFrame( int frame )
 {
 	return vectorRemoveAt(_frames, frame);
 }
-

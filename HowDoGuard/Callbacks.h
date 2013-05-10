@@ -92,9 +92,9 @@ public:
 	}
 
 	inline virtual ReturnType invoke( Param param ) { return (static_cast<ObjectType*>(_object)->*_method)(param); }
-	inline virtual MethodCallback* clone( void ) { return New MethodCallback(_object, _method); }
-	inline virtual bool isMethodOf( void* object ) { return _object == object; }
-	inline virtual string toString( void ) const { return "Method Callback"; };
+	inline virtual MethodCallback* clone( void )	{ return New MethodCallback(_object, _method); }
+	inline virtual bool isMethodOf( void* object )	{ return _object == object; }
+	inline virtual string toString( void ) const	{ return "Method Callback"; };
 
 };
 

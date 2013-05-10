@@ -44,9 +44,9 @@ public:
 	static const EventData BLANK_DATA;
 	static const Event     BLANK_EVENT;
 
-	Event(const EventType &type = EVENT_NULL, const EventData &data = BLANK_DATA);
-	Event(const Event &rhs);
-	virtual ~Event(void);
+	Event( const EventType &type = EVENT_NULL, const EventData &data = BLANK_DATA );
+	Event( const Event &rhs);
+	virtual ~Event( void );
 
 	virtual string toString( void ) const;
 

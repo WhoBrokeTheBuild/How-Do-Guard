@@ -15,12 +15,14 @@
 #include "VerticalState.h"
 #include "PlayerState.h"
 #include "PlayerStateChange.h"
+#include "GameInputType.h"
 
 #include <fstream>
+#include <map>
 
-typedef vector<PlayerStateChange>					PlayerStateChangeList;
-typedef map<VerticalState, PlayerStateChangeList>	VerticalPlayerStateMap; //TODO: Fix Names
-typedef map<GameInput, VerticalPlayerStateMap>		PlayerStateMap;
+typedef vector<PlayerStateChange>										PlayerStateChangeList;
+typedef map<VerticalState, PlayerStateChangeList>						VerticalPlayerStateMap; //TODO: Fix Names
+typedef map<pair<GameInput, GameInputType>, VerticalPlayerStateMap>		PlayerStateMap;
 
 class DataManager :
 	public GameObject

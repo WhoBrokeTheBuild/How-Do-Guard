@@ -115,8 +115,11 @@ void DataManager::loadAssetFile( string filename )
 				ItemKey key = pieces[1];
 				ItemKey texKey = "";
 				bool loop = false;
-				int numFrames;
+				int numFrames = -1;
 				vector<Sprite*> frames;
+				bool autoFrames = false;
+				int framesPerRow = -1;
+				Rect frameSize;
 
 				line = getNextLine(assetFile);
 
@@ -146,7 +149,21 @@ void DataManager::loadAssetFile( string filename )
 
 				if (pieces[0] == "Frames")
 				{
-					numFrames = toInt(pieces[1]);
+					pieces = strSplit(pieces[1], ' ', 2);
+
+					if (pieces.size() == 1)
+					{
+						numFrames = toInt(pieces[0]);
+					}
+					else if (pieces.size() == 2)
+					{
+						numFrames = toInt(pieces[0]);
+
+						if (pieces[1] == "Auto")
+						{
+							autoFrames = true;
+						}
+					}
 				}
 				else
 					continue;
@@ -154,40 +171,111 @@ void DataManager::loadAssetFile( string filename )
 				if (numFrames == -1)
 					continue;
 
-				for (int i = 0; i < numFrames; ++i)
+				if (autoFrames)
 				{
-					Rect rect;
-					double speed;
-
-					line = getNextLine(assetFile);
-
-					pieces = strSplit(line, ' ', 2);
-
-					if (pieces[0] == "Rect")
+					do 
 					{
-						pieces = strSplit(pieces[1], ' ', 4);
-						rect = Rect(toFloat(pieces[0]), toFloat(pieces[1]), toFloat(pieces[2]), toFloat(pieces[3]));
-					}
-					else
-						break;
+						line = getNextLine(assetFile);
 
-					line = getNextLine(assetFile);
+						pieces = strSplit(line, ' ', 2);
 
-					pieces = strSplit(line, ' ', 2);
+						if (pieces[0] == "FramesPerRow")
+						{
+							framesPerRow = toInt(pieces[1]);
+						}
+						else if (pieces[0] == "FrameSize")
+						{
+							pieces = strSplit(pieces[1], ' ', 2);
 
-					if (pieces[0] == "Speed")
+							if (pieces.size() < 2)
+								continue;
+
+							frameSize = Rect(0, 0, toFloat(pieces[0]), toFloat(pieces[1]));
+						}
+					} 
+					while (line != "" && pieces[0] != "FrameOrder");
+
+					if (line == "")
+						return;
+
+					vector<Rect> tmpFrames;
+					Rect tmpRect = frameSize;
+
+					int col = 0;
+					for (int i = 0; i < numFrames; ++i)
 					{
-						speed = toFloat(pieces[1]);
+						tmpFrames.push_back(tmpRect);
+						tmpRect.X += frameSize.Width;
+						col++;
+						if (framesPerRow != -1 && col == framesPerRow)
+						{
+							tmpRect.X = 0;
+							tmpRect.Y += frameSize.Height;
+						}
 					}
-					else
-						break;
 
-					Sprite *sprite = New Sprite();
-					sprite->init(pTextures->get(texKey), rect, speed);
+					int numFramesInOrder = toInt(pieces[1]);
 
-					pSprites->add(sprite);
+					for (int i = 0; i < numFramesInOrder; ++i)
+					{
+						line = getNextLine(assetFile);
 
-					frames.push_back(sprite);
+						pieces = strSplit(line, ' ', 2);
+
+						if (pieces[0] != "Frame")
+							continue;
+
+						pieces = strSplit(pieces[1], ' ', 2);
+
+						int rectInd = toInt(pieces[0]) - 1;
+						rectInd = clamp(rectInd, 0, (int)tmpFrames.size());
+						float speed = toFloat(pieces[1]);
+
+						Sprite *sprite = New Sprite();
+						sprite->init(pTextures->get(texKey), tmpFrames[rectInd], speed);
+
+						pSprites->add(sprite);
+
+						frames.push_back(sprite);
+					}
+				}
+				else
+				{
+					for (int i = 0; i < numFrames; ++i)
+					{
+						Rect rect;
+						double speed;
+
+						line = getNextLine(assetFile);
+
+						pieces = strSplit(line, ' ', 2);
+
+						if (pieces[0] == "Rect")
+						{
+							pieces = strSplit(pieces[1], ' ', 4);
+							rect = Rect(toFloat(pieces[0]), toFloat(pieces[1]), toFloat(pieces[2]), toFloat(pieces[3]));
+						}
+						else
+							break;
+
+						line = getNextLine(assetFile);
+
+						pieces = strSplit(line, ' ', 2);
+
+						if (pieces[0] == "Speed")
+						{
+							speed = toFloat(pieces[1]);
+						}
+						else
+							break;
+
+						Sprite *sprite = New Sprite();
+						sprite->init(pTextures->get(texKey), rect, speed);
+
+						pSprites->add(sprite);
+
+						frames.push_back(sprite);
+					}
 				}
 
 				pAnimations->addEmpty(key)->init(frames, true, loop);
@@ -208,10 +296,12 @@ void DataManager::loadPlayerStates( string filename )
 	PlayerStateMap data;
 
 	GameInput input;
+	GameInputType type;
 	VerticalState vertState, newVertState;
 	PlayerState before, after;
 	string line;
 	vector<string> pieces;
+	pair<GameInput, GameInputType> inputTypePair;
 	int index;
 
 	do 
@@ -225,12 +315,28 @@ void DataManager::loadPlayerStates( string filename )
 
 		if (pieces[0] == "Input")
 		{
-			int index = arrayIndexOf(NUM_GAME_INPUTS, GAME_INPUT_NAMES, pieces[1]);
+			pieces = strSplit(pieces[1], ' ', 2);
+
+			input = INVALID_GAME_INPUT;
+			type = INVALID_GAME_INPUT_TYPE;
+
+			index = arrayIndexOf(NUM_GAME_INPUTS, GAME_INPUT_NAMES, pieces[0]);
 			if (index != -1)
 			{
 				input = (GameInput)index;
-				data.insert(pair<GameInput, VerticalPlayerStateMap>(input, VerticalPlayerStateMap()));
 			}
+
+			index = arrayIndexOf(NUM_GAME_INPUT_TYPES, GAME_INPUT_TYPE_NAMES, pieces[1]);
+			if (index != -1)
+			{
+				type = (GameInputType)index;
+			}
+
+			if (input == INVALID_GAME_INPUT)
+				continue;
+
+			inputTypePair = pair<GameInput, GameInputType>(input, type);
+			data.insert(pair<pair<GameInput, GameInputType>, VerticalPlayerStateMap>(inputTypePair, VerticalPlayerStateMap()));
 		}
 		else if (pieces[0] == "VertState")
 		{
@@ -238,7 +344,7 @@ void DataManager::loadPlayerStates( string filename )
 			if (index != -1)
 			{
 				vertState = (VerticalState)index;
-				data[input].insert(pair<VerticalState, PlayerStateChangeList>(vertState, PlayerStateChangeList()));
+				data[inputTypePair].insert(pair<VerticalState, PlayerStateChangeList>(vertState, PlayerStateChangeList()));
 			}
 		}
 		else if (pieces[0] == "AddState")
@@ -272,7 +378,7 @@ void DataManager::loadPlayerStates( string filename )
 				after = (PlayerState)index;
 			}
 
-			data[input][vertState].push_back(PlayerStateChange(before, after, newVertState));
+			data[inputTypePair][vertState].push_back(PlayerStateChange(before, after, newVertState));
 		}
 
 	} 

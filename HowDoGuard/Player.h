@@ -37,7 +37,7 @@ protected:
 	virtual void setAnimationKeys( void );
 	virtual void addAnimationKey( PlayerState state, ItemKey key, VerticalState vertState = VERT_STATE_ANY );
 
-	virtual void checkStateData( GameInput input );
+	virtual void checkStateData( GameInput input, GameInputType type = GAME_INPUT_TYPE_OTHER );
 
 public:
 

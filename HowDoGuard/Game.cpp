@@ -1,5 +1,7 @@
 #include "Game.h"
 
+CachedText* Game::fpsText = nullptr;
+CachedText* Game::stateText = nullptr;
 bool Game::endNow = false;
 
 Game::Game( void )
@@ -39,6 +41,14 @@ void Game::init( void )
 	bg = New BasicUnit();
 	bg->init(gpDataManager->pAnimations->get("bg"));
 
+	fpsFont = New Font("assets/fonts/ds-digital.ttf", 30);
+
+	fpsText = New CachedText();
+	fpsText->init("", fpsFont);
+
+	stateText = New CachedText();
+	stateText->init("", fpsFont);
+
 	//toast = New Toast();
 	//toast->init();
 
@@ -54,6 +64,11 @@ void Game::term( void )
 
 	delete test;
 	//delete toast;
+
+	delete stateText;
+	delete fpsText;
+	delete fpsFont;
+
 	delete bg;
 
 	delete _pInputSystem;
@@ -77,6 +92,8 @@ void Game::start( void )
 	Timer fpsTimer = Timer();
 	fpsTimer.start();
 
+	stringstream ss;
+
 	while (_running)
 	{
 		frameData.update(frameDelay, _currentFPS, _targetFPS);
@@ -85,6 +102,10 @@ void Game::start( void )
 		draw(renderData);
 
 		_currentFPS = (float)(1000.0 / frameDelay);
+
+		ss.str("FPS: ");
+		ss << floor(_currentFPS, 2);
+		fpsText->setText(ss.str());
 
 		fpsTimer.sleepUntilElapsed(fpsDelay);
 		frameDelay = fpsTimer.getElapsedMilli();
@@ -109,6 +130,9 @@ void Game::draw( const RenderData& renderData )
 	renderData.renderTarget()->beginDraw();
 
 	gpEventDispatcher->dispatchEvent(Event(Event::EVENT_RENDER, renderData));
+
+	renderData.renderTarget()->drawText(Vector2(10), fpsText);
+	renderData.renderTarget()->drawText(Vector2(10, 45), stateText);
 
 	renderData.renderTarget()->endDraw();
 }

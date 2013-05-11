@@ -209,6 +209,7 @@ void DataManager::loadAssetFile( string filename )
 						col++;
 						if (framesPerRow != -1 && col == framesPerRow)
 						{
+							col = 0;
 							tmpRect.X = 0;
 							tmpRect.Y += frameSize.Height;
 						}

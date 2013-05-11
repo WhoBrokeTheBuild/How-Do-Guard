@@ -41,7 +41,14 @@ void Texture::init( SDL_Surface* pSurface )
 
 	_size = Rect(0.0f, 0.0f, (float)pSurface->w, (float)pSurface->h);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, 4, (int)_size.Width, (int)_size.Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pSurface->pixels);
+	GLenum mode = GL_RGB;
+
+	if (pSurface->format->BytesPerPixel == 4) 
+	{
+		mode = GL_RGBA;
+	}
+
+	glTexImage2D(GL_TEXTURE_2D, 0, 4, (int)_size.Width, (int)_size.Height, 0, mode, GL_UNSIGNED_BYTE, pSurface->pixels);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,	  GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,	  GL_REPEAT);

@@ -16,6 +16,8 @@
 #include "Sprite.h"
 #include "Texture.h"
 
+#include "CachedText.h"
+
 #include "BasicUnit.h"
 
 #include "InputSystem.h"
@@ -54,6 +56,8 @@ public:
 	Toast *toast;
 	Player *test;
 	BasicUnit *bg;
+	Font *fpsFont;
+	static CachedText *fpsText, *stateText;
 
 	Game( void );
 	virtual ~Game( void );

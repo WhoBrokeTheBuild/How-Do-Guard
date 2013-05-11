@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "PlayerIndex.h"
 
 CachedText* Game::fpsText = nullptr;
 CachedText* Game::stateText = nullptr;
@@ -41,7 +42,7 @@ void Game::init( void )
 	bg = New BasicUnit();
 	bg->init(gpDataManager->pAnimations->get("bg"));
 
-	fpsFont = New Font("assets/fonts/ds-digital.ttf", 30);
+	fpsFont = New Font("assets/fonts/ds-digital.ttf", 25);
 
 	fpsText = New CachedText();
 	fpsText->init("", fpsFont);
@@ -53,7 +54,10 @@ void Game::init( void )
 	//toast->init();
 
 	test = New Player();
-	test->init();
+	test->init(PLAYER_INDEX_ONE);
+
+	test2 = New Player();
+	test2->init(PLAYER_INDEX_TWO, Vector2(400, 0));
 
 	INF(toString(), "Finished Init");
 }
@@ -62,6 +66,7 @@ void Game::term( void )
 {
 	gpEventDispatcher->removeEventListener(Event::EVENT_GAME_END, this, &Game::stop);
 
+	delete test2;
 	delete test;
 	//delete toast;
 
@@ -103,8 +108,8 @@ void Game::start( void )
 
 		_currentFPS = (float)(1000.0 / frameDelay);
 
-		ss.str("FPS: ");
-		ss << floor(_currentFPS, 2);
+		ss.str(string());
+		ss << "FPS: " << floor(_currentFPS, 2);
 		fpsText->setText(ss.str());
 
 		fpsTimer.sleepUntilElapsed(fpsDelay);

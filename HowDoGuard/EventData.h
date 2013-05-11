@@ -8,6 +8,7 @@
 
 #include "RenderTarget.h"
 #include "GameInput.h"
+#include "PlayerIndex.h"
 
 class EventData
 	: public GameObject
@@ -143,11 +144,14 @@ public:
 	GameInput 
 		Input;
 
-	InputData( GameInput input ) { Input = input; }
+	PlayerIndex
+		Index;
+
+	InputData( GameInput input, PlayerIndex index ) { Input = input; Index = index; }
 
 	virtual string toString( void ) const { return "Input Data"; }
 
-	virtual EventData* clone( void ) const { return New InputData(Input); }
+	virtual EventData* clone( void ) const { return New InputData(Input, Index); }
 	
 };
 

@@ -54,7 +54,7 @@ public:
 	//TODO: Remove
 	static bool endNow;
 	Toast *toast;
-	Player *test;
+	Player *test, *test2;
 	BasicUnit *bg;
 	Font *fpsFont;
 	static CachedText *fpsText, *stateText;

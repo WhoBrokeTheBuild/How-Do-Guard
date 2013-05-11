@@ -25,7 +25,7 @@ class InputSystem :
 {
 private:
 
-	map<GameInput, InputState>
+	map<PlayerIndex, map<GameInput, InputState>>
 		_inputStates;
 
 	queue<InputChange>
@@ -35,11 +35,14 @@ private:
 		_inputBufferIgnore,
 		_eightWayDir;
 
-	vector<InputPress>
+	map<PlayerIndex, vector<InputPress>>
 		_inputBuffer;
 
-	map<SDLKey, GameInput> 
+	map<PlayerIndex, map<SDLKey, GameInput>>
 		_alias;
+
+	map<PlayerIndex, map<SDLKey, bool>>
+		_keyStates;
 
 	map<GameInput, vector<GameInput>>
 		_simultanious,
@@ -48,15 +51,21 @@ private:
 	map<GameInput, GameInput>
 		_exclusive;
 
+	unsigned int
+		_maxPlayers;
+
+	Uint8
+		*_sdlKeys;
+
 	virtual void process( const FrameData* frameData );
 
 	virtual void addExclusive( const GameInput first, const GameInput second );
 
-	void press  ( const GameInput input );
-	void release( const GameInput input );
+	void press  ( const GameInput input, const PlayerIndex index );
+	void release( const GameInput input, const PlayerIndex index );
 
-	InputState * getInputState( GameInput input );
-	void addInputToBuffer( GameInput input );
+	InputState * getInputState( GameInput input, const PlayerIndex index );
+	void addInputToBuffer( GameInput input, const PlayerIndex index );
 
 public:
 

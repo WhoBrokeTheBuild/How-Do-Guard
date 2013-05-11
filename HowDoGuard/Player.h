@@ -40,7 +40,7 @@ protected:
 		_terminalVel,
 		_airDamping,
 		_movementAcc;
-
+	PlayerIndex _playerIndex;
 	virtual void setAnimationKeys( void );
 	virtual void addAnimationKey( PlayerState state, ItemKey key, VerticalState vertState = VERT_STATE_ANY );
 
@@ -53,7 +53,7 @@ public:
 
 	virtual string toString( void ) const;
 
-	virtual void init( Vector2 pos = Vector2::ZERO, Color color = Color::WHITE, float depth = 1.0f );
+	virtual void init( PlayerIndex index, Vector2 pos = Vector2::ZERO, Color color = Color::WHITE, float depth = 1.0f );
 	virtual void term( void );
 
 	virtual void update( const Event& event );

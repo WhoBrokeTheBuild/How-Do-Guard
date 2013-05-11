@@ -15,9 +15,11 @@ std::string Player::toString( void ) const
 	return "Player";
 }
 
-void Player::init( Vector2 pos /*= Vector2::ZERO*/, Color color /*= Color::WHITE*/, float depth /*= 1.0f */ )
+void Player::init( PlayerIndex index, Vector2 pos /*= Vector2::ZERO*/, Color color /*= Color::WHITE*/, float depth /*= 1.0f */ )
 {
 	ActiveUnit::init(nullptr, pos, Vector2::ZERO, Vector2::ZERO, Vector2::ZERO, 0.0f, color, depth);
+
+	_playerIndex = index;
 
 	setAnimationKeys();
 
@@ -45,8 +47,6 @@ void Player::term( void )
 void Player::update( const Event& event )
 {
 	ActiveUnit::update(event);
-
-	
 
 	//cout << PLAYER_STATE_NAMES[_state] << endl;
 	//INF(toString(), Vel.toString());
@@ -101,6 +101,9 @@ void Player::inputPressed( const Event& event )
 
 	const InputData* inputData = event.dataAs<InputData>();
 
+	if (inputData->Index != _playerIndex)
+		return;
+
 	checkStateData(inputData->Input, GAME_INPUT_TYPE_PRESSED);
 }
 
@@ -110,6 +113,9 @@ void Player::inputReleased( const Event& event )
 
 	const InputData* inputData = event.dataAs<InputData>();
 
+	if (inputData->Index != _playerIndex)
+		return;
+
 	checkStateData(inputData->Input, GAME_INPUT_TYPE_RELEASED);
 }
 
@@ -118,6 +124,9 @@ void Player::inputHeld( const Event& event )
 	ActiveUnit::inputHeld(event);
 
 	const InputData* inputData = event.dataAs<InputData>();
+
+	if (inputData->Index != _playerIndex)
+		return;
 	
 	checkStateData(inputData->Input, GAME_INPUT_TYPE_HELD);
 
@@ -221,9 +230,6 @@ void Player::switchState( PlayerState state /*= INVALID_PLAYER_STATE*/, Vertical
 
 	if (_vertState != INVALID_VERTICAL_STATE)
 		_vertState = vertState;
-
-	if (_state == PLAYER_STATE_AIR && _vertState == VERT_STATE_AIR)
-		return;
 
 	pair<VerticalState, PlayerState> statePair(vertState, state);
 

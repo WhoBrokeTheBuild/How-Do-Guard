@@ -12,6 +12,7 @@
 #include "InputState.h"
 #include "InputPress.h"
 #include "GameInput.h"
+#include "PlayerIndex.h"
 
 #include <SDL.h>
 
@@ -24,7 +25,7 @@ class InputSystem :
 {
 private:
 
-	map<GameInput, InputState> 
+	map<GameInput, InputState>
 		_inputStates;
 
 	queue<InputChange>

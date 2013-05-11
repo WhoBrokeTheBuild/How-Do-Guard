@@ -34,15 +34,15 @@ void InputSystem::init( void )
 	_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_d, GAME_INPUT_RIGHT));
 
 	_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_o, GAME_INPUT_LIGHT_PUNCH));
-	_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_p, GAME_INPUT_HEAVY_KICK));
-	_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_k, GAME_INPUT_HEAVY_PUNCH));
-	_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_l, GAME_INPUT_LIGHT_KICK));
+	_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_k, GAME_INPUT_LIGHT_KICK));
+	_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_p, GAME_INPUT_HEAVY_PUNCH));
+	_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_l, GAME_INPUT_HEAVY_KICK));
 
-	_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_LSHIFT, GAME_INPUT_GUARD));
-	_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_LCTRL, GAME_INPUT_GRAB));
+	//_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_LSHIFT, GAME_INPUT_GUARD));
+	//_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_LCTRL, GAME_INPUT_GRAB));
 
-	//_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_q, GAME_INPUT_GUARD));
-	//_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_e, GAME_INPUT_GRAB));
+	_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_q, GAME_INPUT_GUARD));
+	_alias[PLAYER_INDEX_ONE].insert(pair<SDLKey, GameInput>(SDLK_e, GAME_INPUT_GRAB));
 
 	_alias[PLAYER_INDEX_TWO].insert(pair<SDLKey, GameInput>(SDLK_UP, GAME_INPUT_UP));
 	_alias[PLAYER_INDEX_TWO].insert(pair<SDLKey, GameInput>(SDLK_LEFT, GAME_INPUT_LEFT));

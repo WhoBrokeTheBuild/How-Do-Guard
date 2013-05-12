@@ -68,6 +68,7 @@ void DataManager::loadAssets( string filename )
 	}
 
 	loadPlayerStates("toast_states.cfg");
+	loadMovementConfig("movement.cfg");
 
 	mainFile.close();
 }
@@ -386,6 +387,8 @@ void DataManager::loadPlayerStates( string filename )
 	while (line.size() != 0);
 
 	PlayerStateData.insert(pair<ItemKey, PlayerStateMap>("toast", data));
+
+	stateFile.close();
 }
 
 string DataManager::getNextLine( ifstream& in )
@@ -403,4 +406,39 @@ string DataManager::getNextLine( ifstream& in )
 	}
 
 	return line;
+}
+
+float DataManager::getFloat( string key )
+{
+	if (mapContainsKey(_floatConfig, key))
+	{
+		return _floatConfig[key];
+	}
+	return -1.0f;
+}
+
+void DataManager::loadMovementConfig( string filename )
+{
+	stringstream fullFilename;
+	fullFilename << "assets/config/" << filename;
+
+	ifstream moveFile(fullFilename.str().c_str());
+
+	string line;
+	vector<string> pieces;
+
+	do 
+	{
+		line = getNextLine(moveFile);
+
+		pieces = strSplit(line, ' ', 2);
+
+		if (pieces.size() < 2)
+			continue;
+
+		_floatConfig.insert(pair<string, float>(pieces[0], toFloat(pieces[1])));
+	}
+	while (line.length() != 0);
+
+	moveFile.close();
 }

@@ -23,6 +23,13 @@ void Texture::init( string filename )
 
 	SDL_Surface *surface = IMG_Load(_filename.c_str());
 
+	if (!surface)
+	{
+		stringstream ss;
+		ss << "Error Loading Image: " << IMG_GetError();
+		ERR(toString(), ss.str());
+	}
+
 	init(surface);
 
 	SDL_FreeSurface(surface);
@@ -34,6 +41,7 @@ void Texture::init( SDL_Surface* pSurface )
 		glDeleteTextures(1, &_texture);
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+	_texture = OPENGL_INVALID_TEXTURE;
 	glGenTextures(1, &_texture);
 	glBindTexture(GL_TEXTURE_2D, _texture);
 

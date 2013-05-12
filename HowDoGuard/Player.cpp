@@ -25,16 +25,16 @@ void Player::init( PlayerIndex index, Vector2 pos /*= Vector2::ZERO*/, Color col
 
 	switchState(PLAYER_STATE_AIR, VERT_STATE_AIR);
 
-	_gravity = -0.8f;
+	_gravity = -gpDataManager->getFloat("gravity");
 	_ground = 420.0f;
-	_maxSpeed = 8.0f;
-	_jumpVelInit = 8.0f;
-	_jumpVelMax = 20.0f;
+	_maxSpeed = gpDataManager->getFloat("maxSpeed");
+	_jumpVelInit = gpDataManager->getFloat("jumpVelStart");
+	_jumpVelMax = gpDataManager->getFloat("jumpVelMax");
 	_jumpVelLeft = _jumpVelMax;
-	_damping = 1.0f;
-	_airDamping = 1.5f;
-	_terminalVel = 25.0f;
-	_movementAcc = 2.0f;
+	_damping = gpDataManager->getFloat("damping");
+	_airDamping = gpDataManager->getFloat("airDamping");
+	_terminalVel = gpDataManager->getFloat("terminalVel");
+	_movementAcc = gpDataManager->getFloat("movementAcc");
 
 	_stateData = &gpDataManager->PlayerStateData["toast"];
 }
@@ -76,22 +76,20 @@ void Player::update( const Event& event )
 			checkStateData(GAME_INPUT_LANDED);
 		}
 	}
-	else if (_vertState == VERT_STATE_GROUND || _vertState == VERT_STATE_AIR)
+
+	if (abs(Vel.X) < 0.01)
+		Vel.X = 0.0f;
+
+	if (Vel.X != 0.0f)
 	{
-		if (abs(Vel.X) < 0.01)
-			Vel.X = 0.0f;
+		float damp;
 
-		if (Vel.X != 0.0f)
-		{
-			float damp;
+		if (_vertState == VERT_STATE_GROUND || _vertState == VERT_STATE_DUCKING)
+			damp = _damping;
+		else
+			damp = _airDamping;
 
-			if (_vertState == VERT_STATE_GROUND)
-				damp = _damping;
-			else
-				damp = _airDamping;
-
-			Vel.X -= damp * sign(Vel.X);
-		}
+		Vel.X -= damp * sign(Vel.X);
 	}
 }
 
@@ -130,7 +128,7 @@ void Player::inputHeld( const Event& event )
 	
 	checkStateData(inputData->Input, GAME_INPUT_TYPE_HELD);
 
-	if (_state == PLAYER_STATE_AIR)
+	if (inputData->Input == GAME_INPUT_UP && _state == PLAYER_STATE_AIR)
 	{
 		if (_jumpVelLeft > 0.0f)
 		{
@@ -141,11 +139,11 @@ void Player::inputHeld( const Event& event )
 
 	if (_state == PLAYER_STATE_WALK || _state == PLAYER_STATE_AIR)
 	{
-		if (inputData->Input == GAME_INPUT_WEST)
+		if (inputData->Input == GAME_INPUT_LEFT)
 		{
 			Vel.X -= _movementAcc;
 		}
-		else if (inputData->Input == GAME_INPUT_EAST)
+		else if (inputData->Input == GAME_INPUT_RIGHT)
 		{
 			Vel.X += _movementAcc;
 		}
@@ -179,7 +177,7 @@ void Player::setAnimationKeys( void )
 	addAnimationKey(PLAYER_STATE_WALK,			"toast-walk",				VERT_STATE_GROUND);
 
 	addAnimationKey(PLAYER_STATE_GUARD,			"toast-guard",				VERT_STATE_GROUND);
-	addAnimationKey(PLAYER_STATE_GUARD,			"toast-ducking-guard",		VERT_STATE_DUCKING);
+	addAnimationKey(PLAYER_STATE_GUARD,			"toast-duck-guard",			VERT_STATE_DUCKING);
 	addAnimationKey(PLAYER_STATE_GUARD,			"toast-air-guard",			VERT_STATE_AIR);
 
 	addAnimationKey(PLAYER_STATE_LIGHT_PUNCH,	"toast-glp",				VERT_STATE_GROUND);

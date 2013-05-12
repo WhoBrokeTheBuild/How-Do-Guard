@@ -29,9 +29,13 @@ class DataManager :
 {
 private:
 
+	map<string, float>
+		_floatConfig;
+
 	void loadAssets( string filename );
 	void loadAssetFile( string filename );
 	void loadPlayerStates( string filename );
+	void loadMovementConfig( string filename );
 
 	string getNextLine( ifstream& in );
 
@@ -57,6 +61,7 @@ public:
 	virtual void init( void );
 	virtual void term( void );
 
+	float getFloat( string key );
 };
 
 extern DataManager* gpDataManager;

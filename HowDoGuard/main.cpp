@@ -13,38 +13,38 @@ int main(int argc, char *argv[])
 
 #ifdef DEBUG
 
-	init_console();
+    init_console();
 
 #endif
 
-	INF("Main", "Starting Up");
+    INF("Main", "Starting Up");
 
-	gpMemoryTracker = new MemoryTracker();
+    gpMemoryTracker = new MemoryTracker();
 
-	Game *game = New Game();
-	game->init();
+    Game *game = New Game();
+    game->init();
 
-	INF("Main", "Starting Game Loop");
+    INF("Main", "Starting Game Loop");
 
-	game->start();
+    game->start();
 
-	INF("Main", "Shutting Down");
+    INF("Main", "Shutting Down");
 
-	delete game;
+    delete game;
 
 #ifdef DEBUG
 
-	if (gpMemoryTracker->numAllocations() > 0)
-	{
-		gpMemoryTracker->printAllocations();
-		pause();
-	}
+    if (gpMemoryTracker->numAllocations() > 0)
+    {
+        gpMemoryTracker->printAllocations();
+        pause();
+    }
 
-	delete gpMemoryTracker;
-	gpMemoryTracker = nullptr;
+    delete gpMemoryTracker;
+    gpMemoryTracker = nullptr;
 
-#endif //DEBUG
+#endif
 
-	return 0;
+    return 0;
 
 }

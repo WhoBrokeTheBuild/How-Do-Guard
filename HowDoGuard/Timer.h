@@ -19,54 +19,54 @@
 #endif
 
 class Timer :
-	public GameObject
+    public GameObject
 {
 private: 
 
-	static double
-		MICRO;
+    static double
+        MICRO;
 
-	double 
-		_startTimeMicro,
-		_endTimeMicro;
+    double 
+        _startTimeMicro,
+        _endTimeMicro;
 
-	bool 
-		_stopped;
+    bool 
+        _stopped;
 
 #ifdef WINDOWS
 
-	LARGE_INTEGER 
-		_freq,
-		_startCount,
-		_endCount;
+    LARGE_INTEGER 
+        _freq,
+        _startCount,
+        _endCount;
 
-	double calcDiffMillis( LARGE_INTEGER from, LARGE_INTEGER to ) const;
+    double calcDiffMillis( LARGE_INTEGER from, LARGE_INTEGER to ) const;
 
 #else
 
-	timeval 
-		_startCount,
-		_endCount;
+    timeval 
+        _startCount,
+        _endCount;
 
-	double calcDiffMillis( timeval from, timeval to ) const;
+    double calcDiffMillis( timeval from, timeval to ) const;
 
 #endif
 
 public:
 
-	Timer( void );
-	virtual ~Timer( void );
+    Timer( void );
+    virtual ~Timer( void );
 
-	virtual string toString( void ) const;
+    virtual string toString( void ) const;
 
-	void start( void );
-	void stop ( void );
+    void start( void );
+    void stop ( void );
 
-	double getElapsedMicro( void );
-	double getElapsedMilli( void );
-	double getElapsed( void );
+    double getElapsedMicro( void );
+    double getElapsedMilli( void );
+    double getElapsed( void );
 
-	void sleepUntilElapsed( double millis );
+    void sleepUntilElapsed( double millis );
 
 };
 

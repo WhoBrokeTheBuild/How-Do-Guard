@@ -11,54 +11,54 @@
 struct AllocationRecord
 {
 
-	int 
-		Num,
-		LineNum;
+    int 
+        Num,
+        LineNum;
 
-	size_t 
-		Size;
+    size_t 
+        Size;
 
-	string
-		Filename;
+    string
+        Filename;
 
-	AllocationRecord(int num, size_t size, int lineNum, string filename)
-		: Num(num),
-		  Size(size),
-		  LineNum(lineNum),
-		  Filename(filename)
-	{
-	};
+    AllocationRecord(int num, size_t size, int lineNum, string filename)
+        : Num(num),
+          Size(size),
+          LineNum(lineNum),
+          Filename(filename)
+    {
+    };
 
 };
 
 class MemoryTracker
-	: public GameObject
+    : public GameObject
 {
 private:
 
-	static int
-		_sAllocationIndex;
+    static int
+        _sAllocationIndex;
 
-	map<GameObject*, AllocationRecord>
-		_allocations;
+    map<GameObject*, AllocationRecord>
+        _allocations;
 
-	MemoryTracker(const MemoryTracker&);
-	MemoryTracker& operator=(const MemoryTracker&);
+    MemoryTracker(const MemoryTracker&);
+    MemoryTracker& operator=(const MemoryTracker&);
 
 public:
 
-	MemoryTracker( void );
-	virtual ~MemoryTracker( void );
+    MemoryTracker( void );
+    virtual ~MemoryTracker( void );
 
-	virtual string toString( void ) const;
+    virtual string toString( void ) const;
 
-	void addAllocation(GameObject *ptr, size_t size, int lineNumber, char *filename);
-	bool removeAllocation(GameObject *ptr);
+    void addAllocation(GameObject *ptr, size_t size, int lineNumber, char *filename);
+    bool removeAllocation(GameObject *ptr);
 
-	int  numAllocations( void );
+    int  numAllocations( void );
 
-	void printAllocations( void );
-	void printAllocations( ostream& stream );
+    void printAllocations( void );
+    void printAllocations( ostream& stream );
 
 };
 

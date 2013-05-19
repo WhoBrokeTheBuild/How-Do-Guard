@@ -2,24 +2,24 @@
 
 Sprite::Sprite( void )
 {
-	_pTexture = nullptr;
+    _pTexture = nullptr;
 }
 
 Sprite::~Sprite( void )
 {
-	term();
+    term();
 }
 
 string Sprite::toString( void ) const
 {
-	return "Sprite";
+    return "Sprite";
 }
 
 void Sprite::init( Texture *pTexture, Rect source, double frameTime )
 {
-	SourceRect = source;
-	_pTexture = pTexture;
-	FrameTime = frameTime;
+    SourceRect = source;
+    _pTexture = pTexture;
+    FrameTime = frameTime;
 }
 
 void Sprite::term( void )

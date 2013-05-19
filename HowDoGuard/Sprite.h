@@ -9,30 +9,30 @@
 #include "Texture.h"
 
 class Sprite :
-	public GameObject
+    public GameObject
 {
 private:
-	
-	Texture
-		*_pTexture;
+    
+    Texture
+        *_pTexture;
 
 public:
 
-	Rect
-		SourceRect;
+    Rect
+        SourceRect;
 
-	double
-		FrameTime;
+    double
+        FrameTime;
 
-	Sprite( void );
-	virtual ~Sprite( void );
+    Sprite( void );
+    virtual ~Sprite( void );
 
-	virtual string toString( void ) const;
+    virtual string toString( void ) const;
 
-	virtual void init( Texture *pTexture, Rect source, double frameTime );
-	virtual void term( void );
+    virtual void init( Texture *pTexture, Rect source, double frameTime );
+    virtual void term( void );
 
-	virtual Texture* texture( void ) { return _pTexture; }
+    virtual Texture* texture( void ) { return _pTexture; }
 
 };
 

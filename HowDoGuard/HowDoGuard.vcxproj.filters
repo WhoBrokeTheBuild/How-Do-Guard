@@ -46,14 +46,35 @@
     <Filter Include="Project\Assets">
       <UniqueIdentifier>{3f846128-9235-4072-8e26-78285a3f16ef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Project\Assets\Config">
-      <UniqueIdentifier>{d7bac046-9b8e-49a6-bbe7-dea2ce6da369}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Project\Assets\Sheets">
       <UniqueIdentifier>{7c3a5b70-387b-4f77-be6a-16d581bab6a7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Project\Player">
       <UniqueIdentifier>{92b59f47-f8ee-4507-9fa6-c1b91419d146}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Assets\Config">
+      <UniqueIdentifier>{0e6fa3b6-cc5e-4d61-a846-f5c91dbc20b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Assets\Config\curl">
+      <UniqueIdentifier>{d3f9b07d-a038-4068-b752-b08d91201c5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Assets\Config\toast">
+      <UniqueIdentifier>{f1cc1a42-dc95-440a-8fbe-e81bf5c7e93e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Assets\Config\wolf">
+      <UniqueIdentifier>{05f622d5-e4cf-4d49-9856-95e308b57fa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Assets\Config\ghost">
+      <UniqueIdentifier>{ab70f87c-0af9-44cc-badd-d3a488b874ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Assets\Sheets\curl">
+      <UniqueIdentifier>{a8480212-0e25-4ab4-9e87-b8710bf82248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Assets\Sheets\wolf">
+      <UniqueIdentifier>{6a4273fc-b592-4cae-844e-21d62a6399ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Assets\Sheets\toast">
+      <UniqueIdentifier>{fde4d629-2210-403a-b777-9a222ce6260a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +161,9 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Project\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigLevel.cpp">
+      <Filter>Project\Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -263,243 +287,486 @@
     <ClInclude Include="PlayerIndex.h">
       <Filter>Project\Input</Filter>
     </ClInclude>
+    <ClInclude Include="ConfigLevel.h">
+      <Filter>Project\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
       <Filter>Project\Documents</Filter>
     </None>
-    <None Include="assets\config\toast_ghk.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_ghp.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_glk.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_glp.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_grab.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_grab_miss.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_grab_start.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_guard.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_guard_stun.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_hit_stun.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_idle.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_juggle.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_jump_start.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_knockdown.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_landing.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_recovery.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_states.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\toast_walk.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
     <None Include="assets\config\bg.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\curl_idle.cfg">
-      <Filter>Project\Assets\Config</Filter>
-    </None>
-    <None Include="assets\config\grabbed.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
     <None Include="assets\config\main.cfg">
       <Filter>Project\Assets\Config</Filter>
     </None>
-    <None Include="assets\config\toast_ahk.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\curl\states.cfg">
+      <Filter>Project\Assets\Config\curl</Filter>
     </None>
-    <None Include="assets\config\toast_ahp.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\air_guard_stun.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\toast_air_guard.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\alk.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\toast_air_guard_stun.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\alp.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\toast_alk.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\ascending.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\toast_alp.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\descending.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\toast_ascending.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\dhk.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\toast_descending.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\dhp.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\toast_dhk.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\dlk.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\toast_dhp.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\dlp.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\toast_dlk.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\duck_guard.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\toast_dlp.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\duck_guard_stun.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\toast_duck_guard.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\duck_hit_stun.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\toast_duck_guard_stun.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\duck_start.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\toast_duck_hit_stun.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\ducking.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\toast_duck_start.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\ghk.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\toast_ducking.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\ghp.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
-    <None Include="assets\config\movement.cfg">
-      <Filter>Project\Assets\Config</Filter>
+    <None Include="assets\config\ghost\glk.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\glp.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\grab.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\grab_miss.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\grab_start.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\grabbed.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\guard.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\guard_stun.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\hit_stun.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\idle.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\juggle.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\jump_start.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\knockdown.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\landing.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\movement.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\recovery.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\states.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\walk.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\ahk.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\ahp.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\air_guard.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\curl\character.cfg">
+      <Filter>Project\Assets\Config\curl</Filter>
+    </None>
+    <None Include="assets\config\curl\assets.cfg">
+      <Filter>Project\Assets\Config\curl</Filter>
+    </None>
+    <None Include="assets\config\curl\movement.cfg">
+      <Filter>Project\Assets\Config\curl</Filter>
+    </None>
+    <None Include="assets\config\toast\assets.cfg">
+      <Filter>Project\Assets\Config\toast</Filter>
+    </None>
+    <None Include="assets\config\toast\character.cfg">
+      <Filter>Project\Assets\Config\toast</Filter>
+    </None>
+    <None Include="assets\config\toast\movement.cfg">
+      <Filter>Project\Assets\Config\toast</Filter>
+    </None>
+    <None Include="assets\config\toast\states.cfg">
+      <Filter>Project\Assets\Config\toast</Filter>
+    </None>
+    <None Include="assets\config\wolf\assets.cfg">
+      <Filter>Project\Assets\Config\wolf</Filter>
+    </None>
+    <None Include="assets\config\wolf\character.cfg">
+      <Filter>Project\Assets\Config\wolf</Filter>
+    </None>
+    <None Include="assets\config\wolf\movement.cfg">
+      <Filter>Project\Assets\Config\wolf</Filter>
+    </None>
+    <None Include="assets\config\wolf\states.cfg">
+      <Filter>Project\Assets\Config\wolf</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\sheets\sprsht_curl_idle.png">
-      <Filter>Project\Assets\Sheets</Filter>
-    </Image>
     <Image Include="assets\sheets\sprsht_tmp_bg.png">
       <Filter>Project\Assets\Sheets</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_ghp.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_alp.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_glk.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_ascending.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_glp.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_descending.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_grab.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_dhk.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_grab_miss.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_dhp.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_grab_start.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_dlk.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_grabbed.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_dlp.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_guard.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_duck_guard.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_guard_stun.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_duck_guard_stun.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_hit_stun.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_duck_hit_stun.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_idle.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_duck_start.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_juggle.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_ducking.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_jump_start.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_ghk.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_knockdown.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_ghp.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_landing.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_glk.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_recovery.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_glp.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_walk.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_grab.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_ahk.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_grab_miss.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_ahp.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_grab_start.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_air_guard.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_grabbed.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_air_guard_stun.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_guard.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_alk.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_guard_stun.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_alp.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_hit_stun.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_ascending.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_idle.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_descending.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_juggle.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_dhk.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_jump_start.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_dhp.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_knockdown.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_dlk.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_landing.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_dlp.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_recovery.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_duck_guard.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_walk.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_duck_guard_stun.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_ahk.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_duck_hit_stun.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_ahp.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_duck_start.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_air_guard.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_ducking.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_air_guard_stun.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
     </Image>
-    <Image Include="assets\sheets\sprsht_toast_ghk.png">
-      <Filter>Project\Assets\Sheets</Filter>
+    <Image Include="assets\sheets\curl\sprsht_curl_alk.png">
+      <Filter>Project\Assets\Sheets\curl</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_ahk.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_ahp.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_air_guard.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_air_guard_stun.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_alk.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_alp.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_ascending.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_descending.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_dhk.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_dhp.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_dlk.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_dlp.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_duck_guard.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_duck_guard_stun.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_duck_hit_stun.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_duck_start.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_ducking.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_ghk.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_ghp.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_glk.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_glp.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_grab.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_grab_miss.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_grab_start.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_grabbed.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_guard.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_guard_stun.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_hit_stun.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_idle.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_juggle.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_jump_start.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_knockdown.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_landing.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_recovery.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\toast\sprsht_toast_walk.png">
+      <Filter>Project\Assets\Sheets\toast</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_duck_guard.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_duck_guard_stun.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_duck_hit_stun.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_duck_start.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_ducking.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_ghk.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_ghp.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_glk.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_glp.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_grab.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_grab_miss.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_grab_start.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_grabbed.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_guard.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_guard_stun.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_hit_stun.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_idle.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_juggle.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_jump_start.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_knockdown.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_landing.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_recovery.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_walk.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_ahk.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_ahp.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_air_guard.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_air_guard_stun.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_alk.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_alp.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_ascending.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_descending.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_dhk.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_dhp.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_dlk.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
+    </Image>
+    <Image Include="assets\sheets\wolf\sprsht_wolf_dlp.png">
+      <Filter>Project\Assets\Sheets\wolf</Filter>
     </Image>
   </ItemGroup>
 </Project>

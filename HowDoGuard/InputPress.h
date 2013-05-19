@@ -9,30 +9,30 @@
 #include "GameInput.h"
 
 struct InputPress
-	: GameObject
+    : GameObject
 {
-	GameInput
-		Input;
+    GameInput
+        Input;
 
-	time_t
-		Time;
+    time_t
+        Time;
 
-	InputPress( void )
-	{
-		Input = INVALID_GAME_INPUT;
-		Time = now();
-	}
+    InputPress( void )
+    {
+        Input = INVALID_GAME_INPUT;
+        Time = now();
+    }
 
-	InputPress( GameInput input )
-	{
-		Input = input;
-		Time = now();
-	}
+    InputPress( GameInput input )
+    {
+        Input = input;
+        Time = now();
+    }
 
-	virtual string toString( void ) const 
-	{ 
-		return "Input Press";
-	}
+    virtual string toString( void ) const 
+    { 
+        return "Input Press";
+    }
 };
 
 #endif

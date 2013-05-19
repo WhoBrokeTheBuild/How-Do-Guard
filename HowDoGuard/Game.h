@@ -32,46 +32,46 @@
 #include "Player.h"
 
 class Game :
-	public EventDispatcher
+    public EventDispatcher
 {
 private:
 
-	GraphicsSystem
-		*_pGraphicsSystem;
+    GraphicsSystem
+        *_pGraphicsSystem;
 
-	InputSystem 
-		*_pInputSystem;
+    InputSystem 
+        *_pInputSystem;
 
-	bool
-		_running;
+    bool
+        _running;
 
-	float 
-		_targetFPS,
-		_currentFPS;
+    float 
+        _targetFPS,
+        _currentFPS;
 
 public:
 
-	//TODO: Remove
-	static bool endNow;
-	Toast *toast;
-	Player *test, *test2;
-	BasicUnit *bg;
-	Font *fpsFont;
-	static CachedText *fpsText, *stateText;
+    //TODO: Remove
+    static bool endNow;
+    Toast *toast;
+    Player *test, *test2;
+    BasicUnit *bg;
+    Font *fpsFont;
+    static CachedText *fpsText, *stateText;
 
-	Game( void );
-	virtual ~Game( void );
+    Game( void );
+    virtual ~Game( void );
 
-	virtual string toString( void ) const;
+    virtual string toString( void ) const;
 
-	void init( void );
-	void term( void );
+    void init( void );
+    void term( void );
 
-	void start( void );
-	void stop ( const Event& event );
+    void start( void );
+    void stop ( const Event& event );
 
-	void update( const FrameData& frameData );
-	void draw  ( const RenderData& renderData );
+    void update( const FrameData& frameData );
+    void draw  ( const RenderData& renderData );
 };
 
 #endif

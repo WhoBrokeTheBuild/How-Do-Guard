@@ -11,33 +11,36 @@
 #include "Sprite.h"
 
 class Animation :
-	public EventDispatcher
+    public EventDispatcher
 {
 private:
 
-	vector<Sprite*>
-		_frames;
+    vector<Sprite*>
+        _frames;
 
 public:
 
-	bool
-		Animating,
-		Looping;
+    bool
+        Animating,
+        Looping;
 
-	Animation( void );
-	virtual ~Animation( void );
+    Size
+        FrameSize;
 
-	virtual string toString( void ) const;
+    Animation( void );
+    virtual ~Animation( void );
 
-	virtual void init( vector<Sprite*> frames = vector<Sprite*>(), bool animating = false, bool looping = false );
-	virtual void term( void );
+    virtual string toString( void ) const;
 
-	virtual void addFrame( Sprite* pFrame );
-	virtual bool removeFrame( Sprite* pFrame );
-	virtual bool removeFrame( int pFrame );
+    virtual void init( vector<Sprite*> frames = vector<Sprite*>(), Size size = Size::ZERO, bool animating = false, bool looping = false );
+    virtual void term( void );
 
-	virtual Sprite* frame( int frame );
-	virtual int length( void ) { return (int)_frames.size(); }
+    virtual void addFrame( Sprite* pFrame );
+    virtual bool removeFrame( Sprite* pFrame );
+    virtual bool removeFrame( int pFrame );
+
+    virtual Sprite* frame( int frame );
+    virtual int length( void ) { return (int)_frames.size(); }
 
 };
 

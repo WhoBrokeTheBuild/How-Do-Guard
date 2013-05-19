@@ -9,24 +9,24 @@
 #include <SDL.h>
 
 struct InputChange
-	: GameObject
+    : GameObject
 {
-	SDLKey 
-		Key;
+    SDLKey 
+        Key;
 
-	bool
-		Pressed,
-		Released;
+    bool
+        Pressed,
+        Released;
 
-	InputChange( void );
-	InputChange( SDLKey key );
+    InputChange( void );
+    InputChange( SDLKey key );
 
-	virtual string toString( void ) const;
+    virtual string toString( void ) const;
 
-	InputChange &operator= ( const InputChange &rhs );
+    InputChange &operator= ( const InputChange &rhs );
 
-	bool operator==( const InputChange &rhs ) const;
-	bool operator!=( const InputChange &rhs ) const;
+    bool operator==( const InputChange &rhs ) const;
+    bool operator!=( const InputChange &rhs ) const;
 
 };
 

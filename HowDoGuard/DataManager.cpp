@@ -1,6 +1,7 @@
 #include "DataManager.h"
 
 DataManager* gpDataManager = nullptr;
+ConfigLevel DataManager::_config = ConfigLevel();
 
 DataManager::DataManager( void )
 {
@@ -8,437 +9,686 @@ DataManager::DataManager( void )
 
 DataManager::~DataManager( void )
 {
-	term();
+    term();
 }
 
 std::string DataManager::toString( void ) const
 {
-	return "Data Manager";
+    return "Data Manager";
 }
 
 void DataManager::init( void )
 {
-	INF(toString(), "Starting Init");
+    INF(toString(), "Starting Init");
 
-	pAnimations = New Manager<Animation>();
-	pAnimations->init();
+    pAnimations = New Manager<Animation>();
+    pAnimations->init();
 
-	pSprites = New Manager<Sprite>();
-	pSprites->init();
+    pSprites = New Manager<Sprite>();
+    pSprites->init();
 
-	pTextures = New Manager<Texture>();
-	pTextures->init();
+    pTextures = New Manager<Texture>();
+    pTextures->init();
 
-	loadAssets("main.cfg");
+    reload();
 
-	INF(toString(), "Finished Init");
+    INF(toString(), "Finished Init");
 }
 
 void DataManager::term( void )
 {
-	delete pAnimations;
-	delete pSprites;
-	delete pTextures;
+    delete pAnimations;
+    delete pSprites;
+    delete pTextures;
+}
+
+void DataManager::reload( void )
+{
+    _config.clear();
+
+    pAnimations->clear();
+    pSprites->clear();
+    pTextures->clear();
+
+    loadConfig("main.cfg");
+}
+
+void DataManager::loadConfig( string filename, vector<string> levels /*= vector<string>()*/ )
+{
+    ifstream file("assets/config/" + filename);
+
+    string line = "";
+    string listName = "";
+
+    while (!file.eof())
+    {
+        getline(file, line);
+
+        if (line.length() == 0 || line[0] == '#')
+            continue;
+
+        if (line[0] == '!')
+        {
+            vector<string> split = strSplit(line, ' ', 2);
+
+            if (split.size() < 2)
+                continue;
+
+            if (split[0] == "!Load")
+            {
+                loadConfig(split[1], levels);
+            }
+            else if (split[0] == "!LoadAsset")
+            {
+                loadAssets(split[1]);
+            }
+            else if (split[0] == "!LoadState")
+            {
+                split = strSplit(split[1], ' ', 2);
+
+                if (split.size() < 2)
+                    continue;
+
+                loadStates(split[0], split[1]);
+            }
+            else if (split[0] == "!Start")
+            {
+                levels.push_back(split[1]);
+            }
+            else if (split[0] == "!End")
+            {
+                levels.pop_back();
+            }
+            else if (split[0] == "!StartList")
+            {
+                listName = split[1];
+            }
+            else if (split[0] == "!EndList")
+            {
+                listName = "";
+            }
+        }
+        else
+        {
+            parseConfigLine(line, levels, listName);
+        }
+    }
+
+    file.close();
 }
 
 void DataManager::loadAssets( string filename )
 {
-	stringstream fullFilename;
-	fullFilename << "assets/config/" << filename;
+    ifstream file("assets/config/" + filename);
 
-	ifstream mainFile(fullFilename.str());
+    stringstream ss;
+    string line;
 
-	if (!mainFile.is_open())
-		return;
+    while (!file.eof())
+    {
+        getline(file, line);
 
-	string line;
-	while(!mainFile.eof())
-	{
-		line = getNextLine(mainFile);
+        if (line.length() == 0 || line[0] == '#')
+            continue;
 
-		vector<string> pieces = strSplit(line, ' ', 2);
+        vector<string> pieces = strSplit(line, ' ', 2);
 
-		if (pieces.size() == 2)
-		{
-			if (pieces[0] == "Load")
-			{
-				loadAssetFile(pieces[1]);
-			}
-		}
-	}
+        if (pieces.size() == 2)
+        {
+            if (pieces[0] == "Texture")
+            {
+                ItemKey key = pieces[1];
 
-	loadPlayerStates("toast_states.cfg");
-	loadMovementConfig("movement.cfg");
+                do
+                {
+                    getline(file, line);
 
-	mainFile.close();
+                    if (file.eof())
+                        break;
+
+                    if (line[0] == '#')
+                        continue;
+                }
+                while (line.length() == 0);
+
+                if (line.length() == 0)
+                    break;
+
+                pieces = strSplit(line, ' ', 2);
+
+                if (pieces[0] == "File")
+                {
+                    ss.str("");
+                    ss << "assets/sheets/" << pieces[1];
+                    pTextures->addEmpty(key)->init(ss.str());
+                }
+                else
+                    continue;
+            }
+            else if (pieces[0] == "Animation")
+            {
+                ItemKey key = pieces[1];
+                ItemKey texKey = "";
+                bool loop = false;
+                int numFrames = -1;
+                vector<Sprite*> frames;
+                bool autoFrames = false;
+                int framesPerRow = -1;
+                Rect frameSize = Rect::ZERO;
+
+                do
+                {
+                    getline(file, line);
+
+                    if (file.eof())
+                        break;
+
+                    if (line[0] == '#')
+                        continue;
+                }
+                while (line.length() == 0);
+
+                if (line.length() == 0)
+                    break;
+
+                pieces = strSplit(line, ' ', 2);
+
+                if (pieces[0] == "Texture")
+                {
+                    texKey = pieces[1];
+                }
+                else
+                    continue;
+
+                do
+                {
+                    getline(file, line);
+
+                    if (file.eof())
+                        break;
+
+                    if (line[0] == '#')
+                        continue;
+                }
+                while (line.length() == 0);
+
+                if (line.length() == 0)
+                    break;
+
+                pieces = strSplit(line, ' ', 2);
+
+                if (pieces[0] == "Loop")
+                {
+                    loop = (pieces[1][0] == 'T');
+                }
+                else
+                    continue;
+
+                do
+                {
+                    getline(file, line);
+
+                    if (file.eof())
+                        break;
+
+                    if (line[0] == '#')
+                        continue;
+                }
+                while (line.length() == 0);
+
+                if (line.length() == 0)
+                    break;
+
+                pieces = strSplit(line, ' ', 2);
+
+                if (pieces[0] == "Frames")
+                {
+                    pieces = strSplit(pieces[1], ' ', 2);
+
+                    if (pieces.size() == 1)
+                    {
+                        numFrames = toInt(pieces[0]);
+                    }
+                    else if (pieces.size() == 2)
+                    {
+                        numFrames = toInt(pieces[0]);
+
+                        if (pieces[1] == "Auto")
+                        {
+                            autoFrames = true;
+                        }
+                    }
+                }
+                else
+                    continue;
+
+                if (numFrames == -1)
+                    continue;
+
+                if (autoFrames)
+                {
+                    do 
+                    {
+                        do
+                        {
+                            getline(file, line);
+
+                            if (file.eof())
+                                break;
+
+                            if (line[0] == '#')
+                                continue;
+                        }
+                        while (line.length() == 0);
+
+                        if (line.length() == 0)
+                            break;
+
+                        pieces = strSplit(line, ' ', 2);
+
+                        if (pieces[0] == "FramesPerRow")
+                        {
+                            framesPerRow = toInt(pieces[1]);
+                        }
+                        else if (pieces[0] == "FrameSize")
+                        {
+                            pieces = strSplit(pieces[1], ' ', 2);
+
+                            if (pieces.size() < 2)
+                                continue;
+
+                            frameSize = Rect(0, 0, toFloat(pieces[0]), toFloat(pieces[1]));
+                        }
+                    } 
+                    while (line.length() != 0 && pieces[0] != "FrameOrder");
+
+                    if (line.length() == 0)
+                        return;
+
+                    vector<Rect> tmpFrames;
+                    Rect tmpRect = frameSize;
+
+                    int col = 0;
+                    for (int i = 0; i < numFrames; ++i)
+                    {
+                        tmpFrames.push_back(tmpRect);
+                        tmpRect.X += frameSize.Width;
+                        col++;
+                        if (framesPerRow != -1 && col == framesPerRow)
+                        {
+                            col = 0;
+                            tmpRect.X = 0;
+                            tmpRect.Y += frameSize.Height;
+                        }
+                    }
+
+                    int numFramesInOrder = toInt(pieces[1]);
+
+                    for (int i = 0; i < numFramesInOrder; ++i)
+                    {
+                        do
+                        {
+                            getline(file, line);
+
+                            if (file.eof())
+                                break;
+
+                            if (line[0] == '#')
+                                continue;
+                        }
+                        while (line.length() == 0);
+
+                        if (line.length() == 0)
+                            break;
+
+                        pieces = strSplit(line, ' ', 2);
+
+                        if (pieces[0] != "Frame")
+                            continue;
+
+                        pieces = strSplit(pieces[1], ' ', 2);
+
+                        int rectInd = toInt(pieces[0]) - 1;
+                        rectInd = clamp(rectInd, 0, (int)tmpFrames.size());
+                        float speed = toFloat(pieces[1]);
+
+                        Sprite *sprite = New Sprite();
+                        sprite->init(pTextures->get(texKey), tmpFrames[rectInd], speed);
+
+                        pSprites->add(sprite);
+
+                        frames.push_back(sprite);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < numFrames; ++i)
+                    {
+                        Rect rect;
+                        double speed;
+
+                        do
+                        {
+                            getline(file, line);
+
+                            if (file.eof())
+                                break;
+
+                            if (line[0] == '#')
+                                continue;
+                        }
+                        while (line.length() == 0);
+
+                        if (line.length() == 0)
+                            break;
+
+                        pieces = strSplit(line, ' ', 2);
+
+                        if (pieces[0] == "Rect")
+                        {
+                            pieces = strSplit(pieces[1], ' ', 4);
+                            rect = Rect(toFloat(pieces[0]), toFloat(pieces[1]), toFloat(pieces[2]), toFloat(pieces[3]));
+                        }
+                        else
+                            break;
+
+                        do
+                        {
+                            getline(file, line);
+
+                            if (file.eof())
+                                break;
+
+                            if (line[0] == '#')
+                                continue;
+                        }
+                        while (line.length() == 0);
+
+                        if (line.length() == 0)
+                            break;
+
+                        pieces = strSplit(line, ' ', 2);
+
+                        if (pieces[0] == "Speed")
+                        {
+                            speed = toFloat(pieces[1]);
+                        }
+                        else
+                            break;
+
+                        Sprite *sprite = New Sprite();
+                        sprite->init(pTextures->get(texKey), rect, speed);
+
+                        pSprites->add(sprite);
+
+                        frames.push_back(sprite);
+                    }
+                }
+
+                pAnimations->addEmpty(key)->init(frames, frameSize.size(), true, loop);
+            }
+        }
+    }
+
+    file.close();
 }
 
-void DataManager::loadAssetFile( string filename )
+void DataManager::loadStates( string filename, string stateName )
 {
-	stringstream fullFilename;
-	fullFilename << "assets/config/" << filename;
+    ifstream file("assets/config/" + filename);
 
-	ifstream assetFile(fullFilename.str().c_str());
+    PlayerStateMap data;
 
-	stringstream ss;
+    GameInput input;
+    GameInputType type;
+    VerticalState vertState, newVertState;
+    PlayerState before, after;
+    string line;
+    vector<string> pieces;
+    pair<GameInput, GameInputType> inputTypePair;
+    int index;
 
-	string line;
-	while(!assetFile.eof())
-	{
-		getline(assetFile, line);
+    while (!file.eof())
+    {
+        getline(file, line);
 
-		if (line[0] == '#')
-			continue;
+        if (line.length() == 0 || line[0] == '#')
+            continue;
 
-		vector<string> pieces = strSplit(line, ' ', 2);
+        pieces = strSplit(line, ' ', 2);
 
-		if (pieces.size() == 2)
-		{
-			if (pieces[0] == "Texture")
-			{
-				ItemKey key = pieces[1];
+        if (pieces.size() < 2)
+            continue;
 
-				line = getNextLine(assetFile);
+        if (pieces[0] == "Input")
+        {
+            pieces = strSplit(pieces[1], ' ', 2);
 
-				pieces = strSplit(line, ' ', 2);
+            input = INVALID_GAME_INPUT;
+            type = INVALID_GAME_INPUT_TYPE;
 
-				if (pieces[0] == "File")
-				{
-					ss.str("");
-					ss << "assets/sheets/" << pieces[1];
-					pTextures->addEmpty(key)->init(ss.str());
-				}
-				else
-					continue;
-			}
-			else if (pieces[0] == "Animation")
-			{
-				ItemKey key = pieces[1];
-				ItemKey texKey = "";
-				bool loop = false;
-				int numFrames = -1;
-				vector<Sprite*> frames;
-				bool autoFrames = false;
-				int framesPerRow = -1;
-				Rect frameSize;
+            index = arrayIndexOf(NUM_GAME_INPUTS, GAME_INPUT_NAMES, pieces[0]);
+            if (index != -1)
+            {
+                input = (GameInput)index;
+            }
 
-				line = getNextLine(assetFile);
+            index = arrayIndexOf(NUM_GAME_INPUT_TYPES, GAME_INPUT_TYPE_NAMES, pieces[1]);
+            if (index != -1)
+            {
+                type = (GameInputType)index;
+            }
 
-				pieces = strSplit(line, ' ', 2);
+            if (input == INVALID_GAME_INPUT)
+                continue;
 
-				if (pieces[0] == "Texture")
-				{
-					texKey = pieces[1];
-				}
-				else
-					continue;
+            inputTypePair = pair<GameInput, GameInputType>(input, type);
+            data.insert(pair<pair<GameInput, GameInputType>, VerticalPlayerStateMap>(inputTypePair, VerticalPlayerStateMap()));
+        }
+        else if (pieces[0] == "VertState")
+        {
+            index = arrayIndexOf(NUM_VERTICAL_STATES, VERTICAL_STATE_NAMES, pieces[1]);
+            if (index != -1)
+            {
+                vertState = (VerticalState)index;
+                data[inputTypePair].insert(pair<VerticalState, PlayerStateChangeList>(vertState, PlayerStateChangeList()));
+            }
+        }
+        else if (pieces[0] == "AddState")
+        {
+            pieces = strSplit(pieces[1], ' ');
 
-				line = getNextLine(assetFile);
+            if (pieces.size() < 2)
+                continue;
+            else if (pieces.size() == 2)
+            {
+                newVertState = vertState;
+            }
+            else
+            {
+                int index = arrayIndexOf(NUM_VERTICAL_STATES, VERTICAL_STATE_NAMES, pieces[2]);
+                if (index != -1)
+                {
+                    newVertState = (VerticalState)index;
+                }
+            }
 
-				pieces = strSplit(line, ' ', 2);
+            index = arrayIndexOf(NUM_PLAYER_STATES, PLAYER_STATE_NAMES, pieces[0]);
+            if (index != -1)
+            {
+                before = (PlayerState)index;
+            }
 
-				if (pieces[0] == "Loop")
-				{
-					loop = (pieces[1][0] == 'T');
-				}
-				else
-					continue;
+            index = arrayIndexOf(NUM_PLAYER_STATES, PLAYER_STATE_NAMES, pieces[1]);
+            if (index != -1)
+            {
+                after = (PlayerState)index;
+            }
 
-				line = getNextLine(assetFile);
+            data[inputTypePair][vertState].push_back(PlayerStateChange(before, after, newVertState));
+        }
+    }
 
-				pieces = strSplit(line, ' ', 2);
+    file.close();
 
-				if (pieces[0] == "Frames")
-				{
-					pieces = strSplit(pieces[1], ' ', 2);
-
-					if (pieces.size() == 1)
-					{
-						numFrames = toInt(pieces[0]);
-					}
-					else if (pieces.size() == 2)
-					{
-						numFrames = toInt(pieces[0]);
-
-						if (pieces[1] == "Auto")
-						{
-							autoFrames = true;
-						}
-					}
-				}
-				else
-					continue;
-
-				if (numFrames == -1)
-					continue;
-
-				if (autoFrames)
-				{
-					do 
-					{
-						line = getNextLine(assetFile);
-
-						pieces = strSplit(line, ' ', 2);
-
-						if (pieces[0] == "FramesPerRow")
-						{
-							framesPerRow = toInt(pieces[1]);
-						}
-						else if (pieces[0] == "FrameSize")
-						{
-							pieces = strSplit(pieces[1], ' ', 2);
-
-							if (pieces.size() < 2)
-								continue;
-
-							frameSize = Rect(0, 0, toFloat(pieces[0]), toFloat(pieces[1]));
-						}
-					} 
-					while (line != "" && pieces[0] != "FrameOrder");
-
-					if (line == "")
-						return;
-
-					vector<Rect> tmpFrames;
-					Rect tmpRect = frameSize;
-
-					int col = 0;
-					for (int i = 0; i < numFrames; ++i)
-					{
-						tmpFrames.push_back(tmpRect);
-						tmpRect.X += frameSize.Width;
-						col++;
-						if (framesPerRow != -1 && col == framesPerRow)
-						{
-							col = 0;
-							tmpRect.X = 0;
-							tmpRect.Y += frameSize.Height;
-						}
-					}
-
-					int numFramesInOrder = toInt(pieces[1]);
-
-					for (int i = 0; i < numFramesInOrder; ++i)
-					{
-						line = getNextLine(assetFile);
-
-						pieces = strSplit(line, ' ', 2);
-
-						if (pieces[0] != "Frame")
-							continue;
-
-						pieces = strSplit(pieces[1], ' ', 2);
-
-						int rectInd = toInt(pieces[0]) - 1;
-						rectInd = clamp(rectInd, 0, (int)tmpFrames.size());
-						float speed = toFloat(pieces[1]);
-
-						Sprite *sprite = New Sprite();
-						sprite->init(pTextures->get(texKey), tmpFrames[rectInd], speed);
-
-						pSprites->add(sprite);
-
-						frames.push_back(sprite);
-					}
-				}
-				else
-				{
-					for (int i = 0; i < numFrames; ++i)
-					{
-						Rect rect;
-						double speed;
-
-						line = getNextLine(assetFile);
-
-						pieces = strSplit(line, ' ', 2);
-
-						if (pieces[0] == "Rect")
-						{
-							pieces = strSplit(pieces[1], ' ', 4);
-							rect = Rect(toFloat(pieces[0]), toFloat(pieces[1]), toFloat(pieces[2]), toFloat(pieces[3]));
-						}
-						else
-							break;
-
-						line = getNextLine(assetFile);
-
-						pieces = strSplit(line, ' ', 2);
-
-						if (pieces[0] == "Speed")
-						{
-							speed = toFloat(pieces[1]);
-						}
-						else
-							break;
-
-						Sprite *sprite = New Sprite();
-						sprite->init(pTextures->get(texKey), rect, speed);
-
-						pSprites->add(sprite);
-
-						frames.push_back(sprite);
-					}
-				}
-
-				pAnimations->addEmpty(key)->init(frames, true, loop);
-			}
-		}
-	}
-
-	assetFile.close();
+    PlayerStateData.insert(pair<ItemKey, PlayerStateMap>(stateName, data));
 }
 
-void DataManager::loadPlayerStates( string filename )
+void DataManager::parseConfigLine( string line, vector<string> levels, string listName )
 {
-	stringstream fullFilename;
-	fullFilename << "assets/config/" << filename;
+    ConfigLevel *tmp = getLevel(levels);
 
-	ifstream stateFile(fullFilename.str().c_str());
+    if (listName != "")
+    {
+        tmp->getList(listName)->push_back(line);
+    }
+    else
+    {
+        vector<string> parts = strSplit(line, ' ', 2);
 
-	PlayerStateMap data;
+        if (parts.size() < 2)
+            return;
 
-	GameInput input;
-	GameInputType type;
-	VerticalState vertState, newVertState;
-	PlayerState before, after;
-	string line;
-	vector<string> pieces;
-	pair<GameInput, GameInputType> inputTypePair;
-	int index;
-
-	do 
-	{
-		line = getNextLine(stateFile);
-
-		pieces = strSplit(line, ' ', 2);
-
-		if (pieces.size() < 2)
-			continue;
-
-		if (pieces[0] == "Input")
-		{
-			pieces = strSplit(pieces[1], ' ', 2);
-
-			input = INVALID_GAME_INPUT;
-			type = INVALID_GAME_INPUT_TYPE;
-
-			index = arrayIndexOf(NUM_GAME_INPUTS, GAME_INPUT_NAMES, pieces[0]);
-			if (index != -1)
-			{
-				input = (GameInput)index;
-			}
-
-			index = arrayIndexOf(NUM_GAME_INPUT_TYPES, GAME_INPUT_TYPE_NAMES, pieces[1]);
-			if (index != -1)
-			{
-				type = (GameInputType)index;
-			}
-
-			if (input == INVALID_GAME_INPUT)
-				continue;
-
-			inputTypePair = pair<GameInput, GameInputType>(input, type);
-			data.insert(pair<pair<GameInput, GameInputType>, VerticalPlayerStateMap>(inputTypePair, VerticalPlayerStateMap()));
-		}
-		else if (pieces[0] == "VertState")
-		{
-			index = arrayIndexOf(NUM_VERTICAL_STATES, VERTICAL_STATE_NAMES, pieces[1]);
-			if (index != -1)
-			{
-				vertState = (VerticalState)index;
-				data[inputTypePair].insert(pair<VerticalState, PlayerStateChangeList>(vertState, PlayerStateChangeList()));
-			}
-		}
-		else if (pieces[0] == "AddState")
-		{
-			pieces = strSplit(pieces[1], ' ');
-
-			if (pieces.size() < 2)
-				continue;
-			else if (pieces.size() == 2)
-			{
-				newVertState = vertState;
-			}
-			else
-			{
-				int index = arrayIndexOf(NUM_VERTICAL_STATES, VERTICAL_STATE_NAMES, pieces[2]);
-				if (index != -1)
-				{
-					newVertState = (VerticalState)index;
-				}
-			}
-
-			index = arrayIndexOf(NUM_PLAYER_STATES, PLAYER_STATE_NAMES, pieces[0]);
-			if (index != -1)
-			{
-				before = (PlayerState)index;
-			}
-
-			index = arrayIndexOf(NUM_PLAYER_STATES, PLAYER_STATE_NAMES, pieces[1]);
-			if (index != -1)
-			{
-				after = (PlayerState)index;
-			}
-
-			data[inputTypePair][vertState].push_back(PlayerStateChange(before, after, newVertState));
-		}
-
-	} 
-	while (line.size() != 0);
-
-	PlayerStateData.insert(pair<ItemKey, PlayerStateMap>("toast", data));
-
-	stateFile.close();
+        tmp->addData(parts[0], parts[1]);
+    }
 }
 
-string DataManager::getNextLine( ifstream& in )
+ConfigValue DataManager::getData( vector<ConfigKey> name, ConfigKey dataName )
 {
-	string line = "";
+    ConfigLevel* tmp = getLevel(name);
 
-	while (!in.eof())
-	{
-		getline(in, line);
+    if (!tmp->containsData(dataName))
+    {
+        return "";
+    }
 
-		if (line.length() == 0)
-			continue;
-		else
-			break;
-	}
-
-	return line;
+    return tmp->getData(dataName);
 }
 
-float DataManager::getFloat( string key )
+vector<ConfigValue>* DataManager::getList( vector<ConfigKey> name, ConfigKey listName )
 {
-	if (mapContainsKey(_floatConfig, key))
-	{
-		return _floatConfig[key];
-	}
-	return -1.0f;
+    ConfigLevel* tmp = getLevel(name);
+
+    if (!tmp->containsList(listName))
+    {
+        tmp->addList(listName);
+    }
+
+    return tmp->getList(listName);
 }
 
-void DataManager::loadMovementConfig( string filename )
+ConfigLevel* DataManager::getLevel( vector<ConfigKey> name )
 {
-	stringstream fullFilename;
-	fullFilename << "assets/config/" << filename;
+    ConfigLevel* tmpLevel = &_config;
 
-	ifstream moveFile(fullFilename.str().c_str());
+    for (unsigned int i = 0; i < name.size(); ++i)
+    {
+        if (name[i].length() == 0)
+            break;
 
-	string line;
-	vector<string> pieces;
+        if (!tmpLevel->containsLevel(name[i]))
+        {
+            tmpLevel->addLevel(name[i]);
+        }
 
-	do 
-	{
-		line = getNextLine(moveFile);
+        tmpLevel = tmpLevel->getLevel(name[i]);
+    }
 
-		pieces = strSplit(line, ' ', 2);
+    return tmpLevel;
+}
 
-		if (pieces.size() < 2)
-			continue;
+std::string DataManager::getString( vector<ConfigKey> name )
+{
+    string itemName = name.back();
 
-		_floatConfig.insert(pair<string, float>(pieces[0], toFloat(pieces[1])));
-	}
-	while (line.length() != 0);
+    name.pop_back();
 
-	moveFile.close();
+    return getLevel(name)->getData(itemName);
+}
+
+int DataManager::getInt( vector<ConfigKey> name )
+{
+    string itemName = name.back();
+
+    name.pop_back();
+
+    return toInt(getLevel(name)->getData(itemName));
+}
+
+float DataManager::getFloat( vector<ConfigKey> name )
+{
+    string itemName = name.back();
+
+    name.pop_back();
+
+    return toFloat(getLevel(name)->getData(itemName));
+}
+
+double DataManager::getDouble( vector<ConfigKey> name )
+{
+    string itemName = name.back();
+
+    name.pop_back();
+
+    return toDouble(getLevel(name)->getData(itemName));
+}
+
+Vector2 DataManager::getVector2( vector<ConfigKey> name )
+{
+    return Vector2::ZERO;
+}
+
+Rect DataManager::getRect( vector<ConfigKey> name )
+{
+    return Rect::ZERO;
+}
+
+Circle DataManager::getCircle( vector<ConfigKey> name )
+{
+    return Circle::ZERO;
+}
+
+Color DataManager::getColor( vector<ConfigKey> name )
+{
+    return Color::WHITE;
+}
+
+vector<string> DataManager::getStringList( vector<ConfigKey> name )
+{
+    return vector<string>();
+}
+
+vector<int> DataManager::getIntList( vector<ConfigKey> name )
+{
+    return vector<int>();
+}
+
+vector<float> DataManager::getFloatList( vector<ConfigKey> name )
+{
+    return vector<float>();
+}
+
+vector<double> DataManager::getDoubleList( vector<ConfigKey> name )
+{
+    return vector<double>();
+}
+
+vector<Vector2> DataManager::getVector2List( vector<ConfigKey> name )
+{
+    return vector<Vector2>();
+}
+
+vector<Rect> DataManager::getRectList( vector<ConfigKey> name )
+{
+    return vector<Rect>();
+}
+
+vector<Circle> DataManager::getCircleList( vector<ConfigKey> name )
+{
+    return vector<Circle>();
+}
+
+vector<Color> DataManager::getColorList( vector<ConfigKey> name )
+{
+    return vector<Color>();
 }

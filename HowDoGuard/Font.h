@@ -12,33 +12,33 @@ class RenderTarget;
 class CachedText;
 
 class Font :
-	public GameObject
+    public GameObject
 {
 
-	friend class RenderTarget;
-	friend class CachedText;
+    friend class RenderTarget;
+    friend class CachedText;
 
 private:
 
-	string
-		_filename;
+    string
+        _filename;
 
-	TTF_Font
-		*_pFont;
+    TTF_Font
+        *_pFont;
 
-	int
-		_size;
+    int
+        _size;
 
-	virtual TTF_Font* SDLFont( void ) { return _pFont; }
+    virtual TTF_Font* SDLFont( void ) { return _pFont; }
 
 public:
 
-	Font( string filename, int size );
-	virtual ~Font( void );
+    Font( string filename, int size );
+    virtual ~Font( void );
 
-	virtual string toString( void ) const;
+    virtual string toString( void ) const;
 
-	virtual int size( void ) { return _size; }
+    virtual int size( void ) { return _size; }
 
 };
 

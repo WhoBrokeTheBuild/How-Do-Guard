@@ -25,16 +25,16 @@ using namespace std;
 
 #ifdef DEBUG
 
-	#define ERR(SRC, MSG) \
-		cerr << "[" << SRC << "] Error: " << MSG << " (In " << basename(__FILE__) << " on line " << __LINE__ << ")" << endl;
+    #define ERR(SRC, MSG) \
+        cerr << "[" << SRC << "] Error: " << MSG << " (In " << basename(__FILE__) << " on line " << __LINE__ << ")" << endl;
 
-	#define INF(SRC, MSG) \
-		cout << "[" << SRC << "] Info: " << MSG << " (In " << basename(__FILE__) << " on line " << __LINE__ << ")" << endl;
+    #define INF(SRC, MSG) \
+        cout << "[" << SRC << "] Info: " << MSG << " (In " << basename(__FILE__) << " on line " << __LINE__ << ")" << endl;
 
 #else
 
-	#define ERR(SRC, MSG)
-	#define INF(SRC, MSG)
+    #define ERR(SRC, MSG)
+    #define INF(SRC, MSG)
 
 #endif
 
@@ -52,19 +52,19 @@ inline double ceil   (double value, int accuracy) { int mult = 10 * accuracy; re
 template <class Number>
 inline Number approach( Number value, Number target, Number speed )
 {
-	return ( ( value > target )
-		? max( value - speed, target )
-		: min( value + speed, target )
-		);
+    return ( ( value > target )
+        ? max( value - speed, target )
+        : min( value + speed, target )
+        );
 }
 
 template <class Number>
 inline Number reduce( Number value, Number speed )
 {
-	return ( ( value > 0 )
-		? max( value - speed, 0 )
-		: min( value + speed, 0 )
-		);
+    return ( ( value > 0 )
+        ? max( value - speed, 0 )
+        : min( value + speed, 0 )
+        );
 }
 
 template <class Number>
@@ -100,9 +100,9 @@ double toDouble( const string& value );
 template <class Number>
 string numToString( const Number& value )
 {
-	stringstream ss;
-	ss << value;
-	return ss.str();
+    stringstream ss;
+    ss << value;
+    return ss.str();
 }
 
 void delay( int millis );
@@ -112,178 +112,178 @@ void pause( void );
 template <typename Value>
 bool arrayContains(unsigned int size, const Value list[], const Value& element)
 {
-	for (unsigned int i = 0; i < size; ++i)
-	{
-		if (list[i] == element)
-			return true;
-	}
+    for (unsigned int i = 0; i < size; ++i)
+    {
+        if (list[i] == element)
+            return true;
+    }
 
-	return false;
+    return false;
 }
 
 template <typename Value>
 int arrayIndexOf(unsigned int size, const Value list[], const Value& element)
 {
-	for (unsigned int i = 0; i < size; ++i)
-	{
-		if (list[i] == element)
-			return i;
-	}
+    for (unsigned int i = 0; i < size; ++i)
+    {
+        if (list[i] == element)
+            return i;
+    }
 
-	return -1;
+    return -1;
 }
 
 template <typename Value>
 vector<Value> makeVector( int count, Value first, ...)
 {
-	va_list mark;
-	vector<Value> newVector;
+    va_list mark;
+    vector<Value> newVector;
 
-	newVector.push_back(first);
+    newVector.push_back(first);
 
-	va_start(mark, first);
-	for (int i = 0; i < count - 1; ++i)
-	{
-		newVector.push_back(va_arg(mark, Value));
-	}
+    va_start(mark, first);
+    for (int i = 0; i < count - 1; ++i)
+    {
+        newVector.push_back(va_arg(mark, Value));
+    }
 
-	va_end(mark);
+    va_end(mark);
 
-	return newVector;
+    return newVector;
 }
 
 template <typename Value>
 bool vectorContains( const vector<Value>& list, const Value& element )
 {
-	vector<Value>::const_iterator it = list.cbegin();
+    vector<Value>::const_iterator it = list.cbegin();
 
-	while (it != list.cend())
-	{
-		if (*it == element)
-			return true;
-		++it;
-	}
+    while (it != list.cend())
+    {
+        if (*it == element)
+            return true;
+        ++it;
+    }
 
-	return false;
+    return false;
 }
 
 template <typename Value>
 int vectorIndexOf( const vector<Value>& list, const Value& element )
 {
-	vector<Value>::const_iterator it = list.cbegin();
+    vector<Value>::const_iterator it = list.cbegin();
 
-	int i = 0;
-	while (it != list.cend())
-	{
-		if (*it == element)
-			return i;
-		++it;
-		++i;
-	}
+    int i = 0;
+    while (it != list.cend())
+    {
+        if (*it == element)
+            return i;
+        ++it;
+        ++i;
+    }
 
-	return -1;
+    return -1;
 }
 
 template <typename Value>
 bool vectorRemove( vector<Value>& list, const Value& element )
 {
-	vector<Value>::iterator it = list.begin();
+    vector<Value>::iterator it = list.begin();
 
-	while (it != list.end())
-	{
-		if (*it == element)
-		{
-			list.erase(it);
-			return true;
-		}
-		++it;
-	}
+    while (it != list.end())
+    {
+        if (*it == element)
+        {
+            list.erase(it);
+            return true;
+        }
+        ++it;
+    }
 
-	return false;
+    return false;
 }
 
 template <typename Value>
 bool vectorRemoveAt( vector<Value>& list, const int index )
 {
-	if (inBounds(index, 0, (int)list.size()))
-	{
-		list.erase(list.begin() + index);
-		return true;
-	}
+    if (inBounds(index, 0, (int)list.size()))
+    {
+        list.erase(list.begin() + index);
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 template <typename Value>
 inline void vectorRemoveAll( vector<Value>& list, const Value& element )
 {
-	while (vectorRemove(list, element));
+    while (vectorRemove(list, element));
 }
 
 template <class Key, class Value>
 bool mapContainsKey( const map<Key, Value>& collection, Key key)
 {
-	return ( collection.find(key) != collection.cend() );
+    return ( collection.find(key) != collection.cend() );
 }
 
 template <class Key, class Value>
 bool mapRemoveKey( map<Key, Value>& collection, Key key )
 {
-	map<Key, Value>::iterator it;
+    map<Key, Value>::iterator it;
 
-	it = collection.find(key);
-	if (it != collection.end())
-	{
-		collection.erase(it);
-		return true;
-	}
+    it = collection.find(key);
+    if (it != collection.end())
+    {
+        collection.erase(it);
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 template <class Key, class Value>
 bool mapContainsValue( const map<Key, Value>& collection, Value value )
 {
-	map<Key, Value>::const_iterator it;
+    map<Key, Value>::const_iterator it;
 
-	for (it = collection.cbegin(); it != collection.cend(); ++it)
-	{
-		if (it->second == value)
-			return true;
-	}
+    for (it = collection.cbegin(); it != collection.cend(); ++it)
+    {
+        if (it->second == value)
+            return true;
+    }
 
-	return false;
+    return false;
 }
 
 template <class Key, class Value>
 Key mapFindKey( const map<Key, Value>& collection, Value value)
 {
-	map<Key, Value>::const_iterator it;
+    map<Key, Value>::const_iterator it;
 
-	for (it = collection.cbegin(); it != collection.cend(); ++it)
-	{
-		if (it->second == value)
-			return it->first;
-	}
+    for (it = collection.cbegin(); it != collection.cend(); ++it)
+    {
+        if (it->second == value)
+            return it->first;
+    }
 
-	return Key();
+    return Key();
 }
 
 template <class Key, class Value>
 bool mapRemoveValue( map<Key, Value>& collection, Value value)
 {
-	map<Key, Value>::iterator it;
+    map<Key, Value>::iterator it;
 
-	for (it = collection.begin(); it != collection.end(); ++it)
-	{
-		if (it->second == value)
-		{
-			collection.erase(it);
-			return true;
-		}
-	}
+    for (it = collection.begin(); it != collection.end(); ++it)
+    {
+        if (it->second == value)
+        {
+            collection.erase(it);
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 #endif 

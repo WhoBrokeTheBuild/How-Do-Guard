@@ -15,7 +15,8 @@
 #include "Rect.h"
 #include "Circle.h"
 
-using namespace std;
+using ::std::cout;
+using ::std::endl;
 
 typedef string ItemKey;
 

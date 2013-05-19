@@ -4,68 +4,74 @@
 
 Texture::Texture( void )
 {
-	_size = Rect::ZERO;
+    _size = Rect::ZERO;
+    _filename = "<empty>";
 }
 
 Texture::~Texture( void )
 {
-	term();
+    term();
 }
 
 std::string Texture::toString( void ) const
 {
-	return "Texture";
+    stringstream ss;
+    ss << "Texture [File: " << _filename << "]";
+    return ss.str();
 }
 
 void Texture::init( string filename )
 {
-	_filename = filename;
+    _filename = filename;
 
-	SDL_Surface *surface = IMG_Load(_filename.c_str());
+    SDL_Surface *surface = IMG_Load(_filename.c_str());
 
-	if (!surface)
-	{
-		stringstream ss;
-		ss << "Error Loading Image: " << IMG_GetError();
-		ERR(toString(), ss.str());
-	}
+    if (!surface)
+    {
+        stringstream ss;
+        ss << "Error Loading Image: " << IMG_GetError();
+        ERR(toString(), ss.str());
+    }
 
-	init(surface);
+    init(surface);
 
-	SDL_FreeSurface(surface);
+    SDL_FreeSurface(surface);
 }
 
 void Texture::init( SDL_Surface* pSurface )
 {
-	if (_texture != OPENGL_INVALID_TEXTURE)
-		glDeleteTextures(1, &_texture);
+    if (_filename == "")
+        _filename = "<generated>";
 
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-	_texture = OPENGL_INVALID_TEXTURE;
-	glGenTextures(1, &_texture);
-	glBindTexture(GL_TEXTURE_2D, _texture);
+    if (_texture != OPENGL_INVALID_TEXTURE)
+        glDeleteTextures(1, &_texture);
 
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+    _texture = OPENGL_INVALID_TEXTURE;
+    glGenTextures(1, &_texture);
+    glBindTexture(GL_TEXTURE_2D, _texture);
 
-	_size = Rect(0.0f, 0.0f, (float)pSurface->w, (float)pSurface->h);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-	GLenum mode = GL_RGB;
+    _size = Rect(0.0f, 0.0f, (float)pSurface->w, (float)pSurface->h);
 
-	if (pSurface->format->BytesPerPixel == 4) 
-	{
-		mode = GL_RGBA;
-	}
+    GLenum mode = GL_RGB;
 
-	glTexImage2D(GL_TEXTURE_2D, 0, 4, (int)_size.Width, (int)_size.Height, 0, mode, GL_UNSIGNED_BYTE, pSurface->pixels);
+    if (pSurface->format->BytesPerPixel == 4) 
+    {
+        mode = GL_RGBA;
+    }
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,	  GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,	  GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, 4, (int)_size.Width, (int)_size.Height, 0, mode, GL_UNSIGNED_BYTE, pSurface->pixels);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,      GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,      GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
 void Texture::term( void )
 {
-	if (_texture != OPENGL_INVALID_TEXTURE)
-		glDeleteTextures(1, &_texture);
+    if (_texture != OPENGL_INVALID_TEXTURE)
+        glDeleteTextures(1, &_texture);
 }

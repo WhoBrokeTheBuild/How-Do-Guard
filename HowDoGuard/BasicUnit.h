@@ -11,60 +11,63 @@
 #include "RenderTarget.h"
 
 class BasicUnit :
-	public EventDispatcher
+    public EventDispatcher
 {
 protected:
 
-	Animation
-		*_pAnimation;
+    Animation
+        *_pAnimation;
 
-	double
-		_animationTimeout;
+    double
+        _animationTimeout;
 
-	int
-		_frame;
+    int
+        _frame;
 
-	bool
-		_animationComplete;
+    bool
+        _animationComplete;
 
-	virtual void updateAnimation( const FrameData* pFrameData );
+    virtual void updateAnimation( const FrameData* pFrameData );
 
 public:
 
-	static const EventType
-		EVENT_ANIMATION_COMPLETE;
+    static const EventType
+        EVENT_ANIMATION_COMPLETE;
 
-	Vector2
-		Pos,
-		Origin;
+    Vector2
+        Pos,
+        Origin;
 
-	Color
-		BlendColor;
+    Size
+        Size;
 
-	float
-		Rot,
-		Depth;
+    Color
+        BlendColor;
 
-	bool
-		Animating,
-		Looping;
+    float
+        Rot,
+        Depth;
 
-	BasicUnit( void );
-	virtual ~BasicUnit( void );
+    bool
+        Animating,
+        Looping;
 
-	virtual string toString( void ) const;
+    BasicUnit( void );
+    virtual ~BasicUnit( void );
 
-	virtual void init( Animation* pAnimation = nullptr, Vector2 pos = Vector2::ZERO, Vector2 origin = Vector2::ZERO, float rot = 0.0f, Color color = Color::WHITE, float depth = 1.0f);
-	virtual void term( void );
+    virtual string toString( void ) const;
 
-	virtual void update( const Event& event );
-	virtual void draw  ( const Event& event );
+    virtual void init( Animation* pAnimation = nullptr, Vector2 pos = Vector2::ZERO, Vector2 origin = Vector2::ZERO, float rot = 0.0f, Color color = Color::WHITE, float depth = 1.0f);
+    virtual void term( void );
 
-	virtual Animation* animation( void ) { return _pAnimation; }
+    virtual void update( const Event& event );
+    virtual void draw  ( const Event& event );
 
-	virtual void setAnimation( Animation *pAnimation, bool useDefaults = true);
+    virtual Animation* animation( void ) { return _pAnimation; }
 
-	virtual void animationComplete( const Event& event );
+    virtual void setAnimation( Animation *pAnimation, bool useDefaults = true);
+
+    virtual void animationComplete( const Event& event );
 
 };
 

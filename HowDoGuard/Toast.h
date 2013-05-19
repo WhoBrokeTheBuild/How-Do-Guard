@@ -11,56 +11,56 @@
 #include "PlayerState.h"
 
 class Toast :
-	public BasicUnit
+    public BasicUnit
 {
 private:
 
-	Vector2
-		_vel;
+    Vector2
+        _vel;
 
-	Vector2
-		_acc,
-		_gravity;
+    Vector2
+        _acc,
+        _gravity;
 
-	PlayerState
-		_state;
+    PlayerState
+        _state;
 
-	bool 
-		_inAir;
+    bool 
+        _inAir;
 
-	Rect
-		_size;
+    Rect
+        _size;
 
-	float 
-		_ground;
+    float 
+        _ground;
 
-	vector<PlayerState>
-		_validWalkStates,
-		_validJumpStates;
+    vector<PlayerState>
+        _validWalkStates,
+        _validJumpStates;
 
 public:
 
-	Toast( void );
-	virtual ~Toast( void );
+    Toast( void );
+    virtual ~Toast( void );
 
-	virtual string toString( void ) const;
+    virtual string toString( void ) const;
 
-	virtual void init( void );
-	virtual void term( void );
+    virtual void init( void );
+    virtual void term( void );
 
-	virtual void update( const Event& event );
+    virtual void update( const Event& event );
 
-	virtual void inputPressed ( const Event& event );
-	virtual void inputReleased( const Event& event );
-	virtual void inputHeld    ( const Event& event );
+    virtual void inputPressed ( const Event& event );
+    virtual void inputReleased( const Event& event );
+    virtual void inputHeld    ( const Event& event );
 
-	virtual void jump( void );
-	
-	virtual Rect bounds( void );
+    virtual void jump( void );
+    
+    virtual Rect bounds( void );
 
-	virtual void setState( PlayerState newState );
+    virtual void setState( PlayerState newState );
 
-	virtual void animationComplete( const Event& event );
+    virtual void animationComplete( const Event& event );
 
 };
 

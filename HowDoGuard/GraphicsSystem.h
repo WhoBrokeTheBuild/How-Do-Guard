@@ -22,30 +22,30 @@
 #pragma comment(lib, "glu32.lib")
 
 class GraphicsSystem :
-	public GameObject
+    public GameObject
 {
 private:
 
-	Color
-		_clearColor;
+    Color
+        _clearColor;
 
-	RenderTarget
-		*_pRenderTarget;
-	
-	void initGL( int width, int height );
+    RenderTarget
+        *_pRenderTarget;
+    
+    void initGL( int width, int height );
 
 public:
 
-	GraphicsSystem( void );
-	virtual ~GraphicsSystem( void );
+    GraphicsSystem( void );
+    virtual ~GraphicsSystem( void );
 
-	virtual void init( void );
-	virtual void term( void );
+    virtual void init( void );
+    virtual void term( void );
 
-	virtual string toString( void ) const;
+    virtual string toString( void ) const;
 
-	virtual RenderTarget *renderTarget( void );
-	virtual Color clearColor( void );
+    virtual RenderTarget *renderTarget( void );
+    virtual Color clearColor( void );
 
 };
 

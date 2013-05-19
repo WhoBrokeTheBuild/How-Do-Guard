@@ -11,38 +11,38 @@
 #include "Color.h"
 
 class CachedText :
-	public GameObject
+    public GameObject
 {
 
-	friend class RenderTarget;
+    friend class RenderTarget;
 
 private:
 
-	Texture
-		*_pTexture;
+    Texture
+        *_pTexture;
 
-	string
-		_text;
+    string
+        _text;
 
-	Font
-		*_pFont;
+    Font
+        *_pFont;
 
-	virtual Texture* texture( void ) { return _pTexture; }
+    virtual Texture* texture( void ) { return _pTexture; }
 
 public:
 
-	CachedText( void );
-	virtual ~CachedText( void );
+    CachedText( void );
+    virtual ~CachedText( void );
 
-	virtual string toString( void ) const;
+    virtual string toString( void ) const;
 
-	virtual void init( string text, Font* pFont );
-	virtual void term( void );
+    virtual void init( string text, Font* pFont );
+    virtual void term( void );
 
-	virtual void render( void );
+    virtual void render( void );
 
-	virtual string text( void ) const { return _text; }
-	virtual void setText( string text );
+    virtual string text( void ) const { return _text; }
+    virtual void setText( string text );
 
 };
 

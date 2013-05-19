@@ -5,24 +5,24 @@
 
 enum VerticalState
 {
-	INVALID_VERTICAL_STATE = -1,
+    INVALID_VERTICAL_STATE = -1,
 
-	VERT_STATE_ANY,
+    VERT_STATE_ANY,
 
-	VERT_STATE_GROUND,
-	VERT_STATE_DUCKING,
-	VERT_STATE_AIR,
+    VERT_STATE_GROUND,
+    VERT_STATE_DUCKING,
+    VERT_STATE_AIR,
 
-	NUM_VERTICAL_STATES
+    NUM_VERTICAL_STATES
 };
 
 const string VERTICAL_STATE_NAMES[NUM_VERTICAL_STATES] =
 {
-	"Any",
+    "Any",
 
-	"Ground",
-	"Ducking",
-	"Air"
+    "Ground",
+    "Ducking",
+    "Air"
 };
 
 #endif

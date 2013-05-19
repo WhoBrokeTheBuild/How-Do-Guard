@@ -10,24 +10,24 @@
 #include "PlayerState.h"
 
 struct PlayerStateChange
-	: GameObject
+    : GameObject
 {
 
-	PlayerState
-		OldState,
-		NewState;
+    PlayerState
+        OldState,
+        NewState;
 
-	VerticalState
-		NewVertState;
+    VerticalState
+        NewVertState;
 
-	PlayerStateChange(PlayerState oldState, PlayerState newState, VerticalState newVert = INVALID_VERTICAL_STATE)
-	{
-		OldState = oldState;
-		NewState = newState;
-		NewVertState = newVert;
-	}
+    PlayerStateChange(PlayerState oldState, PlayerState newState, VerticalState newVert = INVALID_VERTICAL_STATE)
+    {
+        OldState = oldState;
+        NewState = newState;
+        NewVertState = newVert;
+    }
 
-	virtual string toString( void ) const { return "Player State Change"; }
+    virtual string toString( void ) const { return "Player State Change"; }
 
 };
 

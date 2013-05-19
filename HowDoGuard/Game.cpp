@@ -11,133 +11,129 @@ Game::Game( void )
 
 Game::~Game( void )
 {
-	term();
+    term();
 }
 
 std::string Game::toString( void ) const
 {
-	return "Game";
+    return "Game";
 }
 
 void Game::init( void )
 {
-	INF(toString(), "Starting Init");
+    INF(toString(), "Starting Init");
 
-	_targetFPS = 60.0f;
-	_currentFPS = 0;
+    _targetFPS = 60.0f;
+    _currentFPS = 0;
 
-	gpEventDispatcher = New EventDispatcher();
+    gpEventDispatcher = New EventDispatcher();
 
-	_pGraphicsSystem = New GraphicsSystem();
-	_pGraphicsSystem->init();
+    _pGraphicsSystem = New GraphicsSystem();
+    _pGraphicsSystem->init();
 
-	gpDataManager = New DataManager();
-	gpDataManager->init();
+    gpDataManager = New DataManager();
+    gpDataManager->init();
 
-	_pInputSystem = New InputSystem();
-	_pInputSystem->init();
+    _pInputSystem = New InputSystem();
+    _pInputSystem->init();
 
-	gpEventDispatcher->addEventListener(Event::EVENT_GAME_END, this, &Game::stop);
+    gpEventDispatcher->addEventListener(Event::EVENT_GAME_END, this, &Game::stop);
 
-	bg = New BasicUnit();
-	bg->init(gpDataManager->pAnimations->get("bg"));
+    bg = New BasicUnit();
+    bg->init(gpDataManager->pAnimations->get("bg"));
 
-	fpsFont = New Font("assets/fonts/ds-digital.ttf", 25);
+    fpsFont = New Font("assets/fonts/ds-digital.ttf", 25);
 
-	fpsText = New CachedText();
-	fpsText->init("", fpsFont);
+    fpsText = New CachedText();
+    fpsText->init("", fpsFont);
 
-	stateText = New CachedText();
-	stateText->init("", fpsFont);
+    stateText = New CachedText();
+    stateText->init("", fpsFont);
 
-	//toast = New Toast();
-	//toast->init();
+    test = New Player();
+    test->init(PLAYER_INDEX_ONE, "wolf", Vector2(200));
 
-	test = New Player();
-	test->init(PLAYER_INDEX_ONE);
+    test2 = New Player();
+    test2->init(PLAYER_INDEX_TWO, "curl", Vector2(500, 0));
 
-	test2 = New Player();
-	test2->init(PLAYER_INDEX_TWO, Vector2(400, 0));
-
-	INF(toString(), "Finished Init");
+    INF(toString(), "Finished Init");
 }
 
 void Game::term( void )
 {
-	gpEventDispatcher->removeEventListener(Event::EVENT_GAME_END, this, &Game::stop);
+    gpEventDispatcher->removeEventListener(Event::EVENT_GAME_END, this, &Game::stop);
 
-	delete test2;
-	delete test;
-	//delete toast;
+    delete test2;
+    delete test;
 
-	delete stateText;
-	delete fpsText;
-	delete fpsFont;
+    delete stateText;
+    delete fpsText;
+    delete fpsFont;
 
-	delete bg;
+    delete bg;
 
-	delete _pInputSystem;
-	delete _pGraphicsSystem;
+    delete _pInputSystem;
+    delete _pGraphicsSystem;
 
-	delete gpDataManager;
-	delete gpEventDispatcher;
+    delete gpDataManager;
+    delete gpEventDispatcher;
 }
 
 void Game::start( void )
 {
-	_running = true;
+    _running = true;
 
-	double 
-		fpsDelay = 1000.0 / _targetFPS,
-		frameDelay = 0;
+    double 
+        fpsDelay = 1000.0 / _targetFPS,
+        frameDelay = 0;
 
-	FrameData frameData = FrameData();
-	RenderData renderData = RenderData(_pGraphicsSystem->renderTarget());
+    FrameData frameData = FrameData();
+    RenderData renderData = RenderData(_pGraphicsSystem->renderTarget());
 
-	Timer fpsTimer = Timer();
-	fpsTimer.start();
+    Timer fpsTimer = Timer();
+    fpsTimer.start();
 
-	stringstream ss;
+    stringstream ss;
 
-	while (_running)
-	{
-		frameData.update(frameDelay, _currentFPS, _targetFPS);
+    while (_running)
+    {
+        frameData.update(frameDelay, _currentFPS, _targetFPS);
 
-		update(frameData);
-		draw(renderData);
+        update(frameData);
+        draw(renderData);
 
-		_currentFPS = (float)(1000.0 / frameDelay);
+        _currentFPS = (float)(1000.0 / frameDelay);
 
-		ss.str(string());
-		ss << "FPS: " << floor(_currentFPS, 2);
-		fpsText->setText(ss.str());
+        ss.str(string());
+        ss << "FPS: " << ceil(_currentFPS, 1);
+        fpsText->setText(ss.str());
 
-		fpsTimer.sleepUntilElapsed(fpsDelay);
-		frameDelay = fpsTimer.getElapsedMilli();
-		fpsTimer.start();
-	}
+        fpsTimer.sleepUntilElapsed(fpsDelay);
+        frameDelay = fpsTimer.getElapsedMilli();
+        fpsTimer.start();
+    }
 }
 
 void Game::stop ( const Event& event )
 {
-	_running = false;
+    _running = false;
 }
 
 void Game::update( const FrameData& frameData )
 {
-	gpEventDispatcher->dispatchEvent(Event(Event::EVENT_ENTER_FRAME, frameData));
-	gpEventDispatcher->dispatchEvent(Event(Event::EVENT_FRAME,		 frameData));
-	gpEventDispatcher->dispatchEvent(Event(Event::EVENT_EXIT_FRAME,  frameData));
+    gpEventDispatcher->dispatchEvent(Event(Event::EVENT_ENTER_FRAME, frameData));
+    gpEventDispatcher->dispatchEvent(Event(Event::EVENT_FRAME,         frameData));
+    gpEventDispatcher->dispatchEvent(Event(Event::EVENT_EXIT_FRAME,  frameData));
 }
 
 void Game::draw( const RenderData& renderData )
 {
-	renderData.renderTarget()->beginDraw();
+    renderData.renderTarget()->beginDraw();
 
-	gpEventDispatcher->dispatchEvent(Event(Event::EVENT_RENDER, renderData));
+    gpEventDispatcher->dispatchEvent(Event(Event::EVENT_RENDER, renderData));
 
-	renderData.renderTarget()->drawText(Vector2(10), fpsText);
-	renderData.renderTarget()->drawText(Vector2(10, 45), stateText);
+    renderData.renderTarget()->drawText(Vector2(10), fpsText);
+    renderData.renderTarget()->drawText(Vector2(10, 45), stateText);
 
-	renderData.renderTarget()->endDraw();
+    renderData.renderTarget()->endDraw();
 }

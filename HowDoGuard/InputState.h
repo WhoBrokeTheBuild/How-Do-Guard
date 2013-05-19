@@ -7,21 +7,21 @@
 #include "GameObject.h"
 
 struct InputState 
-	: public GameObject
+    : public GameObject
 {
-	bool 
-		Pressed,
-		Released,
-		Down,
-		Hidden;
+    bool 
+        Pressed,
+        Released,
+        Down,
+        Hidden;
 
-	int 
-		HeldCount;
+    int 
+        HeldCount;
 
-	InputState( void );
-	InputState( bool pressed, bool released, bool down );
+    InputState( void );
+    InputState( bool pressed, bool released, bool down );
 
-	virtual string toString( void ) const;
+    virtual string toString( void ) const;
 };
 
 #endif

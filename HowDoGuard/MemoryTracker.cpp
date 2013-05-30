@@ -36,11 +36,6 @@ void MemoryTracker::addAllocation( GameObject *ptr, size_t size, int lineNumber,
     }
     else
     {
-        if (_sAllocationIndex == 186 || _sAllocationIndex == 188)
-        {
-            cout << "wat" << endl;
-        }
-
         AllocationRecord rec(_sAllocationIndex, size, lineNumber, string(filename));
 
         pair<GameObject*, AllocationRecord> newPair(ptr, rec);

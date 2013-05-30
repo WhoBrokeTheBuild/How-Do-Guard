@@ -143,7 +143,11 @@ template <class T>
 void Manager<T>::remove(ItemKey pKey)
 {
     if (contains(pKey))
+    {
+        delete mObjects[pKey];
+        mObjects[pKey] = nullptr;
         mObjects->erase(pKey);
+    }
 }
 
 template <class T>

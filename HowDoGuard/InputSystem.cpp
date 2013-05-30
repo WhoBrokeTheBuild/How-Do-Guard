@@ -129,12 +129,34 @@ void InputSystem::init( void )
 
     _sdlKeys = SDL_GetKeyState(nullptr);
 
+    stringstream ss;
+
+    ss << "Detected " << SDL_NumJoysticks() << " Joysticks";
+    INF(toString(), ss.str());
+    ss.str(string());
+
+    SDL_JoystickEventState(SDL_ENABLE);
+
+    for (int i = 0; i < SDL_NumJoysticks(); i++) 
+    {
+        ss << "Joystick " << i << "s Name: " << SDL_JoystickName(i);
+        INF(toString(), ss.str());
+        ss.str(string());
+
+        _joysticks.push_back(SDL_JoystickOpen(i));
+    }
+
     INF(toString(), "Finished Init");
 }
 
 void InputSystem::term( void )
 {
     gpEventDispatcher->removeEventListener(Event::EVENT_ENTER_FRAME, this, &InputSystem::update);
+
+    for (int i = 0; i < _joysticks.size(); i++)
+    {
+        SDL_JoystickClose(_joysticks[i]);
+    }
 }
 
 std::string InputSystem::toString( void ) const
@@ -165,6 +187,14 @@ void InputSystem::update( const Event& event )
         case SDL_QUIT:
 
             gpEventDispatcher->dispatchEvent(Event(Event::EVENT_GAME_END));
+
+            break;
+        case SDL_JOYBUTTONDOWN:
+
+            if (inputEvent.jbutton.button == 8)
+            {
+                gpEventDispatcher->dispatchEvent(Event(Event::EVENT_GAME_END));
+            }
 
             break;
         }

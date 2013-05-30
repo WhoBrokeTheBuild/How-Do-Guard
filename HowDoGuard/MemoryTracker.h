@@ -59,7 +59,7 @@ public:
 
     void printAllocations( void );
     void printAllocations( ostream& stream );
-
+    void killSurvivors( void );
 };
 
 extern MemoryTracker* gpMemoryTracker;

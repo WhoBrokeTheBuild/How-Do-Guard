@@ -37,7 +37,7 @@ void Player::init( PlayerIndex index, PlayerType type, Vector2 pos /*= Vector2::
     _terminalVel =  gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("terminalVel")));
     _movementAcc =  gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("movementAcc")));
 
-    _stateData = &gpDataManager->PlayerStateData["curl"];
+    _stateData = &gpDataManager->PlayerStateData[_playerType];
 }
 
 void Player::term( void )
@@ -62,11 +62,11 @@ void Player::update( const Event& event )
         {
             if (sign(Vel.Y) == 1)
             {
-                setAnimation(gpDataManager->pAnimations->get("curl-descending"));
+                setAnimation(gpDataManager->pAnimations->get(_playerType + "-descending"));
             }
             else
             {
-                setAnimation(gpDataManager->pAnimations->get("curl-ascending"));
+                setAnimation(gpDataManager->pAnimations->get(_playerType + "-ascending"));
             }
         }
 

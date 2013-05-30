@@ -53,6 +53,9 @@ private:
     map<GameInput, GameInput>
         _exclusive;
 
+    vector<SDL_Joystick*>
+        _joysticks;
+
     unsigned int
         _maxPlayers;
 

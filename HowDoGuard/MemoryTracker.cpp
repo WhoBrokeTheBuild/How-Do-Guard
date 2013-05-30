@@ -17,6 +17,8 @@ MemoryTracker::~MemoryTracker( void )
 
 #endif
 
+    killSurvivors();
+
 }
 
 std::string MemoryTracker::toString( void ) const
@@ -34,6 +36,11 @@ void MemoryTracker::addAllocation( GameObject *ptr, size_t size, int lineNumber,
     }
     else
     {
+        if (_sAllocationIndex == 186 || _sAllocationIndex == 188)
+        {
+            cout << "wat" << endl;
+        }
+
         AllocationRecord rec(_sAllocationIndex, size, lineNumber, string(filename));
 
         pair<GameObject*, AllocationRecord> newPair(ptr, rec);
@@ -86,4 +93,16 @@ void MemoryTracker::printAllocations( ostream& stream )
         stream << "\t In " << basename(it->second.Filename)
                << " On Line " << it->second.LineNum << "\n";
     }
+}
+
+void MemoryTracker::killSurvivors( void )
+{
+    vector<GameObject*> survivors;
+
+    map<GameObject*, AllocationRecord>::iterator it;
+    for (it = _allocations.begin(); it != _allocations.end(); ++it)
+        survivors.push_back(it->first);
+
+    for (unsigned int i = 0; i < survivors.size(); ++i)
+        delete survivors[i];
 }

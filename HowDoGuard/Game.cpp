@@ -56,6 +56,9 @@ void Game::init( void )
     test2 = New Player();
     test2->init(PLAYER_INDEX_TWO, "curl", Vector2(500, 0));
 
+    test->registerEnemy(test2);
+    test2->registerEnemy(test);
+
     INF(toString(), "Finished Init");
 }
 

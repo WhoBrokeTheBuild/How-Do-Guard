@@ -156,12 +156,12 @@ void RenderTarget::draw( float x, float y, Texture *pTexture, Color color /*= Co
     draw(x, y, pTexture, pTexture->size(), color, rotation, origin);
 }
 
-void RenderTarget::draw( Vector2 pos, Texture *pTexture, Rect sourceRect, Color color /*= Color::WHITE*/, float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/ )
+void RenderTarget::draw( Vector2 pos, Texture *pTexture, Rect sourceRect, Color color /*= Color::WHITE*/, float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/, bool flip /*= false*/ )
 {
-    draw(pos.X, pos.Y, pTexture, sourceRect, color, rotation, origin);
+    draw(pos.X, pos.Y, pTexture, sourceRect, color, rotation, origin, flip);
 }
 
-void RenderTarget::draw( float x, float y, Texture *pTexture, Rect sourceRect, Color color /*= Color::WHITE*/, float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/ )
+void RenderTarget::draw( float x, float y, Texture *pTexture, Rect sourceRect, Color color /*= Color::WHITE*/, float rotation /*= 0.0f */, Vector2 origin /*= Vector2::ZERO*/, bool flip /*= false*/ )
 {
     glPushMatrix();
     glTranslatef(x, y, 0);
@@ -179,10 +179,20 @@ void RenderTarget::draw( float x, float y, Texture *pTexture, Rect sourceRect, C
     Rect texSize = pTexture->size();
     Rect convSrcRect = Rect(sourceRect.left() / texSize.Width, sourceRect.top() / texSize.Height, sourceRect.Width / texSize.Width, sourceRect.Height / texSize.Height);
 
-    glTexCoord2d(convSrcRect.left(),    convSrcRect.top());        glVertex2d(0.0,                    0.0);
-    glTexCoord2d(convSrcRect.right(),    convSrcRect.top());        glVertex2d(sourceRect.Width,    0.0);
-    glTexCoord2d(convSrcRect.right(),    convSrcRect.bottom());    glVertex2d(sourceRect.Width,    sourceRect.Height);
-    glTexCoord2d(convSrcRect.left(),    convSrcRect.bottom());    glVertex2d(0.0,                    sourceRect.Height);
+    if (flip)
+    {
+        glTexCoord2d(convSrcRect.right(),   convSrcRect.top());     glVertex2d(0.0,                 0.0);
+        glTexCoord2d(convSrcRect.left(),    convSrcRect.top());     glVertex2d(sourceRect.Width,    0.0);
+        glTexCoord2d(convSrcRect.left(),    convSrcRect.bottom());  glVertex2d(sourceRect.Width,    sourceRect.Height);
+        glTexCoord2d(convSrcRect.right(),   convSrcRect.bottom());  glVertex2d(0.0,                 sourceRect.Height);
+    }
+    else
+    {
+        glTexCoord2d(convSrcRect.left(),    convSrcRect.top());     glVertex2d(0.0,                 0.0);
+        glTexCoord2d(convSrcRect.right(),   convSrcRect.top());     glVertex2d(sourceRect.Width,    0.0);
+        glTexCoord2d(convSrcRect.right(),   convSrcRect.bottom());  glVertex2d(sourceRect.Width,    sourceRect.Height);
+        glTexCoord2d(convSrcRect.left(),    convSrcRect.bottom());  glVertex2d(0.0,                 sourceRect.Height);
+    }
 
     glEnd();
 

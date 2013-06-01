@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "Game.h"
 
+const EventType Player::EVENT_ENEMY_LOCATION = "eventEnemyLocation";
+
 Player::Player( void )
 {
 }
@@ -37,6 +39,8 @@ void Player::init( PlayerIndex index, PlayerType type, Vector2 pos /*= Vector2::
     _terminalVel =  gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("terminalVel")));
     _movementAcc =  gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("movementAcc")));
 
+    _flip = true;
+
     _stateData = &gpDataManager->PlayerStateData[_playerType];
 }
 
@@ -48,9 +52,6 @@ void Player::term( void )
 void Player::update( const Event& event )
 {
     ActiveUnit::update(event);
-
-    //cout << PLAYER_STATE_NAMES[_state] << endl;
-    //INF(toString(), Vel.toString());
 
     if (_vertState == VERT_STATE_AIR)
     {
@@ -92,6 +93,23 @@ void Player::update( const Event& event )
 
         Vel.X -= damp * sign(Vel.X);
     }
+
+    dispatchEvent(Event(Player::EVENT_ENEMY_LOCATION, PointData(Pos)));
+}
+
+void Player::draw( const Event& event )
+{
+    const RenderData* renderData = event.dataAs<RenderData>();
+
+    if (_pAnimation == nullptr)
+        return;
+
+    Sprite *currentFrame = _pAnimation->frame(_frame);
+
+    if (currentFrame == nullptr)
+        return;
+
+    renderData->renderTarget()->draw(Pos - Origin, currentFrame->texture(), currentFrame->SourceRect, BlendColor, Rot, Origin, _flip);
 }
 
 void Player::inputPressed( const Event& event )
@@ -138,7 +156,7 @@ void Player::inputHeld( const Event& event )
         }
     }
 
-    if (_state == PLAYER_STATE_WALK || _state == PLAYER_STATE_AIR)
+    if (_state == PLAYER_STATE_WALK || _vertState == VERT_STATE_AIR)
     {
         if (inputData->Input == GAME_INPUT_LEFT)
         {
@@ -267,4 +285,23 @@ void Player::setAnimation( Animation *pAnimation, bool useDefaults /*= true */ )
     ActiveUnit::setAnimation(pAnimation, useDefaults);
 
     Origin = Vector2(Size.X / 2.0f, Size.Y);
+}
+
+void Player::updateEnemyLocation( const Event& event )
+{
+    const PointData* data = event.dataAs<PointData>();
+
+    if (Pos.X > data->X)
+    {
+        _flip = true;
+    }
+    else
+    {
+        _flip = false;
+    }
+}
+
+void Player::registerEnemy( Player* enemy )
+{
+    enemy->addEventListener(Player::EVENT_ENEMY_LOCATION, this, &Player::updateEnemyLocation);
 }

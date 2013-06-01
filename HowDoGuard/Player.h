@@ -12,6 +12,8 @@
 
 #include "DataManager.h"
 
+#include "EventDispatcher.h"
+
 typedef pair<VerticalState, PlayerState> StatePair;
 typedef string PlayerType;
 
@@ -50,12 +52,17 @@ protected:
         _airDamping,
         _movementAcc;
 
+    bool
+        _flip;
+
     virtual void setAnimationKeys( void );
     virtual void addAnimationKey( PlayerState state, ItemKey key, VerticalState vertState = VERT_STATE_ANY );
 
     virtual void checkStateData( GameInput input, GameInputType type = GAME_INPUT_TYPE_OTHER );
 
 public:
+
+    static const EventType EVENT_ENEMY_LOCATION;
 
     Player( void );
     virtual ~Player( void );
@@ -66,6 +73,7 @@ public:
     virtual void term( void );
 
     virtual void update( const Event& event );
+    virtual void draw  ( const Event& event );
 
     virtual void inputPressed ( const Event& event );
     virtual void inputReleased( const Event& event );
@@ -77,6 +85,8 @@ public:
 
     virtual void setAnimation( Animation *pAnimation, bool useDefaults = true );
 
+    virtual void updateEnemyLocation( const Event& event );
+    void registerEnemy( Player * enemy );
 };
 
 #endif

@@ -4,14 +4,14 @@
 #define __TOAST_H__
 
 #include "Common.h"
-#include "BasicUnit.h"
+#include <AnimatedUnit.h>
 
 #include "DataManager.h"
 
 #include "PlayerState.h"
 
 class Toast :
-    public BasicUnit
+    public AnimatedUnit
 {
 private:
 

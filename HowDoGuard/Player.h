@@ -4,15 +4,13 @@
 #define __PLAYER_H__
 
 #include "Common.h"
-#include "ActiveUnit.h"
+#include <ActiveUnit.h>
+#include <EventDispatcher.h>
 
+#include "DataManager.h"
 #include "VerticalState.h"
 #include "PlayerState.h"
 #include "PlayerStateChange.h"
-
-#include "DataManager.h"
-
-#include "EventDispatcher.h"
 
 typedef pair<VerticalState, PlayerState> StatePair;
 typedef string PlayerType;
@@ -73,7 +71,7 @@ public:
     virtual void term( void );
 
     virtual void update( const Event& event );
-    virtual void draw  ( const Event& event );
+    virtual void render  ( const Event& event );
 
     virtual void inputPressed ( const Event& event );
     virtual void inputReleased( const Event& event );
@@ -86,7 +84,6 @@ public:
     virtual void setAnimation( Animation *pAnimation, bool useDefaults = true );
 
     virtual void updateEnemyLocation( const Event& event );
-    void registerEnemy( Player * enemy );
 };
 
 #endif

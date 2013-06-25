@@ -4,13 +4,13 @@
 #define __DATA_MANAGER_H__
 
 #include "Common.h"
-#include "GameObject.h"
+#include <GameObject.h>
 
-#include "Manager.h"
+#include <Manager.h>
 
-#include "Animation.h"
-#include "Sprite.h"
-#include "Texture.h"
+#include <Animation.h>
+#include <Sprite.h>
+#include <Texture.h>
 
 #include "VerticalState.h"
 #include "PlayerState.h"

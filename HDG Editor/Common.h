@@ -1,4 +1,3 @@
-
 #pragma once
 
 #ifndef __COMMON_H__
@@ -10,14 +9,9 @@
 #include <sstream>
 
 #include <Functions.h>
-#include <GameObject.h>
-#include <Vector2.h>
-#include <Rect.h>
-#include <Circle.h>
+#include <Geom.h>
 
 using ::std::cout;
 using ::std::endl;
-
-typedef string ItemKey;
 
 #endif

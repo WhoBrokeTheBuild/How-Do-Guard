@@ -1,0 +1,23 @@
+add tool to view the sheet animating through the main window at various speeds w/ hitbox toggle.
+
+
+arrows on the sides of the frame thumbnails are for scrolling through the thumbnails not the indivudial frames, although clicking on a frame switches to it
+play, pause, next, previous
+
+Tools:
+ Newhitbox (Enter draw mode, when completed selects hitbox layer so options can be edited in A, B, & C)
+
+Drag hitbox, move it around on the sprite.
+
+The hitboxes are semi transparent, and they are color coded based on hit, hurt, and solid (that means that there are 6 permutations of color for the hitboxes.)
+Can select mutliple hitbox types at once, for example you can have a hitbox that is also a hurtbox.
+
+
+For B, damage (in percent w/ slider that goes at .1 incriments and textbox)
+Priority should not be a slider, just a textbox and it should only accept positive intergers.
+
+Game specific stuff:
+
+For ours:
+
+Move the 

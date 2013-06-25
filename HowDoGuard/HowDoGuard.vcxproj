@@ -56,11 +56,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\Libraries\SDL\include\;..\Libraries\SDL_image\include\;..\Libraries\SDL_mixer\include\;..\Libraries\SDL_ttf\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Libraries\SDL\include\;..\Libraries\SDL_image\include\;..\Libraries\SDL_mixer\include\;..\Libraries\SDL_ttf\include\;..\..\..\Arc.git\trunk\Arc Engine\Arc Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Libraries\SDL\lib\x86\;..\Libraries\SDL_image\lib\;..\Libraries\SDL_mixer\lib\;..\Libraries\SDL_ttf\lib\x86\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Libraries\SDL\lib\x86\;..\Libraries\SDL_image\lib\;..\Libraries\SDL_mixer\lib\;..\Libraries\SDL_ttf\lib\x86\;..\..\..\Arc.git\trunk\Arc Engine\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -84,13 +84,13 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\Libraries\SDL\include\;..\Libraries\SDL_image\include\;..\Libraries\SDL_mixer\include\;..\Libraries\SDL_ttf\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Libraries\SDL\include\;..\Libraries\SDL_image\include\;..\Libraries\SDL_mixer\include\;..\Libraries\SDL_ttf\include\;..\..\..\Arc.git\trunk\Arc Engine\Arc Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\Libraries\SDL\lib\x86\;..\Libraries\SDL_image\lib\;..\Libraries\SDL_mixer\lib\;..\Libraries\SDL_ttf\lib\x86\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Libraries\SDL\lib\x86\;..\Libraries\SDL_image\lib\;..\Libraries\SDL_mixer\lib\;..\Libraries\SDL_ttf\lib\x86\;..\..\..\Arc.git\trunk\Arc Engine\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>
       </EntryPointSymbol>
@@ -99,77 +99,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ActiveUnit.cpp" />
-    <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="BasicUnit.cpp" />
-    <ClCompile Include="Circle.cpp" />
-    <ClCompile Include="Color.cpp" />
     <ClCompile Include="ConfigLevel.cpp" />
-    <ClCompile Include="Console.cpp" />
     <ClCompile Include="DataManager.cpp" />
-    <ClCompile Include="Event.cpp" />
-    <ClCompile Include="EventDispatcher.cpp" />
-    <ClCompile Include="Font.cpp" />
-    <ClCompile Include="Functions.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GraphicsSystem.cpp" />
-    <ClCompile Include="InputChange.cpp" />
-    <ClCompile Include="InputState.cpp" />
-    <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="FightingGame.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MemoryTracker.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Rect.cpp" />
-    <ClCompile Include="RenderTarget.cpp" />
-    <ClCompile Include="CachedText.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Toast.cpp" />
-    <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActiveUnit.h" />
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="BasicUnit.h" />
-    <ClInclude Include="Callbacks.h" />
-    <ClInclude Include="Circle.h" />
-    <ClInclude Include="Color.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="ConfigLevel.h" />
-    <ClInclude Include="Console.h" />
     <ClInclude Include="DataManager.h" />
-    <ClInclude Include="Defines.h" />
-    <ClInclude Include="Delegate.h" />
-    <ClInclude Include="Event.h" />
-    <ClInclude Include="EventData.h" />
-    <ClInclude Include="EventDispatcher.h" />
-    <ClInclude Include="Font.h" />
-    <ClInclude Include="Functions.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameInput.h" />
-    <ClInclude Include="GameInputType.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GraphicsSystem.h" />
-    <ClInclude Include="InputChange.h" />
-    <ClInclude Include="PlayerIndex.h" />
-    <ClInclude Include="InputPress.h" />
-    <ClInclude Include="InputState.h" />
-    <ClInclude Include="InputSystem.h" />
-    <ClInclude Include="Manager.h" />
-    <ClInclude Include="MemoryTracker.h" />
+    <ClInclude Include="FightingGame.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="PlayerStateChange.h" />
-    <ClInclude Include="Rect.h" />
-    <ClInclude Include="RenderTarget.h" />
-    <ClInclude Include="CachedText.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Timer.h" />
     <ClInclude Include="Toast.h" />
-    <ClInclude Include="Vector2.h" />
     <ClInclude Include="VerticalState.h" />
   </ItemGroup>
   <ItemGroup>

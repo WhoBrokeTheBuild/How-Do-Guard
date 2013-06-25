@@ -17,7 +17,7 @@ std::string Toast::toString( void ) const
 
 void Toast::init( void )
 {
-    BasicUnit::init(gpDataManager->pAnimations->get("toast-idle"), Vector2(300, 165));
+    AnimatedUnit::init(gpDataManager->pAnimations->get("toast-idle"), Vector2(300, 165));
 
     _vel = Vector2::ZERO;
     _acc = Vector2::ZERO;
@@ -38,8 +38,6 @@ void Toast::init( void )
 
 void Toast::term( void )
 {
-    BasicUnit::term();
-
     gpEventDispatcher->removeEventListener(InputSystem::EVENT_INPUT_PRESSED,  this, &Toast::inputPressed);
     gpEventDispatcher->removeEventListener(InputSystem::EVENT_INPUT_RELEASED, this, &Toast::inputReleased);
     gpEventDispatcher->removeEventListener(InputSystem::EVENT_INPUT_HELD,     this, &Toast::inputHeld);
@@ -47,7 +45,7 @@ void Toast::term( void )
 
 void Toast::update( const Event& event )
 {
-    BasicUnit::update(event);
+    AnimatedUnit::update(event);
 
     Pos += _vel;
     _vel += _acc;
@@ -192,7 +190,7 @@ void Toast::setState( PlayerState newState )
 
 void Toast::animationComplete( const Event& event )
 {
-    BasicUnit::animationComplete(event);
+    AnimatedUnit::animationComplete(event);
 
     if (_state == PLAYER_STATE_HEAVY_PUNCH)
         setState(PLAYER_STATE_IDLE);

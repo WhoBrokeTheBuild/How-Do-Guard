@@ -4,7 +4,7 @@
 #define __CONFIG_LEVEL_H__
 
 #include "Common.h"
-#include "GameObject.h"
+#include <GameObject.h>
 
 typedef string ConfigKey;
 typedef string ConfigValue;

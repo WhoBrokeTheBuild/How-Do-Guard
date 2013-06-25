@@ -28,16 +28,16 @@ void Player::init( PlayerIndex index, PlayerType type, Vector2 pos /*= Vector2::
 
     switchState(PLAYER_STATE_AIR, VERT_STATE_AIR);
 
-    _gravity     = -gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("gravity")));
-    _ground      =  420.0f;
-    _maxSpeed    =  gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("maxSpeed")));
-    _jumpVelInit =  gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("jumpVelStart")));
-    _jumpVelMax  =  gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("jumpVelMax")));
-    _jumpVelLeft =  _jumpVelMax;
-    _damping     =  gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("damping")));
-    _airDamping  =  gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("airDamping")));
-    _terminalVel =  gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("terminalVel")));
-    _movementAcc =  gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("movementAcc")));
+    _gravity     = gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("gravity")));
+    _ground      = 420.0f;
+    _maxSpeed    = gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("maxSpeed")));
+    _jumpVelInit = gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("jumpVelStart")));
+    _jumpVelMax  = gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("jumpVelMax")));
+    _jumpVelLeft = _jumpVelMax;
+    _damping     = gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("damping")));
+    _airDamping  = gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("airDamping")));
+    _terminalVel = gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("terminalVel")));
+    _movementAcc = gpDataManager->getFloat(makeVector<string>(3, _playerType, string("movement"), string("movementAcc")));
 
     _flip = true;
 
@@ -46,12 +46,13 @@ void Player::init( PlayerIndex index, PlayerType type, Vector2 pos /*= Vector2::
 
 void Player::term( void )
 {
-    ActiveUnit::term();
 }
 
 void Player::update( const Event& event )
 {
     ActiveUnit::update(event);
+
+    Origin = Vector2(Size.halfX(), Size.Y);
 
     if (_vertState == VERT_STATE_AIR)
     {
@@ -61,13 +62,20 @@ void Player::update( const Event& event )
 
         if (_state == PLAYER_STATE_AIR)
         {
-            if (sign(Vel.Y) == 1)
+            if (abs(Vel.Y) < 0.5)
             {
-                setAnimation(gpDataManager->pAnimations->get(_playerType + "-descending"));
+                setAnimation(gpDataManager->pAnimations->get(_playerType + "-peak"));
             }
             else
             {
-                setAnimation(gpDataManager->pAnimations->get(_playerType + "-ascending"));
+                if (sign(Vel.Y) == 1)
+                {
+                    setAnimation(gpDataManager->pAnimations->get(_playerType + "-descending"));
+                }
+                else
+                {
+                    setAnimation(gpDataManager->pAnimations->get(_playerType + "-ascending"));
+                }
             }
         }
 
@@ -79,7 +87,7 @@ void Player::update( const Event& event )
         }
     }
 
-    if (abs(Vel.X) < 0.01)
+    if (abs(Vel.X) < 0.01f)
         Vel.X = 0.0f;
 
     if (Vel.X != 0.0f)
@@ -97,14 +105,14 @@ void Player::update( const Event& event )
     dispatchEvent(Event(Player::EVENT_ENEMY_LOCATION, PointData(Pos)));
 }
 
-void Player::draw( const Event& event )
+void Player::render( const Event& event )
 {
     const RenderData* renderData = event.dataAs<RenderData>();
 
     if (_pAnimation == nullptr)
         return;
 
-    Sprite *currentFrame = _pAnimation->frame(_frame);
+    Sprite *currentFrame = _pAnimation->frameAt(_frame);
 
     if (currentFrame == nullptr)
         return;
@@ -243,8 +251,6 @@ void Player::switchState( PlayerState state /*= INVALID_PLAYER_STATE*/, Vertical
     if (_state != INVALID_PLAYER_STATE)
         _state = state;
 
-    Game::stateText->setText(PLAYER_STATE_NAMES[_state]);
-
     if (_vertState != INVALID_VERTICAL_STATE)
         _vertState = vertState;
 
@@ -282,9 +288,7 @@ void Player::checkStateData( GameInput input, GameInputType type /*= GAME_INPUT_
 
 void Player::setAnimation( Animation *pAnimation, bool useDefaults /*= true */ )
 {
-    ActiveUnit::setAnimation(pAnimation, useDefaults);
-
-    Origin = Vector2(Size.X / 2.0f, Size.Y);
+    AnimatedUnit::setAnimation(pAnimation, useDefaults);
 }
 
 void Player::updateEnemyLocation( const Event& event )
@@ -299,9 +303,4 @@ void Player::updateEnemyLocation( const Event& event )
     {
         _flip = false;
     }
-}
-
-void Player::registerEnemy( Player* enemy )
-{
-    enemy->addEventListener(Player::EVENT_ENEMY_LOCATION, this, &Player::updateEnemyLocation);
 }

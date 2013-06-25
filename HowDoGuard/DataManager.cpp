@@ -425,7 +425,7 @@ void DataManager::loadAssets( string filename )
                     }
                 }
 
-                pAnimations->addEmpty(key)->init(frames, frameSize.size(), true, loop);
+                pAnimations->addEmpty(key)->init(frames, true, loop);
             }
         }
     }

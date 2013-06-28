@@ -1,5 +1,6 @@
 #include "Toast.h"
 #include "InputSystem.h"
+#include "GameInputSource.h"
 
 Toast::Toast( void )
 {
@@ -28,9 +29,9 @@ void Toast::init( void )
 
     _size = Rect(0, 0, 255, 255);
 
-    gpEventDispatcher->addEventListener(InputSystem::EVENT_INPUT_PRESSED,  this, &Toast::inputPressed);
-    gpEventDispatcher->addEventListener(InputSystem::EVENT_INPUT_RELEASED, this, &Toast::inputReleased);
-    gpEventDispatcher->addEventListener(InputSystem::EVENT_INPUT_HELD,     this, &Toast::inputHeld);
+    gpEventDispatcher->addEventListener(GameInputSource::EVENT_GAME_INPUT_PRESSED,  this, &Toast::inputPressed);
+    gpEventDispatcher->addEventListener(GameInputSource::EVENT_GAME_INPUT_RELEASED, this, &Toast::inputReleased);
+    gpEventDispatcher->addEventListener(GameInputSource::EVENT_GAME_INPUT_HELD,     this, &Toast::inputHeld);
 
     _validWalkStates = makeVector(5, PLAYER_STATE_IDLE, PLAYER_STATE_DUCKING_START, PLAYER_STATE_LANDING, PLAYER_STATE_WALK);
     _validJumpStates = makeVector(6, PLAYER_STATE_IDLE, PLAYER_STATE_DUCKING_START, PLAYER_STATE_DUCKING, PLAYER_STATE_LANDING, PLAYER_STATE_WALK);
@@ -38,9 +39,9 @@ void Toast::init( void )
 
 void Toast::term( void )
 {
-    gpEventDispatcher->removeEventListener(InputSystem::EVENT_INPUT_PRESSED,  this, &Toast::inputPressed);
-    gpEventDispatcher->removeEventListener(InputSystem::EVENT_INPUT_RELEASED, this, &Toast::inputReleased);
-    gpEventDispatcher->removeEventListener(InputSystem::EVENT_INPUT_HELD,     this, &Toast::inputHeld);
+    gpEventDispatcher->removeEventListener(GameInputSource::EVENT_GAME_INPUT_PRESSED,  this, &Toast::inputPressed);
+    gpEventDispatcher->removeEventListener(GameInputSource::EVENT_GAME_INPUT_RELEASED, this, &Toast::inputReleased);
+    gpEventDispatcher->removeEventListener(GameInputSource::EVENT_GAME_INPUT_HELD,     this, &Toast::inputHeld);
 }
 
 void Toast::update( const Event& event )
@@ -65,7 +66,7 @@ void Toast::update( const Event& event )
 
 void Toast::inputPressed( const Event& event )
 {
-    const InputData* inputData = event.dataAs<InputData>();
+    const GameInputData* inputData = event.dataAs<GameInputData>();
 
     cout << GAME_INPUT_NAMES[inputData->Input] << endl;
 
@@ -101,7 +102,7 @@ void Toast::inputPressed( const Event& event )
 
 void Toast::inputReleased( const Event& event )
 {
-    const InputData* inputData = event.dataAs<InputData>();
+    const GameInputData* inputData = event.dataAs<GameInputData>();
 
     switch (inputData->Input)
     {
@@ -120,7 +121,7 @@ void Toast::inputReleased( const Event& event )
 
 void Toast::inputHeld( const Event& event )
 {
-    const InputData* inputData = event.dataAs<InputData>();
+    const GameInputData* inputData = event.dataAs<GameInputData>();
 
     switch (inputData->Input)
     {

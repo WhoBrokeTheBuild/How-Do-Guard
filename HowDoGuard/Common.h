@@ -9,15 +9,16 @@
 #include <string>
 #include <sstream>
 
+#include <Defines.h>
 #include <Functions.h>
-#include <GameObject.h>
-#include <Vector2.h>
-#include <Rect.h>
-#include <Circle.h>
+#include <Geom.h>
 
 using ::std::cout;
 using ::std::endl;
 
-typedef string ItemKey;
+typedef string  ItemKey;
+typedef uint8_t PlayerIndex;
+
+#define PLAYER_INDEX_MAX 2
 
 #endif

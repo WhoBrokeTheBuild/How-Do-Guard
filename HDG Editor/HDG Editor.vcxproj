@@ -67,15 +67,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ImageButton.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Textbox.cpp" />
+    <ClCompile Include="TextButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ImageButton.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="Textbox.h" />
+    <ClInclude Include="TextButton.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,7 +4,7 @@
 #include <MemoryTracker.h>
 #include <Console.h>
 
-#include "FightingGame.h"
+#include "Game.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
     gpMemoryTracker = new MemoryTracker();
 
-    FightingGame *game = New FightingGame();
+    Game *game = New Game();
     game->init();
 
     INF("Main", "Starting Game Loop");

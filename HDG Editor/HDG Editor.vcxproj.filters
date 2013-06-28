@@ -1,24 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Program.cpp" />
-    <ClCompile Include="Button.cpp">
-      <Filter>UI</Filter>
+    <ClCompile Include="Main.cpp">
+      <Filter>Project</Filter>
     </ClCompile>
-    <ClCompile Include="Textbox.cpp" />
+    <ClCompile Include="Program.cpp">
+      <Filter>Project</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Project\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Project\UI\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Textbox.cpp">
+      <Filter>Project\UI\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TextButton.cpp">
+      <Filter>Project\UI\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageButton.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Common.h" />
-    <ClInclude Include="Program.h" />
-    <ClInclude Include="Button.h">
-      <Filter>UI</Filter>
+    <ClInclude Include="Common.h">
+      <Filter>Project</Filter>
     </ClInclude>
-    <ClInclude Include="Textbox.h" />
+    <ClInclude Include="Program.h">
+      <Filter>Project</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Project\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Project\UI\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Textbox.h">
+      <Filter>Project\UI\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TextButton.h">
+      <Filter>Project\UI\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageButton.h" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="UI">
+    <Filter Include="Project">
+      <UniqueIdentifier>{1955b3eb-e461-423e-be43-70dd470eac20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\UI">
       <UniqueIdentifier>{7b5dc396-4432-4d0d-8c3d-3852d3f75574}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\UI\Components">
+      <UniqueIdentifier>{402d1198-031f-4917-853d-2a053c0fabd0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

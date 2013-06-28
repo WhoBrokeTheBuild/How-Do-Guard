@@ -102,6 +102,7 @@ void DataManager::loadConfig( string filename, vector<string> levels /*= vector<
             else if (split[0] == "!StartList")
             {
                 listName = split[1];
+                getLevel(levels)->addList(listName);
             }
             else if (split[0] == "!EndList")
             {
@@ -174,7 +175,7 @@ void DataManager::loadAssets( string filename )
                 vector<Sprite*> frames;
                 bool autoFrames = false;
                 int framesPerRow = -1;
-                Rect frameSize = Rect::ZERO;
+                Size frameSize = Size::ZERO;
 
                 do
                 {
@@ -247,11 +248,11 @@ void DataManager::loadAssets( string filename )
 
                     if (pieces.size() == 1)
                     {
-                        numFrames = toInt(pieces[0]);
+                        numFrames = parseInt(pieces[0]);
                     }
                     else if (pieces.size() == 2)
                     {
-                        numFrames = toInt(pieces[0]);
+                        numFrames = parseInt(pieces[0]);
 
                         if (pieces[1] == "Auto")
                         {
@@ -288,16 +289,14 @@ void DataManager::loadAssets( string filename )
 
                         if (pieces[0] == "FramesPerRow")
                         {
-                            framesPerRow = toInt(pieces[1]);
+                            framesPerRow = parseInt(pieces[1]);
                         }
                         else if (pieces[0] == "FrameSize")
                         {
-                            pieces = strSplit(pieces[1], ' ', 2);
-
                             if (pieces.size() < 2)
                                 continue;
 
-                            frameSize = Rect(0, 0, toFloat(pieces[0]), toFloat(pieces[1]));
+                            frameSize = parseVector2(pieces[1]);
                         }
                     } 
                     while (line.length() != 0 && pieces[0] != "FrameOrder");
@@ -306,23 +305,23 @@ void DataManager::loadAssets( string filename )
                         return;
 
                     vector<Rect> tmpFrames;
-                    Rect tmpRect = frameSize;
+                    Rect tmpRect = Rect(Vector2::ZERO, frameSize);
 
                     int col = 0;
                     for (int i = 0; i < numFrames; ++i)
                     {
                         tmpFrames.push_back(tmpRect);
-                        tmpRect.X += frameSize.Width;
+                        tmpRect.X += frameSize.width();
                         col++;
                         if (framesPerRow != -1 && col == framesPerRow)
                         {
                             col = 0;
                             tmpRect.X = 0;
-                            tmpRect.Y += frameSize.Height;
+                            tmpRect.Y += frameSize.height();
                         }
                     }
 
-                    int numFramesInOrder = toInt(pieces[1]);
+                    int numFramesInOrder = parseInt(pieces[1]);
 
                     for (int i = 0; i < numFramesInOrder; ++i)
                     {
@@ -348,9 +347,9 @@ void DataManager::loadAssets( string filename )
 
                         pieces = strSplit(pieces[1], ' ', 2);
 
-                        int rectInd = toInt(pieces[0]) - 1;
+                        int rectInd = parseInt(pieces[0]) - 1;
                         rectInd = clamp(rectInd, 0, (int)tmpFrames.size());
-                        float speed = toFloat(pieces[1]);
+                        float speed = parseFloat(pieces[1]);
 
                         Sprite *sprite = New Sprite();
                         sprite->init(pTextures->get(texKey), tmpFrames[rectInd], speed);
@@ -386,8 +385,7 @@ void DataManager::loadAssets( string filename )
 
                         if (pieces[0] == "Rect")
                         {
-                            pieces = strSplit(pieces[1], ' ', 4);
-                            rect = Rect(toFloat(pieces[0]), toFloat(pieces[1]), toFloat(pieces[2]), toFloat(pieces[3]));
+                            rect = parseRect(pieces[1]);
                         }
                         else
                             break;
@@ -411,7 +409,7 @@ void DataManager::loadAssets( string filename )
 
                         if (pieces[0] == "Speed")
                         {
-                            speed = toFloat(pieces[1]);
+                            speed = parseFloat(pieces[1]);
                         }
                         else
                             break;
@@ -440,12 +438,12 @@ void DataManager::loadStates( string filename, string stateName )
     PlayerStateMap data;
 
     GameInput input;
-    GameInputType type;
+    InputType type;
     VerticalState vertState, newVertState;
     PlayerState before, after;
     string line;
     vector<string> pieces;
-    pair<GameInput, GameInputType> inputTypePair;
+    pair<GameInput, InputType> inputTypePair;
     int index;
 
     while (!file.eof())
@@ -465,7 +463,7 @@ void DataManager::loadStates( string filename, string stateName )
             pieces = strSplit(pieces[1], ' ', 2);
 
             input = INVALID_GAME_INPUT;
-            type = INVALID_GAME_INPUT_TYPE;
+            type = INVALID_INPUT_TYPE;
 
             index = arrayIndexOf(NUM_GAME_INPUTS, GAME_INPUT_NAMES, pieces[0]);
             if (index != -1)
@@ -473,17 +471,17 @@ void DataManager::loadStates( string filename, string stateName )
                 input = (GameInput)index;
             }
 
-            index = arrayIndexOf(NUM_GAME_INPUT_TYPES, GAME_INPUT_TYPE_NAMES, pieces[1]);
+            index = arrayIndexOf(NUM_INPUT_TYPES, INPUT_TYPE_NAMES, pieces[1]);
             if (index != -1)
             {
-                type = (GameInputType)index;
+                type = (InputType)index;
             }
 
             if (input == INVALID_GAME_INPUT)
                 continue;
 
-            inputTypePair = pair<GameInput, GameInputType>(input, type);
-            data.insert(pair<pair<GameInput, GameInputType>, VerticalPlayerStateMap>(inputTypePair, VerticalPlayerStateMap()));
+            inputTypePair = pair<GameInput, InputType>(input, type);
+            data.insert(pair<pair<GameInput, InputType>, VerticalPlayerStateMap>(inputTypePair, VerticalPlayerStateMap()));
         }
         else if (pieces[0] == "VertState")
         {
@@ -609,86 +607,140 @@ std::string DataManager::getString( vector<ConfigKey> name )
 int DataManager::getInt( vector<ConfigKey> name )
 {
     string itemName = name.back();
-
     name.pop_back();
 
-    return toInt(getLevel(name)->getData(itemName));
+    return parseInt(getLevel(name)->getData(itemName));
 }
 
 float DataManager::getFloat( vector<ConfigKey> name )
 {
     string itemName = name.back();
-
     name.pop_back();
 
-    return toFloat(getLevel(name)->getData(itemName));
+    return parseFloat(getLevel(name)->getData(itemName));
 }
 
 double DataManager::getDouble( vector<ConfigKey> name )
 {
     string itemName = name.back();
-
     name.pop_back();
 
-    return toDouble(getLevel(name)->getData(itemName));
+    return parseDouble(getLevel(name)->getData(itemName));
 }
 
 Vector2 DataManager::getVector2( vector<ConfigKey> name )
 {
-    return Vector2::ZERO;
+    string itemName = name.back();
+    name.pop_back();
+
+    return parseVector2(getLevel(name)->getData(itemName));
 }
 
 Rect DataManager::getRect( vector<ConfigKey> name )
 {
-    return Rect::ZERO;
+    string itemName = name.back();
+    name.pop_back();
+
+    return parseRect(getLevel(name)->getData(itemName));
 }
 
 Circle DataManager::getCircle( vector<ConfigKey> name )
 {
-    return Circle::ZERO;
+    string itemName = name.back();
+    name.pop_back();
+
+    return parseCircle(getLevel(name)->getData(itemName));
 }
 
 Color DataManager::getColor( vector<ConfigKey> name )
 {
-    return Color::WHITE;
+    string itemName = name.back();
+    name.pop_back();
+
+    return parseColor(getLevel(name)->getData(itemName));
 }
 
 vector<string> DataManager::getStringList( vector<ConfigKey> name )
 {
-    return vector<string>();
+    string itemName = name.back();
+    name.pop_back();
+
+    return *getLevel(name)->getList(itemName);
 }
 
 vector<int> DataManager::getIntList( vector<ConfigKey> name )
 {
-    return vector<int>();
+    vector<string> itemsData = getStringList(name);
+    vector<int> items = vector<int>();
+
+    for (unsigned int i = 0; i < itemsData.size(); ++i)
+        items.push_back(parseInt(itemsData[i]));
+
+    return items;
 }
 
 vector<float> DataManager::getFloatList( vector<ConfigKey> name )
 {
-    return vector<float>();
+    vector<string> itemsData = getStringList(name);
+    vector<float> items = vector<float>();
+
+    for (unsigned int i = 0; i < itemsData.size(); ++i)
+        items.push_back(parseFloat(itemsData[i]));
+
+    return items;
 }
 
 vector<double> DataManager::getDoubleList( vector<ConfigKey> name )
 {
-    return vector<double>();
+    vector<string> itemsData = getStringList(name);
+    vector<double> items = vector<double>();
+
+    for (unsigned int i = 0; i < itemsData.size(); ++i)
+        items.push_back(parseDouble(itemsData[i]));
+
+    return items;
 }
 
 vector<Vector2> DataManager::getVector2List( vector<ConfigKey> name )
 {
-    return vector<Vector2>();
+    vector<string> itemsData = getStringList(name);
+    vector<Vector2> items = vector<Vector2>();
+
+    for (unsigned int i = 0; i < itemsData.size(); ++i)
+        items.push_back(parseVector2(itemsData[i]));
+
+    return items;
 }
 
 vector<Rect> DataManager::getRectList( vector<ConfigKey> name )
 {
-    return vector<Rect>();
+    vector<string> itemsData = getStringList(name);
+    vector<Rect> items = vector<Rect>();
+
+    for (unsigned int i = 0; i < itemsData.size(); ++i)
+        items.push_back(parseRect(itemsData[i]));
+
+    return items;
 }
 
 vector<Circle> DataManager::getCircleList( vector<ConfigKey> name )
 {
-    return vector<Circle>();
+    vector<string> itemsData = getStringList(name);
+    vector<Circle> items = vector<Circle>();
+
+    for (unsigned int i = 0; i < itemsData.size(); ++i)
+        items.push_back(parseCircle(itemsData[i]));
+
+    return items;
 }
 
 vector<Color> DataManager::getColorList( vector<ConfigKey> name )
 {
-    return vector<Color>();
+    vector<string> itemsData = getStringList(name);
+    vector<Color> items = vector<Color>();
+
+    for (unsigned int i = 0; i < itemsData.size(); ++i)
+        items.push_back(parseColor(itemsData[i]));
+
+    return items;
 }

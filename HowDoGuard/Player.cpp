@@ -1,7 +1,8 @@
 #include "Player.h"
 #include "Game.h"
 
-const EventType Player::EVENT_ENEMY_LOCATION = "eventEnemyLocation";
+const EventType Player::EVENT_ENEMY_LOCATION  = "eventEnemyLocation";
+const EventType Player::EVENT_CHECK_COLLISION = "eventCheckCollision";
 
 Player::Player( void )
 {
@@ -20,10 +21,12 @@ std::string Player::toString( void ) const
 void Player::init( PlayerIndex index, PlayerType type, Vector2 pos /*= Vector2::ZERO*/, Color color /*= Color::WHITE*/, float depth /*= 1.0f */ )
 {
     ActiveUnit::init(nullptr, pos, Vector2::ZERO, Vector2::ZERO, Vector2::ZERO, 0.0f, color, depth);
+    IGameInputListener::init();
 
     _playerIndex = index;
-    _playerType = type;
+    _playerType  = type;
 
+    getHitboxData();
     setAnimationKeys();
 
     switchState(PLAYER_STATE_AIR, VERT_STATE_AIR);
@@ -52,7 +55,7 @@ void Player::update( const Event& event )
 {
     ActiveUnit::update(event);
 
-    Origin = Vector2(Size.halfX(), Size.Y);
+    Origin = Vector2(UnitSize.halfX(), UnitSize.Y);
 
     if (_vertState == VERT_STATE_AIR)
     {
@@ -62,19 +65,19 @@ void Player::update( const Event& event )
 
         if (_state == PLAYER_STATE_AIR)
         {
-            if (abs(Vel.Y) < 0.5)
+            if (abs(Vel.Y) < 3.0f)
             {
-                setAnimation(gpDataManager->pAnimations->get(_playerType + "-peak"));
+                setAnimation(_playerType + "-peak");
             }
             else
             {
                 if (sign(Vel.Y) == 1)
                 {
-                    setAnimation(gpDataManager->pAnimations->get(_playerType + "-descending"));
+                    setAnimation(_playerType + "-descending");
                 }
                 else
                 {
-                    setAnimation(gpDataManager->pAnimations->get(_playerType + "-ascending"));
+                    setAnimation(_playerType + "-ascending");
                 }
             }
         }
@@ -83,7 +86,7 @@ void Player::update( const Event& event )
         {
             Vel.Y = 0;
             Pos.Y = _ground;
-            checkStateData(GAME_INPUT_LANDED);
+            processGameInput(GAME_INPUT_LANDED);
         }
     }
 
@@ -103,6 +106,7 @@ void Player::update( const Event& event )
     }
 
     dispatchEvent(Event(Player::EVENT_ENEMY_LOCATION, PointData(Pos)));
+    dispatchEvent(Event(Player::EVENT_CHECK_COLLISION, PlayerCollisionData(Pos, Origin, hurtboxes(), attackboxes())));
 }
 
 void Player::render( const Event& event )
@@ -112,48 +116,105 @@ void Player::render( const Event& event )
     if (_pAnimation == nullptr)
         return;
 
-    Sprite *currentFrame = _pAnimation->frameAt(_frame);
+    Sprite* currentFrame = _pAnimation->frameAt(_frame);
 
     if (currentFrame == nullptr)
         return;
 
     renderData->renderTarget()->draw(Pos - Origin, currentFrame->texture(), currentFrame->SourceRect, BlendColor, Rot, Origin, _flip);
+
+    if (Game::DEBUG_SHOW_HITBOXES)
+    {
+        vector<Rect> 
+            currHurt = hurtboxes(),
+            currAtt  = attackboxes();
+
+        Rect currBox;
+
+        for (unsigned int i = 0; i < currHurt.size(); ++i)
+        {
+            currBox = currHurt[i];
+            renderData->renderTarget()->drawRect(Rect(Pos - Origin + currBox.pos(), currBox.size()), Color::GREEN);
+        }
+
+        for (unsigned int i = 0; i < currAtt.size(); ++i)
+        {
+            currBox = currAtt[i];
+            renderData->renderTarget()->drawRect(Rect(Pos - Origin + currBox.pos(), currBox.size()), Color::RED);
+        }
+    }
+}
+
+vector<Rect> Player::hurtboxes( void )
+{
+    if (!mapContainsKey(_hurtboxes, _currentAnim) || !mapContainsKey(_hurtboxes[_currentAnim], _frame))
+        return vector<Rect>();
+
+    vector<Rect> currHurtboxes = _hurtboxes[_currentAnim][_frame];
+
+    if (_flip)
+    {
+        for (unsigned int i = 0; i < currHurtboxes.size(); ++i)
+        {
+            Rect curr = currHurtboxes[i];
+            curr.X = Rect(Vector2::ZERO, UnitSize).right() - curr.right();
+            currHurtboxes[i] = curr;
+        }
+    }
+
+    return currHurtboxes;
+}
+
+vector<Rect> Player::attackboxes( void )
+{
+    if (!mapContainsKey(_attackboxes, _currentAnim) || !mapContainsKey(_attackboxes[_currentAnim], _frame))
+        return vector<Rect>();
+
+    vector<Rect> currAttackboxes = _attackboxes[_currentAnim][_frame];
+
+    if (_flip)
+    {
+        for (unsigned int i = 0; i < currAttackboxes.size(); ++i)
+        {
+            Rect curr = currAttackboxes[i];
+            curr.X = Rect(Vector2::ZERO, UnitSize).right() - curr.right();
+            currAttackboxes[i] = curr;
+        }
+    }
+    return currAttackboxes;
 }
 
 void Player::inputPressed( const Event& event )
 {
-    ActiveUnit::inputPressed(event);
-
-    const InputData* inputData = event.dataAs<InputData>();
+    const GameInputData* inputData = event.dataAs<GameInputData>();
 
     if (inputData->Index != _playerIndex)
         return;
 
-    checkStateData(inputData->Input, GAME_INPUT_TYPE_PRESSED);
+    if (inputData->Input == GAME_INPUT_QCF || inputData->Input == GAME_INPUT_QCB || inputData->Input == GAME_INPUT_HCF || inputData->Input == GAME_INPUT_HCB || inputData->Input == GAME_INPUT_DRAGON_FIST_FORWARD || inputData->Input == GAME_INPUT_DRAGON_FIST_BACKWARD)
+        cout << GAME_INPUT_NAMES[inputData->Input] << endl;
+
+    processGameInput(inputData->Input, INPUT_TYPE_PRESSED);
 }
 
 void Player::inputReleased( const Event& event )
 {
-    ActiveUnit::inputReleased(event);
-
-    const InputData* inputData = event.dataAs<InputData>();
+    const GameInputData* inputData = event.dataAs<GameInputData>();
 
     if (inputData->Index != _playerIndex)
         return;
 
-    checkStateData(inputData->Input, GAME_INPUT_TYPE_RELEASED);
+    processGameInput(inputData->Input, INPUT_TYPE_RELEASED);
 }
 
 void Player::inputHeld( const Event& event )
 {
-    ActiveUnit::inputHeld(event);
-
-    const InputData* inputData = event.dataAs<InputData>();
+    const GameInputData* inputData = event.dataAs<GameInputData>();
 
     if (inputData->Index != _playerIndex)
         return;
     
-    checkStateData(inputData->Input, GAME_INPUT_TYPE_HELD);
+    processGameInput(inputData->Input, INPUT_TYPE_HELD);
 
     if (inputData->Input == GAME_INPUT_UP && _state == PLAYER_STATE_AIR)
     {
@@ -189,7 +250,7 @@ void Player::animationComplete( const Event& event )
         _jumpVelLeft = _jumpVelMax - _jumpVelInit;
     }
 
-    checkStateData(GAME_INPUT_ANIMATION_COMPLETE);
+    processGameInput(GAME_INPUT_ANIMATION_COMPLETE);
 }
 
 void Player::setAnimationKeys( void )
@@ -240,7 +301,7 @@ void Player::setAnimationKeys( void )
 
 void Player::addAnimationKey( PlayerState state, ItemKey key, VerticalState vertState /*= VERT_STATE_ANY */ )
 {
-    _animKeys.insert(pair<StatePair, ItemKey>(StatePair(vertState, state), key));
+    _animKeys.insert(pair<PlayerStatePair, ItemKey>(PlayerStatePair(vertState, state), key));
 }
 
 void Player::switchState( PlayerState state /*= INVALID_PLAYER_STATE*/, VerticalState vertState /*= INVALID_VERTICAL_STATE */ )
@@ -254,20 +315,20 @@ void Player::switchState( PlayerState state /*= INVALID_PLAYER_STATE*/, Vertical
     if (_vertState != INVALID_VERTICAL_STATE)
         _vertState = vertState;
 
-    StatePair statePair(vertState, state);
+    PlayerStatePair statePair(vertState, state);
 
     if (mapContainsKey(_animKeys, statePair))
     {
         if (!gpDataManager->pAnimations->contains(_animKeys[statePair]))
             return;
 
-        setAnimation(gpDataManager->pAnimations->get(_animKeys[statePair]));
+        setAnimation(_animKeys[statePair]);
     }
 }
 
-void Player::checkStateData( GameInput input, GameInputType type /*= GAME_INPUT_TYPE_OTHER*/ )
+void Player::processGameInput( GameInput input, InputType type /*= INPUT_TYPE_OTHER*/ )
 {
-    pair<GameInput, GameInputType> typePair(input, type);
+    pair<GameInput, InputType> typePair(input, type);
 
     if (mapContainsKey(*_stateData, typePair))
     {
@@ -286,11 +347,6 @@ void Player::checkStateData( GameInput input, GameInputType type /*= GAME_INPUT_
     }
 }
 
-void Player::setAnimation( Animation *pAnimation, bool useDefaults /*= true */ )
-{
-    AnimatedUnit::setAnimation(pAnimation, useDefaults);
-}
-
 void Player::updateEnemyLocation( const Event& event )
 {
     const PointData* data = event.dataAs<PointData>();
@@ -303,4 +359,72 @@ void Player::updateEnemyLocation( const Event& event )
     {
         _flip = false;
     }
+}
+
+void Player::checkCollision( const Event& event )
+{
+    const PlayerCollisionData* data = event.dataAs<PlayerCollisionData>();
+
+    vector<Rect>
+        currHurt = hurtboxes(),
+        currAtt  = attackboxes();
+
+    bool 
+        wasHit  = false,
+        hitThem = false;
+
+    for (unsigned int hurtInd = 0; hurtInd < currHurt.size(); ++hurtInd)
+    {
+        Rect hurtCheck = currHurt[hurtInd] + Rect(Pos + Origin, Vector2::ZERO);
+
+        for (unsigned int attInd = 0; attInd < data->Attackboxes.size(); ++attInd)
+        {
+            Rect attCheck = data->Attackboxes[attInd] + Rect(data->Pos + data->Origin, Vector2::ZERO);
+
+            if (hurtCheck.collides(attCheck))
+            {
+                collided();
+            }
+        }
+    }
+}
+
+void Player::getHitboxData( void )
+{
+    ConfigLevel* hitboxes = gpDataManager->getLevel(makeVector<string>(2, _playerType, string("hitbox")));
+    vector<string> hitboxAnimKeys = hitboxes->getLevelKeys();
+
+    for (unsigned int animInd = 0; animInd < hitboxAnimKeys.size(); ++animInd)
+    {
+        string currAnim = hitboxAnimKeys[animInd];
+
+        _hurtboxes.insert(  pair<string, map<int, vector<Rect>>>(currAnim, map<int, vector<Rect>>()));
+        _attackboxes.insert(pair<string, map<int, vector<Rect>>>(currAnim, map<int, vector<Rect>>()));
+
+        ConfigLevel* hitboxAnims = hitboxes->getLevel(currAnim);
+        vector<string> frameKeys = hitboxAnims->getLevelKeys();
+
+        for (unsigned int frameInd = 0; frameInd < frameKeys.size(); ++frameInd)
+        {
+            string frameKey = frameKeys[frameInd];
+            int frame = parseInt(frameKey);
+
+            ConfigLevel* frameData = hitboxAnims->getLevel(frameKey);
+
+            _hurtboxes[currAnim].insert(  pair<int, vector<Rect>>(frame, gpDataManager->getRectList(makeVector<string>(5, _playerType, string("hitbox"), currAnim, frameKey, string("Hurtboxes")))));
+            _attackboxes[currAnim].insert(pair<int, vector<Rect>>(frame, gpDataManager->getRectList(makeVector<string>(5, _playerType, string("hitbox"), currAnim, frameKey, string("Attackboxes")))));
+        }
+    }
+}
+
+void Player::setAnimation( ItemKey key )
+{
+    _currentAnim = key;
+
+    setAnimation(gpDataManager->pAnimations->get(key));
+}
+
+void Player::collided( void )
+{
+    processGameInput(GAME_INPUT_HIT);
 }

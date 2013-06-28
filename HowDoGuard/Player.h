@@ -7,21 +7,61 @@
 #include <ActiveUnit.h>
 #include <EventDispatcher.h>
 
+#include <InputType.h>
+
+#include "EventData.h"
+
 #include "DataManager.h"
+
 #include "VerticalState.h"
 #include "PlayerState.h"
 #include "PlayerStateChange.h"
 
-typedef pair<VerticalState, PlayerState> StatePair;
+#include "GameInput.h"
+#include "IGameInputListener.h"
+
+typedef pair<VerticalState, PlayerState> PlayerStatePair;
 typedef string PlayerType;
 
+class PlayerCollisionData
+    : public EventData
+{
+public:
+
+    vector<Rect>
+        Hurtboxes,
+        Attackboxes;
+
+    Vector2
+        Pos,
+        Origin;
+
+    PlayerCollisionData(Vector2 pos, Vector2 origin, vector<Rect> hurtboxes, vector<Rect> attacboxes)
+    {
+        Pos         = pos;
+        Origin      = origin;
+        Hurtboxes   = hurtboxes;
+        Attackboxes = attacboxes;
+    }
+
+    virtual string toString( void ) const { return "Player Collision Data"; }
+
+    virtual EventData* clone( void ) const { return New PlayerCollisionData(Pos, Origin, Hurtboxes, Attackboxes); }
+
+};
+
 class Player :
-    public ActiveUnit
+    public ActiveUnit,
+    public IGameInputListener
 {
 protected:
 
-    map<StatePair, ItemKey>
+    map<PlayerStatePair, ItemKey>
         _animKeys;
+
+    map<string, map<int, vector<Rect>>>
+        _hurtboxes,
+        _attackboxes;
 
     PlayerStateMap
         *_stateData;
@@ -37,6 +77,9 @@ protected:
 
     PlayerType
         _playerType;
+
+    ItemKey
+        _currentAnim;
 
     float
         _gravity,
@@ -56,11 +99,14 @@ protected:
     virtual void setAnimationKeys( void );
     virtual void addAnimationKey( PlayerState state, ItemKey key, VerticalState vertState = VERT_STATE_ANY );
 
-    virtual void checkStateData( GameInput input, GameInputType type = GAME_INPUT_TYPE_OTHER );
+    virtual void processGameInput( GameInput input, InputType type = INPUT_TYPE_OTHER );
+    virtual void getHitboxData( void );
 
 public:
 
-    static const EventType EVENT_ENEMY_LOCATION;
+    static const EventType 
+        EVENT_ENEMY_LOCATION,
+        EVENT_CHECK_COLLISION;
 
     Player( void );
     virtual ~Player( void );
@@ -71,19 +117,26 @@ public:
     virtual void term( void );
 
     virtual void update( const Event& event );
-    virtual void render  ( const Event& event );
+    virtual void render( const Event& event );
+
+    virtual vector<Rect> hurtboxes  ( void );
+    virtual vector<Rect> attackboxes( void );
 
     virtual void inputPressed ( const Event& event );
     virtual void inputReleased( const Event& event );
     virtual void inputHeld    ( const Event& event );
 
-    virtual void animationComplete( const Event& event );
-
     virtual void switchState( PlayerState state = INVALID_PLAYER_STATE, VerticalState vertState = INVALID_VERTICAL_STATE );
 
-    virtual void setAnimation( Animation *pAnimation, bool useDefaults = true );
-
+    virtual void animationComplete  ( const Event& event );
     virtual void updateEnemyLocation( const Event& event );
+    virtual void checkCollision     ( const Event& event );
+
+    virtual void setAnimation( Animation *pAnimation, bool useDefaults = true ) { ActiveUnit::setAnimation(pAnimation, useDefaults); }
+    virtual void setAnimation( ItemKey key );
+
+    virtual void collided( void );
+
 };
 
 #endif

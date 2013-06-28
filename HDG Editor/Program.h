@@ -4,16 +4,22 @@
 #define __PROGRAM_H__
 
 #include "Common.h"
-#include <Game.h>
+#include <ArcApp.h>
 
 #include "Button.h"
+#include "TextButton.h"
+#include "Textbox.h"
 
 class Program :
-    public Game
+    public ArcApp
 {
 public:
 
-    Button *button;
+    TextButton 
+        *btnClose;
+
+    Textbox
+        *txtTest;
 
     static Font
         *spDefaultFont;
@@ -29,11 +35,7 @@ public:
     virtual void update( const Event& event );
     virtual void render( const Event& event );
 
-    void testLeave( const Event& event );
-    void testEnter( const Event& event );
-    void testPress( const Event& event );
-    void testRelease( const Event& event );
-    void testClick( const Event& event );
+    void btnCloseClicked( const Event& event );
 };
 
 #endif

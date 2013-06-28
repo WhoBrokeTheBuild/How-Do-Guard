@@ -46,13 +46,31 @@
     <Filter Include="Project\Core">
       <UniqueIdentifier>{086cab29-705e-489d-94cb-24d03e888a0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Input">
+      <UniqueIdentifier>{df5c9773-3934-4dc4-a1d4-32c09726fd22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Input\Inputs">
+      <UniqueIdentifier>{837f66e8-5e9f-4e86-a4d9-e4b2f8df9854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Input\Sources">
+      <UniqueIdentifier>{60613802-3733-4977-b0a2-f01a8476a01c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Events">
+      <UniqueIdentifier>{e81341c7-8d78-47ee-9bd8-2d7ca8b93c22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Assets\Resources">
+      <UniqueIdentifier>{44cd1c90-107d-4699-a01a-0aac3505600e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Assets\Icons">
+      <UniqueIdentifier>{e2253059-3eff-4977-94f3-4abcec0041ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Input\Interfaces">
+      <UniqueIdentifier>{d68a42b2-d2f4-4f3a-8fcd-86e9bb9a4429}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Project</Filter>
-    </ClCompile>
-    <ClCompile Include="Toast.cpp">
-      <Filter>Project\Player</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Project\Player</Filter>
@@ -60,19 +78,22 @@
     <ClCompile Include="DataManager.cpp">
       <Filter>Project\Data</Filter>
     </ClCompile>
-    <ClCompile Include="FightingGame.cpp">
-      <Filter>Project\Core</Filter>
-    </ClCompile>
     <ClCompile Include="ConfigLevel.cpp">
       <Filter>Project\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Project\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameInputSystem.cpp">
+      <Filter>Project\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GameInputSource.cpp">
+      <Filter>Project\Input\Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h">
       <Filter>Project</Filter>
-    </ClInclude>
-    <ClInclude Include="Toast.h">
-      <Filter>Project\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerState.h">
       <Filter>Project\Player</Filter>
@@ -89,11 +110,35 @@
     <ClInclude Include="DataManager.h">
       <Filter>Project\Data</Filter>
     </ClInclude>
-    <ClInclude Include="FightingGame.h">
-      <Filter>Project\Core</Filter>
-    </ClInclude>
     <ClInclude Include="ConfigLevel.h">
       <Filter>Project\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Project\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInputSystem.h">
+      <Filter>Project\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInput.h">
+      <Filter>Project\Input\Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCombinedInput.h">
+      <Filter>Project\Input\Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInputSource.h">
+      <Filter>Project\Input\Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="EventData.h">
+      <Filter>Project\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInputChange.h">
+      <Filter>Project\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Project\Assets\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameInputListener.h">
+      <Filter>Project\Input\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -108,117 +153,6 @@
     </None>
     <None Include="assets\config\curl\states.cfg">
       <Filter>Project\Assets\Config\curl</Filter>
-    </None>
-    <None Include="assets\config\ghost\air_guard_stun.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\alk.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\alp.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\ascending.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\descending.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\dhk.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\dhp.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\dlk.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\dlp.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\duck_guard.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\duck_guard_stun.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\duck_hit_stun.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\duck_start.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\ducking.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\ghk.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\ghp.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\glk.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\glp.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\grab.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\grab_miss.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\grab_start.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\grabbed.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\guard.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\guard_stun.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\hit_stun.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\idle.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\juggle.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\jump_start.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\knockdown.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\landing.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\movement.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\recovery.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\states.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\walk.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\ahk.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\ahp.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
-    </None>
-    <None Include="assets\config\ghost\air_guard.cfg">
-      <Filter>Project\Assets\Config\ghost</Filter>
     </None>
     <None Include="assets\config\curl\character.cfg">
       <Filter>Project\Assets\Config\curl</Filter>
@@ -251,6 +185,30 @@
       <Filter>Project\Assets\Config\wolf</Filter>
     </None>
     <None Include="assets\config\wolf\states.cfg">
+      <Filter>Project\Assets\Config\wolf</Filter>
+    </None>
+    <None Include="assets\config\curl\hitbox.cfg">
+      <Filter>Project\Assets\Config\curl</Filter>
+    </None>
+    <None Include="assets\config\ghost\assets.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\character.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\hitbox.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\movement.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\ghost\states.cfg">
+      <Filter>Project\Assets\Config\ghost</Filter>
+    </None>
+    <None Include="assets\config\toast\hitbox.cfg">
+      <Filter>Project\Assets\Config\toast</Filter>
+    </None>
+    <None Include="assets\config\wolf\hitbox.cfg">
       <Filter>Project\Assets\Config\wolf</Filter>
     </None>
   </ItemGroup>
@@ -573,5 +531,13 @@
     <Image Include="assets\sheets\wolf\sprsht_wolf_dlp.png">
       <Filter>Project\Assets\Sheets\wolf</Filter>
     </Image>
+    <Image Include="assets\icons\icon_64x64.ico">
+      <Filter>Project\Assets\Icons</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="HowDoGuard.rc">
+      <Filter>Project\Assets\Resources</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

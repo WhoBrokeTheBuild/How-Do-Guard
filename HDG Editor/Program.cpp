@@ -18,64 +18,40 @@ std::string Program::toString( void ) const
 
 void Program::init( void )
 {
-    Game::init();
-
-    _pGraphicsSystem->setWindowSize(Size(800, 600));
+    ArcApp::init(Size(800, 600), "HDG Editor");
 
     spDefaultFont = New Font("assets/arial.ttf", 14);
 
-    button = New Button();
-    button->init(Vector2(100), "Test Button");
+    btnClose = New TextButton();
+    btnClose->init(Vector2(5), "Close");
 
-    button->addEventListener(Button::EVENT_BUTTON_HOVER_ENTER, this, &Program::testEnter);
-    button->addEventListener(Button::EVENT_BUTTON_HOVER_LEAVE, this, &Program::testLeave);
-    button->addEventListener(Button::EVENT_BUTTON_PRESSED,     this, &Program::testPress);
-    button->addEventListener(Button::EVENT_BUTTON_RELEASED,    this, &Program::testRelease);
-    button->addEventListener(Button::EVENT_BUTTON_CLICKED,     this, &Program::testClick);
+    txtTest = New Textbox();
+    txtTest->init(Vector2(100));
+
+    btnClose->addEventListener(Button::EVENT_BUTTON_CLICKED, this, &Program::btnCloseClicked);
 }
 
 void Program::term( void )
 {
-    button->removeEventListener(Button::EVENT_BUTTON_HOVER_ENTER, this, &Program::testEnter);
-    button->removeEventListener(Button::EVENT_BUTTON_HOVER_LEAVE, this, &Program::testLeave);
-    button->removeEventListener(Button::EVENT_BUTTON_PRESSED,     this, &Program::testPress);
-    button->removeEventListener(Button::EVENT_BUTTON_RELEASED,    this, &Program::testRelease);
-    button->removeEventListener(Button::EVENT_BUTTON_CLICKED,     this, &Program::testClick);
+    btnClose->removeEventListener(Button::EVENT_BUTTON_CLICKED, this, &Program::btnCloseClicked);
 
     delete spDefaultFont;
 
-    delete button;
+    delete txtTest;
+    delete btnClose;
 }
 
 void Program::update( const Event& event )
 {
-    Game::update(event);
+    ArcApp::update(event);
 }
 
 void Program::render( const Event& event )
 {
-    Game::render(event);
+    ArcApp::render(event);
 }
 
-void Program::testEnter( const Event& event )
+void Program::btnCloseClicked( const Event& event )
 {
-    _pGraphicsSystem->setWindowTitle("herp");
-}
-
-void Program::testLeave( const Event& event )
-{
-    _pGraphicsSystem->setWindowTitle("derp");
-}
-
-void Program::testPress( const Event& event )
-{
-}
-
-void Program::testRelease( const Event& event )
-{
-}
-
-void Program::testClick( const Event& event )
-{
-    _pGraphicsSystem->setFullscreen(!_pGraphicsSystem->fullscreen());
+    gpEventDispatcher->dispatchEvent(Event(Program::EVENT_EXIT));
 }

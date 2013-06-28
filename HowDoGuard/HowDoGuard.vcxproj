@@ -90,7 +90,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\Libraries\SDL\lib\x86\;..\Libraries\SDL_image\lib\;..\Libraries\SDL_mixer\lib\;..\Libraries\SDL_ttf\lib\x86\;..\..\..\Arc.git\trunk\Arc Engine\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Libraries\SDL\lib\x86\;..\Libraries\SDL_image\lib\;..\Libraries\SDL_mixer\lib\;..\Libraries\SDL_ttf\lib\x86\;..\..\..\Arc.git\trunk\Arc Engine\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>
       </EntryPointSymbol>
@@ -101,20 +101,28 @@
   <ItemGroup>
     <ClCompile Include="ConfigLevel.cpp" />
     <ClCompile Include="DataManager.cpp" />
-    <ClCompile Include="FightingGame.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameInputSource.cpp" />
+    <ClCompile Include="GameInputSystem.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Toast.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="ConfigLevel.h" />
     <ClInclude Include="DataManager.h" />
-    <ClInclude Include="FightingGame.h" />
+    <ClInclude Include="EventData.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameCombinedInput.h" />
+    <ClInclude Include="GameInput.h" />
+    <ClInclude Include="GameInputChange.h" />
+    <ClInclude Include="GameInputSource.h" />
+    <ClInclude Include="GameInputSystem.h" />
+    <ClInclude Include="IGameInputListener.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="PlayerStateChange.h" />
-    <ClInclude Include="Toast.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="VerticalState.h" />
   </ItemGroup>
   <ItemGroup>
@@ -127,56 +135,28 @@
     <None Include="assets\config\bg.cfg" />
     <None Include="assets\config\curl\assets.cfg" />
     <None Include="assets\config\curl\character.cfg" />
+    <None Include="assets\config\curl\hitbox.cfg" />
     <None Include="assets\config\curl\movement.cfg" />
     <None Include="assets\config\curl\states.cfg" />
-    <None Include="assets\config\ghost\ahk.cfg" />
-    <None Include="assets\config\ghost\ahp.cfg" />
-    <None Include="assets\config\ghost\air_guard.cfg" />
-    <None Include="assets\config\ghost\air_guard_stun.cfg" />
-    <None Include="assets\config\ghost\alk.cfg" />
-    <None Include="assets\config\ghost\alp.cfg" />
-    <None Include="assets\config\ghost\ascending.cfg" />
-    <None Include="assets\config\ghost\descending.cfg" />
-    <None Include="assets\config\ghost\dhk.cfg" />
-    <None Include="assets\config\ghost\dhp.cfg" />
-    <None Include="assets\config\ghost\dlk.cfg" />
-    <None Include="assets\config\ghost\dlp.cfg" />
-    <None Include="assets\config\ghost\ducking.cfg" />
-    <None Include="assets\config\ghost\duck_guard.cfg" />
-    <None Include="assets\config\ghost\duck_guard_stun.cfg" />
-    <None Include="assets\config\ghost\duck_hit_stun.cfg" />
-    <None Include="assets\config\ghost\duck_start.cfg" />
-    <None Include="assets\config\ghost\ghk.cfg" />
-    <None Include="assets\config\ghost\ghp.cfg" />
-    <None Include="assets\config\ghost\glk.cfg" />
-    <None Include="assets\config\ghost\glp.cfg" />
-    <None Include="assets\config\ghost\grab.cfg" />
-    <None Include="assets\config\ghost\grabbed.cfg" />
-    <None Include="assets\config\ghost\grab_miss.cfg" />
-    <None Include="assets\config\ghost\grab_start.cfg" />
-    <None Include="assets\config\ghost\guard.cfg" />
-    <None Include="assets\config\ghost\guard_stun.cfg" />
-    <None Include="assets\config\ghost\hit_stun.cfg" />
-    <None Include="assets\config\ghost\idle.cfg" />
-    <None Include="assets\config\ghost\juggle.cfg" />
-    <None Include="assets\config\ghost\jump_start.cfg" />
-    <None Include="assets\config\ghost\knockdown.cfg" />
-    <None Include="assets\config\ghost\landing.cfg" />
+    <None Include="assets\config\ghost\assets.cfg" />
+    <None Include="assets\config\ghost\character.cfg" />
+    <None Include="assets\config\ghost\hitbox.cfg" />
     <None Include="assets\config\ghost\movement.cfg" />
-    <None Include="assets\config\ghost\recovery.cfg" />
     <None Include="assets\config\ghost\states.cfg" />
-    <None Include="assets\config\ghost\walk.cfg" />
     <None Include="assets\config\main.cfg" />
     <None Include="assets\config\toast\assets.cfg" />
     <None Include="assets\config\toast\character.cfg" />
+    <None Include="assets\config\toast\hitbox.cfg" />
     <None Include="assets\config\toast\movement.cfg" />
     <None Include="assets\config\toast\states.cfg" />
     <None Include="assets\config\wolf\assets.cfg" />
     <None Include="assets\config\wolf\character.cfg" />
+    <None Include="assets\config\wolf\hitbox.cfg" />
     <None Include="assets\config\wolf\movement.cfg" />
     <None Include="assets\config\wolf\states.cfg" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\icons\icon_64x64.ico" />
     <Image Include="assets\sheets\curl\sprsht_curl_ahk.png" />
     <Image Include="assets\sheets\curl\sprsht_curl_ahp.png" />
     <Image Include="assets\sheets\curl\sprsht_curl_air_guard.png" />
@@ -283,6 +263,9 @@
     <Image Include="assets\sheets\wolf\sprsht_wolf_landing.png" />
     <Image Include="assets\sheets\wolf\sprsht_wolf_recovery.png" />
     <Image Include="assets\sheets\wolf\sprsht_wolf_walk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="HowDoGuard.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

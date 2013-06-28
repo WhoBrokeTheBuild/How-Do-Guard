@@ -4,35 +4,17 @@
 #define __BUTTON_H__
 
 #include "Common.h"
-#include <Unit.h>
+#include "Component.h"
 
 class Button :
-    public Unit
+    public Component
 {
 protected:
 
-    CachedText
-        *_pText;
-
-    Font
-        *_pFont;
-
     bool
-        _hover,
         _held;
 
 public:
-
-    Vector2
-        Padding;
-
-    Color
-        TextColor,
-        BorderColor,
-        BGColor,
-        HoverTextColor,
-        HoverBorderColor,
-        HoverBGColor;
 
     static const EventType EVENT_BUTTON_PRESSED;
     static const EventType EVENT_BUTTON_RELEASED;
@@ -45,17 +27,15 @@ public:
 
     virtual string toString( void ) const;
 
-    virtual void init( Vector2 pos = Vector2::ZERO, string button = "", Vector2 origin = Vector2::ZERO, float rot = 0.0f, Color blendColor = Color::WHITE, float depth = 1.0f );
+    virtual void init( Vector2 pos = Vector2::ZERO, Vector2 padding = Vector2::ZERO );
     virtual void term( void );
 
-    virtual void update( const Event& event );
-    virtual void render( const Event& event );
+    virtual void mouseMoved   ( const Event& event );
+    virtual void mousePressed ( const Event& event );
+    virtual void mouseReleased( const Event& event );
 
-    virtual void setText( string text );
-
-    virtual void mouseMoved( const Event& event );
-    virtual void mouseButtonPressed( const Event& event );
-    virtual void mouseButtonReleased( const Event& event );
+    virtual void hoverEnter( void );
+    virtual void hoverLeave( void );
 
 };
 

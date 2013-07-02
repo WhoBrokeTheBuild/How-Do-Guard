@@ -19,7 +19,21 @@
     <ClCompile Include="TextButton.cpp">
       <Filter>Project\UI\Components</Filter>
     </ClCompile>
-    <ClCompile Include="ImageButton.cpp" />
+    <ClCompile Include="Dropdown.cpp">
+      <Filter>Project\UI\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageButton.cpp">
+      <Filter>Project\UI\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>Project\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigLevel.cpp">
+      <Filter>Project\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>Project\UI\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h">
@@ -40,7 +54,19 @@
     <ClInclude Include="TextButton.h">
       <Filter>Project\UI\Components</Filter>
     </ClInclude>
-    <ClInclude Include="ImageButton.h" />
+    <ClInclude Include="Dropdown.h">
+      <Filter>Project\UI\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageButton.h">
+      <Filter>Project\UI\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigLevel.h">
+      <Filter>Project\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>Project\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Project">
@@ -51,6 +77,9 @@
     </Filter>
     <Filter Include="Project\UI\Components">
       <UniqueIdentifier>{402d1198-031f-4917-853d-2a053c0fabd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Data">
+      <UniqueIdentifier>{9f72fbb5-0e98-43d7-9cd4-c951d1293db1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

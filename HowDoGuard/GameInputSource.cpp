@@ -5,10 +5,6 @@ const EventType GameInputSource::EVENT_GAME_INPUT_PRESSED  = "gameInputPressed";
 const EventType GameInputSource::EVENT_GAME_INPUT_RELEASED = "gameInputReleased";
 const EventType GameInputSource::EVENT_GAME_INPUT_HELD     = "gameInputHeld";
 
-GameInputSource::GameInputSource( void )
-{
-}
-
 GameInputSource::~GameInputSource( void )
 {
     term();
@@ -29,20 +25,20 @@ void GameInputSource::init( PlayerIndex index )
 
     _alias        = AliasMap();
     _inputStates  = GameInputStateMap();
-    _simInputs    = vector<GameInputSimultanious>();
-    _consecInputs = vector<GameInputConsecutive>();
-    _inputChanges = queue<GameInputChange>();
-    _hiddenInputs = vector<GameInput>();
+    _simInputs    = ArrayList<GameInputSimultanious>();
+    _consecInputs = ArrayList<GameInputConsecutive>();
+    _hiddenInputs = ArrayList<GameInput>();
+    _inputChanges = Queue<GameInputChange>();
 
     _maxInputDeltaTime = 0.75f;
 
-    _eightWayDir = makeVector(8, GAME_INPUT_NORTH, GAME_INPUT_NORTH_EAST, GAME_INPUT_EAST,
-                                 GAME_INPUT_SOUTH_EAST, GAME_INPUT_SOUTH, GAME_INPUT_SOUTH_WEST,
-                                 GAME_INPUT_WEST, GAME_INPUT_NORTH_WEST);
+    _eightWayDir.add(GAME_INPUT_NORTH)->add(GAME_INPUT_NORTH_EAST)->add(GAME_INPUT_EAST)
+               ->add(GAME_INPUT_SOUTH_EAST)->add(GAME_INPUT_SOUTH)->add(GAME_INPUT_SOUTH_WEST)
+               ->add(GAME_INPUT_WEST)->add(GAME_INPUT_NORTH_WEST);
 
     for (int input = 0; input < NUM_GAME_INPUTS; ++input)
     {
-        _inputStates.insert(GameInputStatePair((GameInput)input, InputState()));
+        _inputStates.add((GameInput)input, InputState());
     }
 
     addDefaults();
@@ -67,10 +63,10 @@ void GameInputSource::update( const Event& event )
     processSimuInput();
     processConsecInput(data);
 
-    GameInputStateMap::iterator it;
+    GameInputStateMap::Iterator it;
     for (it = _inputStates.begin(); it != _inputStates.end(); ++it)
     {
-        if (vectorContains(_hiddenInputs, it->first))
+        if (_hiddenInputs.contains(it->first))
             continue;
 
         GameInput  input   = it->first;
@@ -112,15 +108,13 @@ void GameInputSource::update( const Event& event )
 
 void GameInputSource::processChanges( void )
 {
-    while (_inputChanges.size() > 0)
+    while (!_inputChanges.empty())
     {
-        GameInputChange   change = _inputChanges.back();
+        GameInputChange   change = _inputChanges.pop();
         GameCombinedInput input  = change.Input;
         InputType         type   = change.Type;
 
-        _inputChanges.pop();
-
-        if (!mapContainsKey(_alias, input))
+        if (!_alias.contains(input))
             continue;
 
         GameInput gameInput = _alias[input];
@@ -212,7 +206,7 @@ void GameInputSource::processSimuInput( void )
         GameInputSimultanious simInput      = _simInputs[i];
         GameInput             output        = simInput.Output;
         InputState            *pOutputState = getInputState(output);
-        vector<GameInput>     inputs        = simInput.Inputs;
+        ArrayList<GameInput>  inputs        = simInput.Inputs;
 
         if (inputs.size() == 0 || pOutputState == nullptr)
             continue;
@@ -242,9 +236,9 @@ void GameInputSource::processSimuInput( void )
         {
             for (unsigned int inputInd = 0; inputInd < inputs.size(); ++inputInd)
             {
-                if (!vectorContains(_hiddenInputs, inputs[inputInd]))
+                if (!_hiddenInputs.contains(inputs[inputInd]))
                 {
-                    _hiddenInputs.push_back(inputs[inputInd]);
+                    _hiddenInputs.add(inputs[inputInd]);
                 }
             }
         }
@@ -258,7 +252,7 @@ void GameInputSource::processConsecInput( const FrameData* data )
         GameInputConsecutive simInput      = _consecInputs[i];
         GameInput            output        = simInput.Output;
         InputState           *pOutputState = getInputState(output);
-        vector<GameInput>    inputs        = simInput.Inputs;
+        ArrayList<GameInput> inputs        = simInput.Inputs;
 
         if (pOutputState->Down)
             continue;
@@ -267,7 +261,7 @@ void GameInputSource::processConsecInput( const FrameData* data )
             continue;
 
         int  bufferStartInd = 0;
-        vector<GameInputPress> presses = vector<GameInputPress>();
+        ArrayList<GameInputPress> presses = ArrayList<GameInputPress>();
 
         for (unsigned int inputInd = 0; inputInd < inputs.size(); ++inputInd)
         {
@@ -276,7 +270,7 @@ void GameInputSource::processConsecInput( const FrameData* data )
                 if (inputs[inputInd] == _inputBuffer[bufferInd].Input)
                 {
                     bufferStartInd = bufferInd + 1;
-                    presses.push_back(_inputBuffer[bufferInd]);
+                    presses.add(_inputBuffer[bufferInd]);
                     break;
                 }
             }
@@ -301,7 +295,7 @@ void GameInputSource::processConsecInput( const FrameData* data )
                 if (_inputBuffer[bufferInd].Input == presses[pressesInd].Input &&
                     _inputBuffer[bufferInd].Time  == presses[pressesInd].Time)
                 {
-                    vectorRemoveAt(_inputBuffer, bufferInd);
+                    _inputBuffer.removeAt(bufferInd);
                     --bufferInd;
                 }
             }
@@ -350,7 +344,7 @@ void GameInputSource::release( GameInput input )
 
 InputState* GameInputSource::getInputState( GameInput input )
 {
-    if (mapContainsKey(_inputStates, input))
+    if (_inputStates.contains(input))
     {
         return &_inputStates[input];
     }
@@ -359,29 +353,29 @@ InputState* GameInputSource::getInputState( GameInput input )
 
 void GameInputSource::addDefaults( void )
 {
-    _simInputs.push_back(GameInputSimultanious(GAME_INPUT_QCF, makeVector<GameInput>(2, GAME_INPUT_LIGHT_PUNCH, GAME_INPUT_HEAVY_PUNCH), true));
+    _simInputs.add(GameInputSimultanious(GAME_INPUT_QCF, *ArrayList<GameInput>().add(GAME_INPUT_LIGHT_PUNCH)->add(GAME_INPUT_HEAVY_PUNCH), true));
 
-    _consecInputs.push_back(GameInputConsecutive(GAME_INPUT_HCF, makeVector<GameInput>(5, GAME_INPUT_WEST,  GAME_INPUT_SOUTH_WEST, GAME_INPUT_SOUTH, GAME_INPUT_SOUTH_EAST, GAME_INPUT_EAST)));
-    _consecInputs.push_back(GameInputConsecutive(GAME_INPUT_HCB, makeVector<GameInput>(5, GAME_INPUT_EAST,  GAME_INPUT_SOUTH_EAST, GAME_INPUT_SOUTH, GAME_INPUT_SOUTH_WEST, GAME_INPUT_WEST)));
+    _consecInputs.add(GameInputConsecutive(GAME_INPUT_HCF, *ArrayList<GameInput>().add(GAME_INPUT_WEST)->add(GAME_INPUT_SOUTH_WEST)->add(GAME_INPUT_SOUTH)->add(GAME_INPUT_SOUTH_EAST)->add(GAME_INPUT_EAST)));
+    _consecInputs.add(GameInputConsecutive(GAME_INPUT_HCB, *ArrayList<GameInput>().add(GAME_INPUT_EAST)->add(GAME_INPUT_SOUTH_EAST)->add(GAME_INPUT_SOUTH)->add(GAME_INPUT_SOUTH_WEST)->add(GAME_INPUT_WEST)));
 
-    _consecInputs.push_back(GameInputConsecutive(GAME_INPUT_DRAGON_FIST_FORWARD,  makeVector<GameInput>(3, GAME_INPUT_EAST, GAME_INPUT_SOUTH, GAME_INPUT_SOUTH_EAST)));
-    _consecInputs.push_back(GameInputConsecutive(GAME_INPUT_DRAGON_FIST_BACKWARD, makeVector<GameInput>(3, GAME_INPUT_WEST, GAME_INPUT_SOUTH, GAME_INPUT_SOUTH_WEST)));
+    _consecInputs.add(GameInputConsecutive(GAME_INPUT_DRAGON_FIST_FORWARD,  *ArrayList<GameInput>().add(GAME_INPUT_EAST)->add(GAME_INPUT_SOUTH)->add(GAME_INPUT_SOUTH_EAST)));
+    _consecInputs.add(GameInputConsecutive(GAME_INPUT_DRAGON_FIST_BACKWARD, *ArrayList<GameInput>().add(GAME_INPUT_WEST)->add(GAME_INPUT_SOUTH)->add(GAME_INPUT_SOUTH_WEST)));
 
-    _consecInputs.push_back(GameInputConsecutive(GAME_INPUT_QCF, makeVector<GameInput>(3, GAME_INPUT_SOUTH, GAME_INPUT_SOUTH_EAST, GAME_INPUT_EAST)));
-    _consecInputs.push_back(GameInputConsecutive(GAME_INPUT_QCB, makeVector<GameInput>(3, GAME_INPUT_SOUTH, GAME_INPUT_SOUTH_WEST, GAME_INPUT_WEST)));
+    _consecInputs.add(GameInputConsecutive(GAME_INPUT_QCF, *ArrayList<GameInput>().add(GAME_INPUT_SOUTH)->add(GAME_INPUT_SOUTH_EAST)->add(GAME_INPUT_EAST)));
+    _consecInputs.add(GameInputConsecutive(GAME_INPUT_QCB, *ArrayList<GameInput>().add(GAME_INPUT_SOUTH)->add(GAME_INPUT_SOUTH_WEST)->add(GAME_INPUT_WEST)));
 }
 
 void GameInputSource::addAlias( GameCombinedInput alias, GameInput input )
 {
-    _alias.insert(AliasPair(alias, input));
+    _alias.add(alias, input);
 }
 
 void GameInputSource::addInputToBuffer( GameInput input, double time )
 {
-    _inputBuffer.push_back(GameInputPress(input, time));
+    _inputBuffer.add(GameInputPress(input, time));
 
     while (_inputBuffer.size() > INPUT_BUFFER_MAX)
-        vectorRemoveAt(_inputBuffer, 0);
+        _inputBuffer.removeFront();
 }
 
 void GameInputSource::keyPressed( const Event& event )
@@ -415,14 +409,4 @@ void GameInputSource::mouseReleased( const Event& event )
     const MouseData *data = event.dataAs<MouseData>();
 
     _inputChanges.push(GameInputChange(GameCombinedInput(data->Button), INPUT_TYPE_RELEASED));
-}
-
-void GameInputSource::mouseHeld( const Event& event )
-{
-    const MouseData *data = event.dataAs<MouseData>();
-}
-
-void GameInputSource::mouseMoved( const Event& event )
-{
-    //const MouseData *data = event.dataAs<MouseData>();
 }

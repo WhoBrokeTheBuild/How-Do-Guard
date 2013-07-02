@@ -74,9 +74,8 @@ public:
     virtual void textInputArrows   ( const Event& event );
     virtual void textInputHomeEnd  ( const Event& event );
 
-    virtual void clickedOn( void );
-
-    virtual void clickedOff( void );
+    virtual void clickedOn ( Vector2 mousePos );
+    virtual void clickedOff( Vector2 mousePos );
 
     virtual Size size( void );
 

@@ -20,6 +20,7 @@ void Component::init( Vector2 pos /*= Vector2::ZERO*/, Vector2 padding /*= Vecto
     IMouseListener::init();
 
     _hover = false;
+    Focus  = false;
 
     Pos     = pos;
     Padding = padding;
@@ -44,11 +45,11 @@ void Component::mousePressed( const Event& event )
 
         if (_hover)
         {
-            clickedOn();
+            clickedOn(data->Pos);
         }
         else
         {
-            clickedOff();
+            clickedOff(data->Pos);
         }
 
         break;
@@ -85,12 +86,12 @@ void Component::hoverLeave( void )
     _hover = false;
 }
 
-void Component::clickedOn( void )
+void Component::clickedOn( Vector2 mousePos )
 {
     Focus = true;
 }
 
-void Component::clickedOff( void )
+void Component::clickedOff( Vector2 mousePos )
 {
     Focus = false;
 }

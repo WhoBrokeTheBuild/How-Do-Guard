@@ -15,27 +15,26 @@
 #include "GameCombinedInput.h"
 #include "GameInputChange.h"
 
-#include <map>
-#include <queue>
+#include <Map.h>
+#include <Queue.h>
+#include <ArrayList.h>
 
-typedef map<GameCombinedInput,  GameInput, CompGameCombinedInput> AliasMap;
-typedef pair<GameCombinedInput, GameInput>                        AliasPair;
+typedef Map<GameCombinedInput, GameInput, CompGameCombinedInput> AliasMap;
 
-typedef map<GameInput,  InputState> GameInputStateMap;
-typedef pair<GameInput, InputState> GameInputStatePair;
+typedef Map<GameInput, InputState> GameInputStateMap;
 
 struct GameInputSimultanious
 {
     GameInput 
         Output;
 
-    vector<GameInput>
+    ArrayList<GameInput>
         Inputs;
 
     bool 
         BlockInput;
 
-    GameInputSimultanious( GameInput output, vector<GameInput> inputs, bool blockInput = true)
+    GameInputSimultanious( GameInput output, ArrayList<GameInput> inputs, bool blockInput = true)
     {
         Output     = output;
         Inputs      = inputs;
@@ -48,10 +47,10 @@ struct GameInputConsecutive
     GameInput
         Output;
 
-    vector<GameInput>
+    ArrayList<GameInput>
         Inputs;
 
-    GameInputConsecutive( GameInput output, vector<GameInput> inputs)
+    GameInputConsecutive( GameInput output, ArrayList<GameInput> inputs)
     {
         Output = output;
         Inputs  = inputs;
@@ -85,23 +84,23 @@ protected:
     AliasMap
         _alias;
 
-    vector<GameInputSimultanious>
+    ArrayList<GameInputSimultanious>
         _simInputs;
 
-    vector<GameInputConsecutive>
+    ArrayList<GameInputConsecutive>
         _consecInputs;
 
-    queue<GameInputChange>
+    Queue<GameInputChange>
         _inputChanges;
 
     GameInputStateMap
         _inputStates;
 
-    vector<GameInput>
+    ArrayList<GameInput>
         _eightWayDir,
         _hiddenInputs;
 
-    vector<GameInputPress>
+    ArrayList<GameInputPress>
         _inputBuffer;
 
     PlayerIndex
@@ -117,7 +116,7 @@ public:
         EVENT_GAME_INPUT_RELEASED,
         EVENT_GAME_INPUT_HELD;
 
-    GameInputSource( void );
+    GameInputSource( void ) { }
     virtual ~GameInputSource( void );
 
     virtual string toString( void ) const;
@@ -148,8 +147,6 @@ public:
 
     virtual void mousePressed ( const Event& event );
     virtual void mouseReleased( const Event& event );
-    virtual void mouseHeld    ( const Event& event );
-    virtual void mouseMoved   ( const Event& event );
 };
 
 #endif

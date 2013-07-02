@@ -22,8 +22,6 @@ void Textbox::init( Vector2 pos /*= Vector2::ZERO*/, float width /*= 100*/, Vect
 
     _width = width;
 
-    Focus = false;
-
     _cursorPos = 0;
     _textPos   = 0;
 
@@ -304,17 +302,17 @@ void Textbox::checkTextPos( void )
     }
 }
 
-void Textbox::clickedOn( void )
+void Textbox::clickedOn( Vector2 mousePos )
 {
-    Component::clickedOn();
+    Component::clickedOn(mousePos);
 
     _cursorShown = true;
     _cursorTimeout = _cursorSpeed;
 }
 
-void Textbox::clickedOff( void )
+void Textbox::clickedOff( Vector2 mousePos )
 {
-    Component::clickedOff();
+    Component::clickedOff(mousePos);
 
     _cursorShown = false;
 }

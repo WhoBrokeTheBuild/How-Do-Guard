@@ -45,8 +45,8 @@ public:
     virtual void hoverEnter( void );
     virtual void hoverLeave( void );
 
-    virtual void clickedOn ( void );
-    virtual void clickedOff( void );
+    virtual void clickedOn ( Vector2 mousePos );
+    virtual void clickedOff( Vector2 mousePos );
 };
 
 #endif

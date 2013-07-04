@@ -1,746 +1,575 @@
 #include "DataManager.h"
 
 DataManager* gpDataManager = nullptr;
-ConfigLevel DataManager::_config = ConfigLevel();
-
-DataManager::DataManager( void )
-{
-}
 
 DataManager::~DataManager( void )
 {
     term();
 }
 
-std::string DataManager::toString( void ) const
-{
-    return "Data Manager";
-}
-
 void DataManager::init( void )
 {
-    INF(toString(), "Starting Init");
+    _configDir = "assets/config/";
+    _sheetDir  = "assets/sheets/";
+    _configExt = ".cfg";
 
-    pAnimations = New Manager<Animation>();
-    pAnimations->init();
+    _pRoot = New ConfigObject();
 
-    pSprites = New Manager<Sprite>();
-    pSprites->init();
+    load("main");
 
-    pTextures = New Manager<Texture>();
-    pTextures->init();
-
-    reload();
-
-    INF(toString(), "Finished Init");
+    loadAssets(*ArrayList<string>().add("Game")->add("Assets"));
+               
+    loadAssets(*ArrayList<string>().add("Game")->add("Toast")->add("Assets"));
+    loadAssets(*ArrayList<string>().add("Game")->add("Curl")->add("Assets"));
+    loadAssets(*ArrayList<string>().add("Game")->add("Wolf")->add("Assets"));
+    loadAssets(*ArrayList<string>().add("Game")->add("Ghost")->add("Assets"));
 }
 
 void DataManager::term( void )
 {
-    delete pAnimations;
-    delete pSprites;
-    delete pTextures;
-}
+    Map<ConfigKey, Texture*>::Iterator   texIt;
+    Map<ConfigKey, Animation*>::Iterator animIt;
 
-void DataManager::reload( void )
-{
-    _config.clear();
-
-    pAnimations->clear();
-    pSprites->clear();
-    pTextures->clear();
-
-    loadConfig("main.cfg");
-}
-
-void DataManager::loadConfig( string filename, vector<string> levels /*= vector<string>()*/ )
-{
-    ifstream file("assets/config/" + filename);
-
-    string line = "";
-    string listName = "";
-
-    while (!file.eof())
+    for (texIt = Textures.begin(); texIt != Textures.end(); ++texIt)
     {
-        getline(file, line);
-
-        if (line.length() == 0 || line[0] == '#')
-            continue;
-
-        if (line[0] == '!')
-        {
-            vector<string> split = strSplit(line, ' ', 2);
-
-            if (split.size() < 2)
-                continue;
-
-            if (split[0] == "!Load")
-            {
-                loadConfig(split[1], levels);
-            }
-            else if (split[0] == "!LoadAsset")
-            {
-                loadAssets(split[1]);
-            }
-            else if (split[0] == "!LoadState")
-            {
-                split = strSplit(split[1], ' ', 2);
-
-                if (split.size() < 2)
-                    continue;
-
-                loadStates(split[0], split[1]);
-            }
-            else if (split[0] == "!Start")
-            {
-                levels.push_back(split[1]);
-            }
-            else if (split[0] == "!End")
-            {
-                levels.pop_back();
-            }
-            else if (split[0] == "!StartList")
-            {
-                listName = split[1];
-                getLevel(levels)->addList(listName);
-            }
-            else if (split[0] == "!EndList")
-            {
-                listName = "";
-            }
-        }
-        else
-        {
-            parseConfigLine(line, levels, listName);
-        }
+        delete texIt->second;
     }
 
-    file.close();
-}
-
-void DataManager::loadAssets( string filename )
-{
-    ifstream file("assets/config/" + filename);
-
-    stringstream ss;
-    string line;
-
-    while (!file.eof())
+    for (animIt = Animations.begin(); animIt != Animations.end(); ++animIt)
     {
-        getline(file, line);
-
-        if (line.length() == 0 || line[0] == '#')
-            continue;
-
-        vector<string> pieces = strSplit(line, ' ', 2);
-
-        if (pieces.size() == 2)
-        {
-            if (pieces[0] == "Texture")
-            {
-                ItemKey key = pieces[1];
-
-                do
-                {
-                    getline(file, line);
-
-                    if (file.eof())
-                        break;
-
-                    if (line[0] == '#')
-                        continue;
-                }
-                while (line.length() == 0);
-
-                if (line.length() == 0)
-                    break;
-
-                pieces = strSplit(line, ' ', 2);
-
-                if (pieces[0] == "File")
-                {
-                    ss.str("");
-                    ss << "assets/sheets/" << pieces[1];
-                    pTextures->addEmpty(key)->init(ss.str());
-                }
-                else
-                    continue;
-            }
-            else if (pieces[0] == "Animation")
-            {
-                ItemKey key = pieces[1];
-                ItemKey texKey = "";
-                bool loop = false;
-                int numFrames = -1;
-                vector<Sprite*> frames;
-                bool autoFrames = false;
-                int framesPerRow = -1;
-                Size frameSize = Size::ZERO;
-
-                do
-                {
-                    getline(file, line);
-
-                    if (file.eof())
-                        break;
-
-                    if (line[0] == '#')
-                        continue;
-                }
-                while (line.length() == 0);
-
-                if (line.length() == 0)
-                    break;
-
-                pieces = strSplit(line, ' ', 2);
-
-                if (pieces[0] == "Texture")
-                {
-                    texKey = pieces[1];
-                }
-                else
-                    continue;
-
-                do
-                {
-                    getline(file, line);
-
-                    if (file.eof())
-                        break;
-
-                    if (line[0] == '#')
-                        continue;
-                }
-                while (line.length() == 0);
-
-                if (line.length() == 0)
-                    break;
-
-                pieces = strSplit(line, ' ', 2);
-
-                if (pieces[0] == "Loop")
-                {
-                    loop = (pieces[1][0] == 'T');
-                }
-                else
-                    continue;
-
-                do
-                {
-                    getline(file, line);
-
-                    if (file.eof())
-                        break;
-
-                    if (line[0] == '#')
-                        continue;
-                }
-                while (line.length() == 0);
-
-                if (line.length() == 0)
-                    break;
-
-                pieces = strSplit(line, ' ', 2);
-
-                if (pieces[0] == "Frames")
-                {
-                    pieces = strSplit(pieces[1], ' ', 2);
-
-                    if (pieces.size() == 1)
-                    {
-                        numFrames = parseInt(pieces[0]);
-                    }
-                    else if (pieces.size() == 2)
-                    {
-                        numFrames = parseInt(pieces[0]);
-
-                        if (pieces[1] == "Auto")
-                        {
-                            autoFrames = true;
-                        }
-                    }
-                }
-                else
-                    continue;
-
-                if (numFrames == -1)
-                    continue;
-
-                if (autoFrames)
-                {
-                    do 
-                    {
-                        do
-                        {
-                            getline(file, line);
-
-                            if (file.eof())
-                                break;
-
-                            if (line[0] == '#')
-                                continue;
-                        }
-                        while (line.length() == 0);
-
-                        if (line.length() == 0)
-                            break;
-
-                        pieces = strSplit(line, ' ', 2);
-
-                        if (pieces[0] == "FramesPerRow")
-                        {
-                            framesPerRow = parseInt(pieces[1]);
-                        }
-                        else if (pieces[0] == "FrameSize")
-                        {
-                            if (pieces.size() < 2)
-                                continue;
-
-                            frameSize = parseVector2(pieces[1]);
-                        }
-                    } 
-                    while (line.length() != 0 && pieces[0] != "FrameOrder");
-
-                    if (line.length() == 0)
-                        return;
-
-                    vector<Rect> tmpFrames;
-                    Rect tmpRect = Rect(Vector2::ZERO, frameSize);
-
-                    int col = 0;
-                    for (int i = 0; i < numFrames; ++i)
-                    {
-                        tmpFrames.push_back(tmpRect);
-                        tmpRect.X += frameSize.width();
-                        col++;
-                        if (framesPerRow != -1 && col == framesPerRow)
-                        {
-                            col = 0;
-                            tmpRect.X = 0;
-                            tmpRect.Y += frameSize.height();
-                        }
-                    }
-
-                    int numFramesInOrder = parseInt(pieces[1]);
-
-                    for (int i = 0; i < numFramesInOrder; ++i)
-                    {
-                        do
-                        {
-                            getline(file, line);
-
-                            if (file.eof())
-                                break;
-
-                            if (line[0] == '#')
-                                continue;
-                        }
-                        while (line.length() == 0);
-
-                        if (line.length() == 0)
-                            break;
-
-                        pieces = strSplit(line, ' ', 2);
-
-                        if (pieces[0] != "Frame")
-                            continue;
-
-                        pieces = strSplit(pieces[1], ' ', 2);
-
-                        int rectInd = parseInt(pieces[0]) - 1;
-                        rectInd = clamp(rectInd, 0, (int)tmpFrames.size());
-                        float speed = parseFloat(pieces[1]);
-
-                        Sprite *sprite = New Sprite();
-                        sprite->init(pTextures->get(texKey), tmpFrames[rectInd], speed);
-
-                        pSprites->add(sprite);
-
-                        frames.push_back(sprite);
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < numFrames; ++i)
-                    {
-                        Rect rect;
-                        double speed;
-
-                        do
-                        {
-                            getline(file, line);
-
-                            if (file.eof())
-                                break;
-
-                            if (line[0] == '#')
-                                continue;
-                        }
-                        while (line.length() == 0);
-
-                        if (line.length() == 0)
-                            break;
-
-                        pieces = strSplit(line, ' ', 2);
-
-                        if (pieces[0] == "Rect")
-                        {
-                            rect = parseRect(pieces[1]);
-                        }
-                        else
-                            break;
-
-                        do
-                        {
-                            getline(file, line);
-
-                            if (file.eof())
-                                break;
-
-                            if (line[0] == '#')
-                                continue;
-                        }
-                        while (line.length() == 0);
-
-                        if (line.length() == 0)
-                            break;
-
-                        pieces = strSplit(line, ' ', 2);
-
-                        if (pieces[0] == "Speed")
-                        {
-                            speed = parseFloat(pieces[1]);
-                        }
-                        else
-                            break;
-
-                        Sprite *sprite = New Sprite();
-                        sprite->init(pTextures->get(texKey), rect, speed);
-
-                        pSprites->add(sprite);
-
-                        frames.push_back(sprite);
-                    }
-                }
-
-                pAnimations->addEmpty(key)->init(frames, true, loop);
-            }
-        }
+        delete animIt->second;
     }
 
-    file.close();
+    for (unsigned int i = 0; i < Sprites.size(); ++i)
+    {
+        delete Sprites[i];
+    }
+
+    Textures.clear();
+    Animations.clear();
+    Sprites.clear();
+
+    delete _pRoot;
 }
 
-void DataManager::loadStates( string filename, string stateName )
+void DataManager::load( string filename )
 {
-    ifstream file("assets/config/" + filename);
+    parseFile(filename, _pRoot);
+}
 
-    PlayerStateMap data;
+void DataManager::loadAssets( ArrayList<ConfigKey> path)
+{
+    ConfigObject* pObject = getObject(path);
 
-    GameInput input;
-    InputType type;
-    VerticalState vertState, newVertState;
-    PlayerState before, after;
+    if (pObject == nullptr)
+        return;
+
+    ConfigObject
+        *pTextureObj   = pObject->getObject("Textures"),
+        *pAnimationObj = pObject->getObject("Animations");
+
+    ArrayList<ConfigKey>
+        textureKeys   = pTextureObj->getItemKeys(),
+        animationKeys = pAnimationObj->getItemKeys();
+
+    ConfigObject* object;
+    ConfigKey     key;
+
+    string filename;
+    for (unsigned int i = 0; i < textureKeys.size(); ++i)
+    {
+        key      = textureKeys[i];
+        object   = pTextureObj->getObject(key);
+        filename = object->getString("File");
+
+        if (filename.length() == 0)
+            continue;
+
+        Textures.add(key, New Texture());
+        Textures[key]->init(_sheetDir + filename);
+    }
+    
+    string   textureKey;
+    Texture* texture;
+    bool     loop;
+    bool     autoPos;
+    int      frames;
+    int      framesPerRow;
+    Vector2  frameSize;
+    ArrayList<ConfigObject*>* frameOrder;
+    for (unsigned int i = 0; i < animationKeys.size(); ++i)
+    {
+        key      = animationKeys[i];
+        object   = pAnimationObj->getObject(key);
+
+        textureKey   = object->getString ("Texture");
+        frames       = object->getInt    ("Frames",        1);
+        framesPerRow = object->getInt    ("FramesPerRow", -1);
+        loop         = object->getBool   ("Loop",         false);
+        autoPos      = object->getBool   ("AutoPos",      false);
+        frameSize    = object->getVector2("FrameSize");
+        frameOrder   = &object->getObjectList("Order");
+
+        if (textureKey.length() == 0 || !Textures.contains(textureKey))
+        {
+            stringstream ss;
+            ss << "Invalid Texture: " << texture;
+            ERR(toString(), ss.str())
+            continue;
+        }
+
+        if (!autoPos) // TODO: Add manual positioning
+            continue;
+
+        if (filename.length() == 0)
+            continue;
+
+        texture = Textures[textureKey];
+
+        ArrayList<Rect> frameRects;
+        Rect rect = Rect(Vector2::ZERO, frameSize);
+
+        int col = 0;
+        for (int i = 0; i < frames; ++i, ++col)
+        {
+            frameRects.add(rect);
+
+            rect.X += frameSize.width();
+            if (framesPerRow != -1 && col == framesPerRow)
+            {
+                col = 0;
+                rect.X = 0;
+                rect.Y += frameSize.height();
+            }
+        }
+
+        ArrayList<Sprite*> frameSprites;
+
+        ConfigObject* orderObject;
+        Sprite*       sprite;
+        int           rectInd;
+        float        frameSpeed;
+        for (unsigned int i = 0; i < frameOrder->size(); ++i)
+        {
+            orderObject = frameOrder->at(i);
+            rectInd     = orderObject->getInt("Frame", -1);
+            frameSpeed  = orderObject->getFloat("Speed");
+
+            if (!between(rectInd, 0, (int)frameRects.size()))
+                continue;
+            
+            sprite = New Sprite();
+            Sprites.add(sprite);
+
+            sprite->init(texture, frameRects[rectInd], (double)frameSpeed);
+        }
+
+        Animations.add(key, New Animation());
+        Animations[key]->init(frameSprites, loop);
+    }
+}
+
+void DataManager::parseFile( string filename, ConfigObject* pBase )
+{
+    ifstream file(_configDir + filename + _configExt);
+
+    struct ParseLevel
+    {
+        string 
+            Name;
+
+        int 
+            Index;
+
+        bool
+            List;
+
+        ParseLevel( void ) { }
+        ParseLevel( string name, bool list = false ) { Name = name; List = list; }
+        ParseLevel( int index, bool list = false ) { Index = index; List = list; }
+
+    };
+
+    bool 
+        blockComment = false,
+        lineComment  = false,
+        inSpecial    = false,
+        inList       = false,
+        inType       = false,
+        inName       = false,
+        inValue      = false,
+        hasType      = false,
+        hasName      = false,
+        hasValue     = false,
+        endOfLine    = false;
+
+    unsigned int 
+        indent       = 0,
+        spaceCount   = 0,
+        tabCount     = 0;
+
+    char 
+        chCurr,
+        chNext;
+
+    string 
+        type,
+        name,
+        value;
+
+    ArrayList<ParseLevel> levels;
+
     string line;
-    vector<string> pieces;
-    pair<GameInput, InputType> inputTypePair;
-    int index;
-
+    unsigned int lineNumber = 0;
     while (!file.eof())
     {
         getline(file, line);
+        line += '\n';
+        ++lineNumber;
 
-        if (line.length() == 0 || line[0] == '#')
+        inSpecial = false;
+        inType = false;
+        inName = false;
+        inValue = false;
+
+        hasType = false;
+        hasName = false;
+        hasValue = false;
+
+        lineComment = false;
+        endOfLine = false;
+
+        type = "";
+        name = "";
+        value = "";
+
+        spaceCount   = 0;
+        tabCount     = 0;
+
+        for (unsigned int ind = 0; ind < line.length(); ++ind)
+        {
+            if (line[ind] == ' ')
+                ++spaceCount;
+            else if (line[ind] == '\t')
+                spaceCount += 4;
+            else
+                break;
+        }
+
+        if (spaceCount + tabCount == line.length() - 1) // Empty Line
             continue;
 
-        pieces = strSplit(line, ' ', 2);
+        indent = (spaceCount / 4) + tabCount;
 
-        if (pieces.size() < 2)
-            continue;
-
-        if (pieces[0] == "Input")
+        for (unsigned int ind = spaceCount + tabCount; ind < line.length(); ++ind)
         {
-            pieces = strSplit(pieces[1], ' ', 2);
+            chCurr = line[ind];
+            endOfLine = (ind == line.length() - 1);
+            chNext = (endOfLine ? '\0' : line[ind + 1]);
 
-            input = INVALID_GAME_INPUT;
-            type = INVALID_INPUT_TYPE;
-
-            index = arrayIndexOf(NUM_GAME_INPUTS, GAME_INPUT_NAMES, pieces[0]);
-            if (index != -1)
+            if (blockComment)
             {
-                input = (GameInput)index;
+                if (chCurr == '*' && !endOfLine && chNext == '/')
+                {
+                    blockComment = false;
+                }
+                else
+                    continue;
             }
 
-            index = arrayIndexOf(NUM_INPUT_TYPES, INPUT_TYPE_NAMES, pieces[1]);
-            if (index != -1)
+            if (!inValue && type == "string")
             {
-                type = (InputType)index;
+                if (chCurr == '/' && !endOfLine)
+                {
+                    if (chNext == '/')
+                    {
+                        lineComment = true;
+                    }
+                    else if (chNext == '*')
+                    {
+                        blockComment = true;
+                    }
+                }
             }
 
-            if (input == INVALID_GAME_INPUT)
-                continue;
-
-            inputTypePair = pair<GameInput, InputType>(input, type);
-            data.insert(pair<pair<GameInput, InputType>, VerticalPlayerStateMap>(inputTypePair, VerticalPlayerStateMap()));
-        }
-        else if (pieces[0] == "VertState")
-        {
-            index = arrayIndexOf(NUM_VERTICAL_STATES, VERTICAL_STATE_NAMES, pieces[1]);
-            if (index != -1)
+            if (lineComment || blockComment)
             {
-                vertState = (VerticalState)index;
-                data[inputTypePair].insert(pair<VerticalState, PlayerStateChangeList>(vertState, PlayerStateChangeList()));
-            }
-        }
-        else if (pieces[0] == "AddState")
-        {
-            pieces = strSplit(pieces[1], ' ');
-
-            if (pieces.size() < 2)
-                continue;
-            else if (pieces.size() == 2)
-            {
-                newVertState = vertState;
+                inType = false;
+                inName = false;
+                inValue = false;
             }
             else
             {
-                int index = arrayIndexOf(NUM_VERTICAL_STATES, VERTICAL_STATE_NAMES, pieces[2]);
-                if (index != -1)
+
+                if (inType)
                 {
-                    newVertState = (VerticalState)index;
+                    if (chCurr == ' ' || chCurr == '\t' || chCurr == '\n')
+                    {
+                        inType = false;
+                        hasType = true;
+
+                        while (indent < levels.size())
+                        {
+                            levels.removeBack();
+                        }
+
+                        if (levels.size() > 0 && indent > 0)
+                        {
+                            inList = levels[indent - 1].List;
+                        }
+                        else
+                        {
+                            inList = false;
+                        }
+                    }
+                    else
+                        type += chCurr;
+                }
+                else if (inName)
+                {
+                    if (chCurr == ' ' || chCurr == '\t' || chCurr == '\n')
+                    {
+                        inName = false;
+                        hasName = true;
+                    }
+                    else
+                        name += chCurr;
+                }
+                else if (inValue)
+                {
+                    if ( (type == "string" && line[ind - 1] != '\\' && chCurr == '"') ||
+                         (type != "string" && chCurr == '\n') )
+                    {
+                        inValue = false;
+                        hasValue = true;
+                    }
+                    else
+                        value += chCurr;
+                }
+                else
+                {
+                    if (chCurr == '$')
+                    {
+                        inType = true;
+                    }
+                    else if (chCurr == '#')
+                    {
+                        inSpecial = true;
+                    }
+                    else if (chCurr != ' ' && chCurr != '\t' || chCurr == '\n')
+                    {
+                        if (inList || hasName)
+                        {
+                            if (hasType && !hasValue)
+                            {
+                                inValue = true;
+
+                                if (type != "string")
+                                    value += chCurr;
+                            }
+                        }
+                        else
+                        {
+                            if (hasType && !hasName)
+                            {
+                                inName = true;
+                                name += chCurr;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (inSpecial)
+        {
+            while (indent < levels.size())
+            {
+                levels.removeBack();
+            }
+
+            if (levels.size() > 0 && indent > 0)
+            {
+                inList = levels[indent - 1].List;
+            }
+            else
+            {
+                inList = false;
+            }
+        }
+
+        ConfigObject*          parentObject = pBase;
+        ArrayList<ConfigItem>* parentList = nullptr;
+
+        for (unsigned int levelInd = 0; levelInd < levels.size(); ++levelInd)
+        {
+            ParseLevel 
+                curr = levels[levelInd],
+                prev = (levelInd >= 1 ? levels[levelInd - 1] : ParseLevel());
+
+            if (curr.List)
+            {
+                parentList = &parentObject->_itemLists[curr.Name];
+            }
+            else
+            {
+                if (levelInd >= 1 && prev.List)
+                {
+                    parentObject = parentObject->_itemLists[prev.Name][curr.Index].ObjectData;
+                }
+                else
+                {
+                    parentObject = parentObject->_items[curr.Name].ObjectData;
+                }
+            }
+        }
+
+        if (inSpecial)
+        {
+            string filename = "";
+
+            bool inQuotes = false;
+            for (unsigned int i = 0; i < line.length(); ++i)
+            {
+                if (!inQuotes)
+                {
+                    if (line[i] == '"')
+                    {
+                        inQuotes = true;
+                        continue;
+                    }
+                    else if (line[i] == ' ' || line[i] == '\t')
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    if (line[i - 1] != '\\' && line[i] == '"')
+                    {
+                        break;
+                    }
+
+                    filename += line[i];
                 }
             }
 
-            index = arrayIndexOf(NUM_PLAYER_STATES, PLAYER_STATE_NAMES, pieces[0]);
-            if (index != -1)
+            if (strContains(line, "#include") && parentObject != nullptr)
             {
-                before = (PlayerState)index;
+                parseFile(filename, parentObject);
+            }
+        }
+
+        if (type == "object" || type == "list")
+        {
+            if (type == "list" && inList)
+                continue;
+
+            if (inList)
+            {
+                if (type == "object")
+                {
+                    parentList->add(ConfigItem(New ConfigObject()));
+                    levels.add(ParseLevel(parentList->size() - 1, false));
+                }
+            }
+            else
+            {
+                if (type == "object")
+                {
+                    parentObject->_items.add(name, ConfigItem(New ConfigObject()));
+                    levels.add(ParseLevel(name, false));
+                }
+                else if (type == "list")
+                {
+                    parentObject->_itemLists.add(name, ArrayList<ConfigItem>());
+                    levels.add(ParseLevel(name, true));
+                }
             }
 
-            index = arrayIndexOf(NUM_PLAYER_STATES, PLAYER_STATE_NAMES, pieces[1]);
-            if (index != -1)
+        }
+        else
+        {
+            if (name == "Frame")
             {
-                after = (PlayerState)index;
+                noop();
             }
 
-            data[inputTypePair][vertState].push_back(PlayerStateChange(before, after, newVertState));
+            ConfigItem item;
+
+            if (type == "")
+            {
+                continue;
+            }
+
+            if (type == "int")
+            {
+                item = ConfigItem(parseInt(value));
+            }
+            else if (type == "float")
+            {
+                item = ConfigItem(parseFloat(value));
+            }
+            else if (type == "bool")
+            {
+                item = ConfigItem(parseBool(value));
+            }
+            else if (type == "string")
+            {
+                item = ConfigItem(value);
+            }
+            else if (type == "vector2")
+            {
+                item = ConfigItem(parseVector2(value));
+            }
+            else if (type == "rect")
+            {
+                item = ConfigItem(parseRect(value));
+            }
+            else if (type == "circle")
+            {
+                item = ConfigItem(parseCircle(value));
+            }
+            else if (type == "color")
+            {
+                item = ConfigItem(parseColor(value));
+            }
+
+            if (item.Type == INVALID_CONFIG_TYPE)
+                continue;
+
+            if (inList)
+            {
+                if (parentList != nullptr)
+                    parentList->add(item);
+            }
+            else
+            {
+                if (parentObject != nullptr)
+                    parentObject->_items.add(name, item);
+            }
         }
     }
 
     file.close();
-
-    PlayerStateData.insert(pair<ItemKey, PlayerStateMap>(stateName, data));
 }
 
-void DataManager::parseConfigLine( string line, vector<string> levels, string listName )
+ConfigObject* DataManager::getObject( ArrayList<ConfigKey> path )
 {
-    ConfigLevel *tmp = getLevel(levels);
+    ConfigObject* item = _pRoot;
 
-    if (listName != "")
+    for (unsigned int i = 0; i < path.size(); ++i)
     {
-        tmp->getList(listName)->push_back(line);
-    }
-    else
-    {
-        vector<string> parts = strSplit(line, ' ', 2);
-
-        if (parts.size() < 2)
-            return;
-
-        tmp->addData(parts[0], parts[1]);
-    }
-}
-
-ConfigValue DataManager::getData( vector<ConfigKey> name, ConfigKey dataName )
-{
-    ConfigLevel* tmp = getLevel(name);
-
-    if (!tmp->containsData(dataName))
-    {
-        return "";
-    }
-
-    return tmp->getData(dataName);
-}
-
-vector<ConfigValue>* DataManager::getList( vector<ConfigKey> name, ConfigKey listName )
-{
-    ConfigLevel* tmp = getLevel(name);
-
-    if (!tmp->containsList(listName))
-    {
-        tmp->addList(listName);
-    }
-
-    return tmp->getList(listName);
-}
-
-ConfigLevel* DataManager::getLevel( vector<ConfigKey> name )
-{
-    ConfigLevel* tmpLevel = &_config;
-
-    for (unsigned int i = 0; i < name.size(); ++i)
-    {
-        if (name[i].length() == 0)
-            break;
-
-        if (!tmpLevel->containsLevel(name[i]))
+        if (item->hasObject(path[i]))
         {
-            tmpLevel->addLevel(name[i]);
+            item = item->getObject(path[i]);
         }
-
-        tmpLevel = tmpLevel->getLevel(name[i]);
+        else
+        {
+            item = nullptr;
+            break;
+        }
     }
 
-    return tmpLevel;
-}
-
-std::string DataManager::getString( vector<ConfigKey> name )
-{
-    string itemName = name.back();
-
-    name.pop_back();
-
-    return getLevel(name)->getData(itemName);
-}
-
-int DataManager::getInt( vector<ConfigKey> name )
-{
-    string itemName = name.back();
-    name.pop_back();
-
-    return parseInt(getLevel(name)->getData(itemName));
-}
-
-float DataManager::getFloat( vector<ConfigKey> name )
-{
-    string itemName = name.back();
-    name.pop_back();
-
-    return parseFloat(getLevel(name)->getData(itemName));
-}
-
-double DataManager::getDouble( vector<ConfigKey> name )
-{
-    string itemName = name.back();
-    name.pop_back();
-
-    return parseDouble(getLevel(name)->getData(itemName));
-}
-
-Vector2 DataManager::getVector2( vector<ConfigKey> name )
-{
-    string itemName = name.back();
-    name.pop_back();
-
-    return parseVector2(getLevel(name)->getData(itemName));
-}
-
-Rect DataManager::getRect( vector<ConfigKey> name )
-{
-    string itemName = name.back();
-    name.pop_back();
-
-    return parseRect(getLevel(name)->getData(itemName));
-}
-
-Circle DataManager::getCircle( vector<ConfigKey> name )
-{
-    string itemName = name.back();
-    name.pop_back();
-
-    return parseCircle(getLevel(name)->getData(itemName));
-}
-
-Color DataManager::getColor( vector<ConfigKey> name )
-{
-    string itemName = name.back();
-    name.pop_back();
-
-    return parseColor(getLevel(name)->getData(itemName));
-}
-
-vector<string> DataManager::getStringList( vector<ConfigKey> name )
-{
-    string itemName = name.back();
-    name.pop_back();
-
-    return *getLevel(name)->getList(itemName);
-}
-
-vector<int> DataManager::getIntList( vector<ConfigKey> name )
-{
-    vector<string> itemsData = getStringList(name);
-    vector<int> items = vector<int>();
-
-    for (unsigned int i = 0; i < itemsData.size(); ++i)
-        items.push_back(parseInt(itemsData[i]));
-
-    return items;
-}
-
-vector<float> DataManager::getFloatList( vector<ConfigKey> name )
-{
-    vector<string> itemsData = getStringList(name);
-    vector<float> items = vector<float>();
-
-    for (unsigned int i = 0; i < itemsData.size(); ++i)
-        items.push_back(parseFloat(itemsData[i]));
-
-    return items;
-}
-
-vector<double> DataManager::getDoubleList( vector<ConfigKey> name )
-{
-    vector<string> itemsData = getStringList(name);
-    vector<double> items = vector<double>();
-
-    for (unsigned int i = 0; i < itemsData.size(); ++i)
-        items.push_back(parseDouble(itemsData[i]));
-
-    return items;
-}
-
-vector<Vector2> DataManager::getVector2List( vector<ConfigKey> name )
-{
-    vector<string> itemsData = getStringList(name);
-    vector<Vector2> items = vector<Vector2>();
-
-    for (unsigned int i = 0; i < itemsData.size(); ++i)
-        items.push_back(parseVector2(itemsData[i]));
-
-    return items;
-}
-
-vector<Rect> DataManager::getRectList( vector<ConfigKey> name )
-{
-    vector<string> itemsData = getStringList(name);
-    vector<Rect> items = vector<Rect>();
-
-    for (unsigned int i = 0; i < itemsData.size(); ++i)
-        items.push_back(parseRect(itemsData[i]));
-
-    return items;
-}
-
-vector<Circle> DataManager::getCircleList( vector<ConfigKey> name )
-{
-    vector<string> itemsData = getStringList(name);
-    vector<Circle> items = vector<Circle>();
-
-    for (unsigned int i = 0; i < itemsData.size(); ++i)
-        items.push_back(parseCircle(itemsData[i]));
-
-    return items;
-}
-
-vector<Color> DataManager::getColorList( vector<ConfigKey> name )
-{
-    vector<string> itemsData = getStringList(name);
-    vector<Color> items = vector<Color>();
-
-    for (unsigned int i = 0; i < itemsData.size(); ++i)
-        items.push_back(parseColor(itemsData[i]));
-
-    return items;
+    return item;
 }

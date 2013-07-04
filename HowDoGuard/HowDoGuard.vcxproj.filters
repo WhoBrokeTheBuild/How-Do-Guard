@@ -75,12 +75,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>Project\Player</Filter>
     </ClCompile>
-    <ClCompile Include="DataManager.cpp">
-      <Filter>Project\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="ConfigLevel.cpp">
-      <Filter>Project\Data</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Project\Core</Filter>
     </ClCompile>
@@ -89,6 +83,15 @@
     </ClCompile>
     <ClCompile Include="GameInputSource.cpp">
       <Filter>Project\Input\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>Project\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigObject.cpp">
+      <Filter>Project\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigItem.cpp">
+      <Filter>Project\Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,12 +109,6 @@
     </ClInclude>
     <ClInclude Include="PlayerStateChange.h">
       <Filter>Project\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="DataManager.h">
-      <Filter>Project\Data</Filter>
-    </ClInclude>
-    <ClInclude Include="ConfigLevel.h">
-      <Filter>Project\Data</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Project\Core</Filter>
@@ -139,6 +136,18 @@
     </ClInclude>
     <ClInclude Include="IGameInputListener.h">
       <Filter>Project\Input\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>Project\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigObject.h">
+      <Filter>Project\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigItem.h">
+      <Filter>Project\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigType.h">
+      <Filter>Project\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

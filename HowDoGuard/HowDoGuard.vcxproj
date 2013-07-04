@@ -99,7 +99,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ConfigLevel.cpp" />
+    <ClCompile Include="ConfigItem.cpp" />
+    <ClCompile Include="ConfigObject.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameInputSource.cpp" />
@@ -109,7 +110,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
-    <ClInclude Include="ConfigLevel.h" />
+    <ClInclude Include="ConfigItem.h" />
+    <ClInclude Include="ConfigObject.h" />
+    <ClInclude Include="ConfigType.h" />
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="EventData.h" />
     <ClInclude Include="Game.h" />

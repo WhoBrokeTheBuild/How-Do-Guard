@@ -5,13 +5,15 @@
 
 #include "Common.h"
 #include <ArcApp.h>
+#include <IKeyboardListener.h>
+
+#include <AnimatedUnit.h>
 
 #include "GameInputSystem.h"
 
 #include "DataManager.h"
 #include "Player.h"
 
-#include <IKeyboardListener.h>
 
 class Game :
     public ArcApp, 
@@ -20,7 +22,7 @@ class Game :
 public:
 
     //TODO: Remove
-    Player *test, *test2;
+    //Player *test, *test2;
     AnimatedUnit *bg;
     Font *fpsFont;
     static CachedText *fpsText, *stateText;

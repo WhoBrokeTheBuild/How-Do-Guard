@@ -32,8 +32,9 @@ void GameInputSource::init( PlayerIndex index )
 
     _maxInputDeltaTime = 0.75f;
 
-    _eightWayDir.add(GAME_INPUT_NORTH)->add(GAME_INPUT_NORTH_EAST)->add(GAME_INPUT_EAST)
-               ->add(GAME_INPUT_SOUTH_EAST)->add(GAME_INPUT_SOUTH)->add(GAME_INPUT_SOUTH_WEST)
+    _eightWayDir.add(GAME_INPUT_NORTH)->add(GAME_INPUT_NORTH_EAST)
+               ->add(GAME_INPUT_EAST)->add(GAME_INPUT_SOUTH_EAST)
+               ->add(GAME_INPUT_SOUTH)->add(GAME_INPUT_SOUTH_WEST)
                ->add(GAME_INPUT_WEST)->add(GAME_INPUT_NORTH_WEST);
 
     for (int input = 0; input < NUM_GAME_INPUTS; ++input)

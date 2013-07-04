@@ -6,89 +6,51 @@
 #include "Common.h"
 #include <GameObject.h>
 
-#include <Manager.h>
+#include "ConfigObject.h"
 
-#include <Animation.h>
-#include <Sprite.h>
 #include <Texture.h>
-
-#include <InputType.h>
-
-#include "GameInput.h"
-
-#include "VerticalState.h"
-#include "PlayerState.h"
-#include "PlayerStateChange.h"
-
-#include "ConfigLevel.h"
+#include <Animation.h>
 
 #include <fstream>
-#include <map>
-#include <stack>
-
-typedef vector<PlayerStateChange>                               PlayerStateChangeList;
-typedef map<VerticalState, PlayerStateChangeList>               VerticalPlayerStateMap; //TODO: Fix Names
-typedef map<pair<GameInput, InputType>, VerticalPlayerStateMap> PlayerStateMap;
 
 class DataManager :
     public GameObject
 {
 private:
 
-    static ConfigLevel
-        _config;
+    ConfigObject
+        *_pRoot;
 
-    void loadConfig( string filename, vector<string> levels = vector<string>() );
-    void loadAssets( string filename );
-    void loadStates( string filename, string stateName );
+    string
+        _configDir,
+        _sheetDir,
+        _configExt;
 
-    void parseConfigLine ( string line, vector<string> levels, string listName );
+    virtual void load( string filename );
+    virtual void parseFile( string filename, ConfigObject* pObject );
+
+    virtual void loadAssets( ArrayList<ConfigKey> path );
 
 public:
 
-    Manager<Animation>
-        *pAnimations;
+    Map<ConfigKey, Texture*>
+        Textures;
 
-    Manager<Sprite>
-        *pSprites;
+    ArrayList<Sprite*>
+        Sprites;
 
-    Manager<Texture>
-        *pTextures;
+    Map<ConfigKey, Animation*>
+        Animations;
 
-    map<ItemKey, PlayerStateMap>
-        PlayerStateData;
-
-    DataManager( void );
+    DataManager( void ) { };
     virtual ~DataManager( void );
 
-    virtual string toString( void ) const;
+    virtual string toString( void ) const { return "Data Manager"; }
 
     virtual void init( void );
     virtual void term( void );
 
-    void reload( void );
-
-    ConfigValue          getData ( vector<ConfigKey> name, ConfigKey dataName );
-    vector<ConfigValue>* getList ( vector<ConfigKey> name, ConfigKey listName );
-    ConfigLevel*         getLevel( vector<ConfigKey> name );
-
-    string  getString ( vector<ConfigKey> name );
-    int     getInt    ( vector<ConfigKey> name );
-    float   getFloat  ( vector<ConfigKey> name );
-    double  getDouble ( vector<ConfigKey> name );
-    Vector2 getVector2( vector<ConfigKey> name );
-    Rect    getRect   ( vector<ConfigKey> name );
-    Circle  getCircle ( vector<ConfigKey> name );
-    Color   getColor  ( vector<ConfigKey> name );
-
-    vector<string>  getStringList ( vector<ConfigKey> name );
-    vector<int>     getIntList    ( vector<ConfigKey> name );
-    vector<float>   getFloatList  ( vector<ConfigKey> name );
-    vector<double>  getDoubleList ( vector<ConfigKey> name );
-    vector<Vector2> getVector2List( vector<ConfigKey> name );
-    vector<Rect>    getRectList   ( vector<ConfigKey> name );
-    vector<Circle>  getCircleList ( vector<ConfigKey> name );
-    vector<Color>   getColorList  ( vector<ConfigKey> name );
+    ConfigObject*         getObject( ArrayList<ConfigKey> path );
 
 };
 

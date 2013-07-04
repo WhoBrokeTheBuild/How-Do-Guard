@@ -30,35 +30,35 @@ void Game::init( void )
     gpDataManager->init();
 
     bg = New AnimatedUnit();
-    bg->init(gpDataManager->pAnimations->get("bg"));
-
-    fpsFont = New Font("assets/fonts/ds-digital.ttf", 25);
-
-    fpsText = New CachedText();
-    fpsText->init("", fpsFont);
-
-    stateText = New CachedText();
-    stateText->init("", fpsFont);
-
-    test = New Player();
-    test->init(0, "wolf", Vector2(200));
-
-    test2 = New Player();
-    test2->init(1, "wolf", Vector2(500, 0));
-
-    test->addEventListener(Player::EVENT_ENEMY_LOCATION, test2, &Player::updateEnemyLocation);
-    test2->addEventListener(Player::EVENT_ENEMY_LOCATION, test, &Player::updateEnemyLocation);
-
-    test->addEventListener(Player::EVENT_CHECK_COLLISION, test2, &Player::checkCollision);
-    test2->addEventListener(Player::EVENT_CHECK_COLLISION, test, &Player::checkCollision);
+    bg->init(gpDataManager->Animations["BG"]);
+    
+    //fpsFont = New Font("assets/fonts/ds-digital.ttf", 25);
+    //
+    //fpsText = New CachedText();
+    //fpsText->init("", fpsFont);
+    //
+    //stateText = New CachedText();
+    //stateText->init("", fpsFont);
+    //
+    //test = New Player();
+    //test->init(0, "wolf", Vector2(200));
+    //
+    //test2 = New Player();
+    //test2->init(1, "wolf", Vector2(500, 0));
+    //
+    //test->addEventListener(Player::EVENT_ENEMY_LOCATION, test2, &Player::updateEnemyLocation);
+    //test2->addEventListener(Player::EVENT_ENEMY_LOCATION, test, &Player::updateEnemyLocation);
+    //
+    //test->addEventListener(Player::EVENT_CHECK_COLLISION, test2, &Player::checkCollision);
+    //test2->addEventListener(Player::EVENT_CHECK_COLLISION, test, &Player::checkCollision);
 
     Game::DEBUG_SHOW_HITBOXES = true;
 }
 
 void Game::term( void )
 {
-    delete test2;
-    delete test;
+    //delete test2;
+    //delete test;
 
     delete stateText;
     delete fpsText;

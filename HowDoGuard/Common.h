@@ -12,6 +12,7 @@
 #include <Defines.h>
 #include <Functions.h>
 #include <Geom.h>
+#include <Color.h>
 
 using ::std::cout;
 using ::std::endl;

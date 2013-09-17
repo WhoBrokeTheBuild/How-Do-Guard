@@ -140,6 +140,7 @@
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug - External Arc|Win32'">false</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug - Local Arc|Win32'">false</DeploymentContent>
     </None>
+    <None Include="assets\config\assets.cfg" />
     <None Include="assets\config\bg.cfg" />
     <None Include="assets\config\curl\assets.cfg" />
     <None Include="assets\config\curl\character.cfg" />

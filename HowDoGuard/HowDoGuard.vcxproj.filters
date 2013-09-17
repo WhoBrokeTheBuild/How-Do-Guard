@@ -220,6 +220,9 @@
     <None Include="assets\config\wolf\hitbox.cfg">
       <Filter>Project\Assets\Config\wolf</Filter>
     </None>
+    <None Include="assets\config\assets.cfg">
+      <Filter>Project\Assets\Config</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sheets\sprsht_tmp_bg.png">

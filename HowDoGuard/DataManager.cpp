@@ -173,6 +173,7 @@ void DataManager::parseFile( string filename, ConfigObject* pBase )
 {
     ifstream file(_configDir + filename + _configExt);
 
+	// TODO: Remove from function
     struct ParseLevel
     {
         string 
@@ -256,6 +257,7 @@ void DataManager::parseFile( string filename, ConfigObject* pBase )
                 break;
         }
 
+		// TODO: Fix spaceCount = tabCount*4 error
         if (spaceCount + tabCount == line.length() - 1) // Empty Line
             continue;
 
@@ -381,6 +383,7 @@ void DataManager::parseFile( string filename, ConfigObject* pBase )
             }
         }
 
+		// TODO: Add defines
         if (inSpecial)
         {
             while (indent < levels.size())
@@ -490,7 +493,7 @@ void DataManager::parseFile( string filename, ConfigObject* pBase )
         }
         else
         {
-            if (name == "Frame")
+            if (name == "Frame") // TODO: Why?
             {
                 noop();
             }
